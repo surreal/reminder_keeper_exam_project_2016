@@ -1,0 +1,163 @@
+<resources>
+    <string name="app_name">Reminder Keeper</string>
+    <string name="open_drawer">openDrawer</string>
+    <string name="close_drawer">closeDrawer</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email completions."</string>
+    <string name="sunday">Sunday</string>
+    <string name="monday">Monday</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="thursday">Thursday</string>
+    <string name="friday">Friday</string>
+    <string name="saturday">Saturday</string>
+    <string name="sun">Sun</string>
+    <string name="mon">Mon</string>
+    <string name="tue">Tue</string>
+    <string name="wed">Wed</string>
+    <string name="thu">Thu</string>
+    <string name="fri">Fri</string>
+    <string name="sat">Sat</string>
+    <string name="january">January</string>
+    <string name="february">February</string>
+    <string name="march">March</string>
+    <string name="april">April</string>
+    <string name="may">May</string>
+    <string name="jun">Jun</string>
+    <string name="july">July</string>
+    <string name="august">August</string>
+    <string name="september">September</string>
+    <string name="october">October</string>
+    <string name="november">November</string>
+    <string name="december">December</string>
+    <string name="newNote">NEW</string>
+    <string name="save">Save</string>
+    <string name="restore_all">Restore All</string>
+    <string name="delete_all">Delete All</string>
+    <string name="restore_selected">Restore Selected</string>
+    <string name="delete_selected">Delete Selected</string>
+    <string name="deselect_selected">Deselect Selected</string>
+    <string name="search">Search</string>
+    <string name="all_notes">ALL NOTES</string>
+    <string name="unclassified">Unclassified</string>
+    <string name="select_list">Select List</string>
+    <string name="recycling_bin">Recycling Bin</string>
+    <string name="search_in_done">Search In Done</string>
+    <string name="search_in_todo">Search In ToDo</string>
+    <string name="options">CONFIGURATIONS</string>
+    <string name="rearrange_and_rename">ARRANGE</string>
+    <string name="profile">PROFILE</string>
+    <string name="login">LOGIN</string>
+    <string name="type_a_note_to_search">Type a Note To Search</string>
+    <string name="todo">ToDo</string>
+    <string name="done">Done</string>
+    <string name="set_time">Set Time</string>
+    <string name="set_date">Set Date</string>
+    <string name="user">User</string>
+    <string name="logout">Logout</string>
+    <string name="new_list">New List</string>
+    <string name="empty_folder_name_msg">Folder Name can\'t be empty</string>
+    <string name="empty_list_massage">List Name is empty</string>
+    <string name="select_folder">Select Folder</string>
+    <string name="new_folder">New Folder</string>
+    <string name="create">create</string>
+    <string name="notification_deleted_msg">Notification was deleted</string>
+    <string name="date_is_passed_msg">The Date Is Passed</string>
+    <string name="time_not_set_msg">The Time is passed or not set</string>
+    <string name="input_txt_msg">Notification can\'t be empty</string>
+    <string name="restore">Restore</string>
+    <string name="restore_all_notes_msg">Restore All Notes?</string>
+    <string name="delete_all_notes_msg">Delete All Notes?</string>
+    <string name="restore_selected_notes_msg">Restore Selected Notes?</string>
+    <string name="delete_selected_notes_msg">Delete Selected Notes?</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete">Remove</string>
+    <string name="update_title">UPDATE TITLE</string>
+    <string name="the_folder_contains">The Folder Contains</string>
+    <string name="lists">Lists</string>
+    <string name="notifications">Notifications</string>
+    <string name="are_you_sure_you_want_to_delete_list">Are you sure you want to delete list?</string>
+    <string name="are_you_sure_you_want_to_delete_folder">Are you sure you want to delete folder?</string>
+    <string name="the_list_contains">The List contains</string>
+    <string name="forward_arrow"><![CDATA[>]]></string>
+    <string name="back_arrow"><![CDATA[<]]></string>
+    <string name="no_notifications_yet">No Notifications Yet</string>
+    <string name="new_list_name">New List Name</string>
+    <string name="create_list">Create list</string>
+    <string name="folder_name">Folder Name</string>
+    <string name="no_repeat">no repeat</string>
+    <string name="repeat_everyday">repeat everyday</string>
+    <string name="repeat_every_workday">repeat every workday</string>
+    <string name="repeat_every_week">repeat every week</string>
+    <string name="repeat_every_month">repeat every month</string>
+    <string name="repeat_custom">repeat custom</string>
+    <string name="repeat_everyday_btn">everyday</string>
+    <string name="repeat_every_workday_btn">every workday</string>
+    <string name="repeat_every_week_btn">every week</string>
+    <string name="repeat_every_month_btn">every month</string>
+    <string name="s_sunday">S</string>
+    <string name="m_monday">M</string>
+    <string name="t_tuesday">T</string>
+    <string name="w_wednesday">W</string>
+    <string name="f_friday">F</string>
+    <string name="s_saturday">S</string>
+    <string name="t_thursday">T</string>
+    <string name="r_e_p_e_a_t">R\nE\nP\nE\nA\nT</string>
+    <string name="insert_text_to_search">insert text to search</string>
+    <string name="repeat_every">repeat every</string>
+    <string name="move_to_recycling_bin_this_reminder">Move to Recycling Bin this Reminder?</string>
+    <string name="remove">REMOVE</string>
+    <string name="search_in_selected_date">Search in selected Date</string>
+    <string name="search_in_selected_list">Search in selected List</string>
+    <string name="next_repeat">Next repeat:</string>
+    <string name="will_remind_at">Will remind at:</string>
+
+    <string name="about">About Application:\n\n
+    To set Reminder\n
+        Open Reminder View - click \"+\" placed on panel on Main View,
+        write a text, set time and date, set if need repeat,
+        click on Memory Card for save the reminder, when the set time come the app will notify.\n\n
+    To keep Notes\n
+        sometime you need to store some text, this app will help you with this, just insert a text and click SAVE button.\n\n
+    Backup\n
+        your data will backup to Google Cloud four times at day, when app will be installed all data will restore,
+        all you need is: google account connected to Google Play and "Backup My Data" option enabled located at device settings\n\n
+    Rearrange Reminders\n
+        From a Main Screen by swiping right you can move a Reminder to another List\n\n
+    Recycling Bin\n
+        From a Main Screen you can remove the Reminder by swiping left,
+        this action moves the Reminder to RECYCLING BIN that placed on CONFIGURATIONS VIEW,
+        from there you can restore or delete permanently your Reminders.\n\n
+    Views\n
+        Calendar View\n
+            On the Main Screen placed button, by clicking on the Calendar icon you can find Reminders reserved on selected day.
+            if the day have a blue line below it says that you have reserved reminders on this day\n
+        Sequence View\n
+            by clicking a List icon Reminders will be arranged in order you created them - the last on the top.\n\n
+        Drawer\n
+            from Drawer by selecting List you will see only Reminders inside selected List.\n
+            from Drawer you can create Lists and Folders.\n\n
+    Search\n
+        By clicking on Magnifying Glass icon placed on the Main View you can search Reminders, just insert a text that contains Reminders.
+        The search action will search the reminder in existing folder or in existing date, for example - to search reminders configured to notify
+        on specific date, just enter the calendar mode - for that click the calendar button placed on Main Screen, click needed date, click Lupe
+        icon near text field to search reminder stored for this day.
+        Or enter the needed List from drawer and search there your reminder, for example - click at "All Notes" List placed at drawer,
+        click on Magnifying Glass icon, insert a text, click on Lupe near to the text field and you will see all reminders with this text.\n\n
+    Rearrange and rename Lists and Folders\n
+        From CONFIGURATIONS VIEW you can enter to ARRANGE VIEW, there you can rearrange,
+        rename and delete Folders and Lists, all Reminders inside will be moved to Recycling Bin.\n\n
+    The App was created by:\n
+        Andrey Kuzin
+    </string>
+
+</resources>

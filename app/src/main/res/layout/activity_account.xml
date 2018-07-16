@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    tools:activity="com.reminder_keeper.activities.AccountActivity">
+
+    <RelativeLayout
+        android:id="@+id/activity_main_action_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <include layout="@layout/toolbar_custom"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/activity_account_image_view"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="10dp"
+            android:layout_alignParentStart="true"
+            android:src="@mipmap/profile_unsigned"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="30dp"/>
+
+        <TextView
+            android:id="@+id/activity_account_signin_button_tv"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_alignTop="@id/activity_account_image_view"
+            android:textSize="15dp"
+            android:textColor="@color/color_grey_blue"
+            android:gravity="center"
+            android:background="@drawable/button_inside_select_folder_view_selector"
+            android:text="@string/login" />
+
+        <TextView
+            android:id="@+id/activity_account_user_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:layout_toEndOf="@id/activity_account_image_view"
+            android:layout_marginStart="10dp"
+            android:layout_alignBottom="@id/activity_account_image_view"
+            android:textColor="@color/color_grey_blue"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/activity_account_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="@string/user"
+            android:layout_above="@id/activity_account_user_email"
+            android:layout_toEndOf="@id/activity_account_image_view"
+            android:textColor="@color/color_grey_blue"
+            android:textSize="30sp"
+            android:maxLines="1"
+            android:textStyle="bold"/>
+
+        <EditText
+            android:id="@+id/activity_account_line"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:editable="false"
+            android:focusable="false"
+            android:inputType="none" />
+    </RelativeLayout>
+
+</LinearLayout>

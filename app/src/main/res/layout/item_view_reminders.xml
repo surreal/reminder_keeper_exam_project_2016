@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:clickable="true"
+    android:background="@drawable/item_main_view_selector"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="60dp">
+
+    <TextView
+        android:id="@+id/item_view_reminder_reminder_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical|start"
+        android:textSize="20sp"
+        android:layout_toStartOf="@id/item_view_reminder_date_tv"
+        android:layout_alignParentStart="true"
+        android:textAlignment="viewStart"
+        android:textColor="@android:color/black"
+        android:text="ToDo something"
+        android:maxLines="1"
+        android:paddingStart="10dp"/>
+
+    <android.support.v7.widget.AppCompatCheckBox
+        android:id="@+id/item_view_reminder_checkbox"
+        android:layout_width="40dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:checked="false" />
+
+    <TextView
+        android:id="@+id/item_view_reminder_date_tv"
+        android:layout_height="match_parent"
+        android:layout_width="80dp"
+        android:text="10:30\n10/10/10"
+        android:textSize="15sp"
+        android:maxLines="2"
+        android:gravity="center"
+        android:layout_toStartOf="@id/item_view_reminder_checkbox"
+        android:layout_marginEnd="5dp"/>
+
+    <TextView
+        android:id="@+id/item_view_reminder_repeat_indicator_tv"
+        android:layout_width="10dp"
+        android:layout_height="match_parent"
+        android:background="@android:color/holo_blue_bright"
+        android:textSize="7sp"
+        android:visibility="invisible"
+        android:layout_alignParentEnd="true"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textColor="@color/colorWhite"
+        android:textAlignment="center"
+        android:text="@string/r_e_p_e_a_t"/>
+
+</RelativeLayout>

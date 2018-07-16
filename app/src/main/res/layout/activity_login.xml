@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:activity=".Activities.LoginActivity">
+
+    <RelativeLayout
+        android:id="@+id/activity_main_action_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <include layout="@layout/toolbar_custom"/>
+    </RelativeLayout>
+
+    <EditText
+        android:id="@+id/activity_login_input_user_name"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:hint="Username"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="160dp"
+        android:gravity="center"/>
+
+    <EditText
+        android:id="@+id/activity_login_input_user_password"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:layout_centerInParent="true"
+        android:layout_below="@id/activity_login_input_user_name"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/activity_login_login_button"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:textSize="20dp"
+        android:gravity="center"
+        android:layout_below="@id/activity_login_input_user_password"
+        android:layout_centerHorizontal="true"
+        android:text="Sign in Locally"
+        android:background="@drawable/button_selector"/>
+
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/activity_login_google_button"
+        android:layout_width="wrap_content"
+        android:background="@drawable/button_selector"
+        android:layout_height="40dp"
+        app:buttonSize="wide"
+        android:layout_alignEnd="@id/activity_login_login_button"
+        android:layout_alignStart="@id/activity_login_login_button"
+        android:layout_alignRight="@id/activity_login_login_button"
+        android:layout_alignLeft="@id/activity_login_login_button"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/activity_login_login_button"/>
+
+
+    <TextView
+        android:id="@+id/activity_login_no_account_yet_tv"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="No Account Yet? Create One"
+        android:layout_below="@id/activity_login_google_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:visibility="gone"/>
+
+</RelativeLayout>

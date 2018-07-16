@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:background="@drawable/item_recycling_bin_selector">
+
+    <TextView
+        android:id="@+id/item_view_recycling_bin_note_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="my"
+        android:gravity="start|center_vertical"
+        android:textAlignment="viewStart"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="10dp"
+        android:layout_toStartOf="@id/item_view_recycling_bin_time_tv"
+        android:textSize="20sp"
+        android:maxLines="1"/>
+
+    <TextView
+        android:id="@+id/item_view_recycling_bin_time_tv"
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:maxLines="2"
+        android:text="10:00\n10/10/12"
+        android:textSize="15sp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="5dp"
+        android:gravity="center" />
+
+</RelativeLayout>

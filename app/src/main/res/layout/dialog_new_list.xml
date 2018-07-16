@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="300dp"
+    android:layout_height="200dp"
+    android:layout_gravity="center">
+
+    <EditText
+        android:id="@+id/new_list_view_select_group_et"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:focusable="false"
+
+        android:text="@string/select_folder"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:textColor="@color/colorYellow"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:textStyle="bold"/>
+
+    <EditText
+        android:id="@+id/new_list_view_new_list_name_ET"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:hint="@string/new_list_name"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="bottom|center"
+        android:textStyle="bold"/>
+
+    <Button
+        android:id="@+id/new_list_view_create_list_button"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_gravity="end"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:textColor="@color/colorYellow"
+        android:textStyle="bold"
+        android:text="@string/create_list"
+        android:background="@drawable/button_selector"/>
+
+
+</LinearLayout>

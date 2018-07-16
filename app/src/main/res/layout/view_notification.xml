@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="48dp">
+
+    <RelativeLayout
+        android:id="@+id/item_notification_plus"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true">
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@mipmap/plus"
+            android:textColor="@android:color/black"
+            android:fontFamily="serif"
+            android:layout_centerInParent="true"
+            android:textSize="40sp" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/item_notification_next_note"
+        android:layout_width="40dp"
+        android:gravity="center"
+        android:layout_height="match_parent"
+        android:layout_toStartOf="@id/item_notification_plus"
+        android:text="@string/forward_arrow"
+        android:textColor="@android:color/tertiary_text_dark"
+        android:fontFamily="monospace"
+        android:layout_centerVertical="true"
+        android:textSize="30dp"
+        android:layout_marginEnd="5dp"/>
+
+    <TextView
+        android:id="@+id/item_notification_previous_note"
+        android:layout_width="40dp"
+        android:gravity="center"
+        android:layout_height="match_parent"
+        android:layout_toEndOf="@id/item_notification_image_view"
+        android:fontFamily="monospace"
+        android:text="@string/back_arrow"
+        android:textColor="@android:color/tertiary_text_dark"
+        android:layout_centerVertical="true"
+        android:textSize="30dp"
+        android:layout_marginStart="5dp"/>
+
+    <ImageView
+        android:id="@+id/item_notification_image_view"
+        android:layout_width="25dp"
+        android:layout_height="35dp"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="10dp"
+        android:src="@mipmap/main_icon"
+        android:layout_marginEnd="10dp"/>
+
+    <TextView
+        android:id="@+id/item_notification_note"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="my note"
+        android:textColor="@android:color/tertiary_text_dark"
+        android:layout_marginTop="5dp"
+        android:textSize="15sp"
+        android:gravity="center"
+        android:maxLines="1"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@id/item_notification_next_note"
+        android:layout_toEndOf="@id/item_notification_previous_note"/>
+
+    <TextView
+        android:id="@+id/item_notification_time_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="18/18/2018"
+        android:gravity="center"
+        android:textSize="15sp"
+        android:textColor="@android:color/tertiary_text_dark"
+        android:layout_marginBottom="5dp"
+        android:maxLines="1"
+        android:layout_alignParentBottom="true"
+        android:layout_toStartOf="@id/item_notification_next_note"
+        android:layout_toEndOf="@id/item_notification_previous_note"/>
+</RelativeLayout>

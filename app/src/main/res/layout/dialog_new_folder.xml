@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/input_title_view_title_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/folder_name"
+        android:gravity="center"/>
+
+    <Button
+        android:id="@+id/input_title_view_button"
+        android:layout_marginLeft ="20dp"
+        android:layout_marginRight ="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:text="@string/create"
+        android:background="@drawable/button_inside_select_folder_view_selector"
+        android:textColor="@color/colorWhite"/>
+
+</LinearLayout>

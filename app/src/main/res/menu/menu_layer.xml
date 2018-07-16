@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/icon"
+        app:showAsAction="ifRoom"
+        android:title="@string/save"
+        android:icon="@mipmap/sd"
+        android:visible="false"/>
+    <item
+        android:id="@+id/menuItemRestoreAll"
+        app:showAsAction="collapseActionView"
+        android:title="@string/restore_all"
+        android:visible="false"/>
+    <item
+        android:id="@+id/menuItemRemoveAll"
+        app:showAsAction="collapseActionView"
+        android:title="@string/delete_all"
+        android:visible="false"/>
+    <item
+        android:id="@+id/menuItemRestoreSelected"
+        app:showAsAction="collapseActionView"
+        android:title="@string/restore_selected"
+        android:visible="false"/>
+    <item
+        android:id="@+id/menuItemRemoveSelected"
+        app:showAsAction="collapseActionView"
+        android:title="@string/delete_selected"
+        android:visible="false"/>
+    <item
+        android:id="@+id/menuItemUnSelect"
+        app:showAsAction="collapseActionView"
+        android:title="@string/deselect_selected"
+        android:visible="false"/>
+    <item
+        android:id="@+id/menuItemSearch"
+        app:showAsAction="ifRoom"
+        android:title="@string/search"
+        android:visible="false"
+        android:icon="@mipmap/lupe" />
+
+</menu>

@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:activity="com.reminder_keeper.activities.SettingsActivity">
+
+    <RelativeLayout
+        android:id="@+id/activity_main_action_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <include layout="@layout/toolbar_custom"/>
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="130dp">
+
+                <ImageView
+                    android:id="@+id/activity_settings_image_view"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="10dp"
+                    android:src="@mipmap/profile_unsigned"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="20dp"/>
+
+                <TextView
+                    android:id="@+id/activity_settings_signin_button_tv"
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentEnd="true"
+                    android:textSize="15sp"
+                    android:gravity="center"
+                    android:layout_marginEnd="5dp"
+                    android:layout_alignTop="@id/activity_settings_image_view"
+                    android:textColor="@color/color_grey_blue"
+                    android:background="@drawable/button_inside_select_folder_view_selector"
+                    android:text="@string/login" />
+
+                <TextView
+                    android:id="@+id/activity_settings_user_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:gravity="top"
+                    android:layout_toEndOf="@id/activity_settings_image_view"
+                    android:layout_alignBottom="@id/activity_settings_image_view"
+                    android:textColor="@color/color_grey_blue"
+                    android:textSize="20sp"
+                    android:maxLines="1"/>
+
+                <TextView
+                    android:id="@+id/activity_settings_user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_toEndOf="@id/activity_settings_image_view"
+                    android:text="@string/user"
+                    android:maxLines="1"
+                    android:layout_above="@id/activity_settings_user_email"
+                    android:textColor="@color/color_grey_blue"
+                    android:textSize="30sp"
+                    android:textStyle="bold"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:editable="false"
+                    android:focusable="false"
+                    android:inputType="none" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="160dp">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:editable="false"
+                    android:focusable="false"
+                    android:inputType="none" />
+
+                <ImageView
+                    android:id="@+id/activity_settings_edit_folders_icon"
+                    android:layout_width="250dp"
+                    android:layout_height="200dp"
+                    android:src="@mipmap/edit_folders"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="10dp"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/activity_settings_count_of_notes"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentEnd="true"
+                    android:text="0"
+                    android:layout_marginEnd="10dp"
+                    android:textSize="30sp"
+                    android:gravity="center" />
+
+                <EditText
+                    android:id="@+id/text_view_separate_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:layout_alignParentBottom="true"
+                    android:editable="false"
+                    android:focusable="false"
+                    android:inputType="none"
+                    android:gravity="bottom"/>
+
+                <ImageView
+                    android:clickable="true"
+                    android:id="@+id/activity_settings_recycling_bin_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:src="@mipmap/recycling_bin_empty"
+                    android:layout_marginBottom="20dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="160dp">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:editable="false"
+                    android:focusable="false"
+                    android:inputType="none" />
+
+                <ImageView
+                    android:id="@+id/activity_settings_about_icon"
+                    android:layout_width="250dp"
+                    android:layout_height="200dp"
+                    android:src="@mipmap/about"
+                    android:layout_marginTop="10dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true" />
+            </RelativeLayout>
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

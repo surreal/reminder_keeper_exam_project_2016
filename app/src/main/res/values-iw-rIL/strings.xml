@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">מחזיק תזכורות</string>
+    <string name="prompt_email">דוא"ל</string>
+    <string name="prompt_password">סיסמה (אופציונאלי)</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">התחבר</string>
+    <string name="error_invalid_email">דוא"ל שגוי</string>
+    <string name="error_invalid_password">סיסמה קצרה מאוד</string>
+    <string name="error_incorrect_password">סיסמה שגויה</string>
+    <string name="error_field_required">שדה זה חובה</string>
+    <string name="sunday">יום א\'</string>
+    <string name="monday">יום ב\'</string>
+    <string name="tuesday">יום ג\'</string>
+    <string name="wednesday">יום ד\'</string>
+    <string name="thursday">יום ה\'</string>
+    <string name="friday">יום ו\'</string>
+    <string name="saturday">שבת</string>
+    <string name="sun">יום א\'</string>
+    <string name="mon">יום ב\'</string>
+    <string name="tue">יום ג\'</string>
+    <string name="wed">יום ד\'</string>
+    <string name="thu">יום ה\'</string>
+    <string name="fri">יום ו\'</string>
+    <string name="sat">שבת</string>
+    <string name="january">ינואר</string>
+    <string name="february">פברואר</string>
+    <string name="march">מרץ</string>
+    <string name="april">אפריל</string>
+    <string name="may">מאי</string>
+    <string name="jun">יוני</string>
+    <string name="july">יולי</string>
+    <string name="august">אוגוסט</string>
+    <string name="september">ספטמבר</string>
+    <string name="october">אוקטובר</string>
+    <string name="november">נובמבר</string>
+    <string name="december">דצמבר</string>
+    <string name="newNote">חדש</string>
+    <string name="save">שמור</string>
+    <string name="restore_all">שחזר הכל</string>
+    <string name="delete_all">מחק הכל</string>
+    <string name="restore_selected">שחזר בחירה</string>
+    <string name="delete_selected">מחק בחירה</string>
+    <string name="deselect_selected">בטל בחירה</string>
+    <string name="search">חפש</string>
+    <string name="all_notes">כל התזכורות</string>
+    <string name="unclassified">ללא סיווג</string>
+    <string name="select_list">בחר רשימה</string>
+    <string name="recycling_bin">סל מיחזור</string>
+    <string name="search_in_done">חפש במשימות שבוצעו</string>
+    <string name="search_in_todo">חפש במשימות לביצוע</string>
+    <string name="options">הגדרות</string>
+    <string name="rearrange_and_rename">סדר</string>
+    <string name="profile">פרופיל</string>
+    <string name="login">התחבר</string>
+    <string name="type_a_note_to_search">מה לחפש</string>
+    <string name="todo">לביצוע</string>
+    <string name="done">בוצע</string>
+    <string name="set_time">הגדר שעה</string>
+    <string name="set_date">הגדר תאריך</string>
+    <string name="user">משתמש</string>
+    <string name="logout">התנתק</string>
+    <string name="new_list">רשימה חדשה</string>
+    <string name="empty_folder_name_msg">שם התיקיה לא יכול להיות ריק</string>
+    <string name="empty_list_massage">שם הרשימה ריק</string>
+    <string name="select_folder">בחר תיקיה</string>
+    <string name="new_folder">תיקיה חדשה</string>
+    <string name="create">צור תיקייה</string>
+    <string name="notification_deleted_msg">תזכורת נמחקה</string>
+    <string name="date_is_passed_msg">תאריך שהוגדר עבר</string>
+    <string name="time_not_set_msg">הזמן לא הוגדר או שעבר</string>
+    <string name="input_txt_msg">תזכורת לא יכולה להיות ריקה</string>
+    <string name="restore">שחזר</string>
+    <string name="restore_all_notes_msg">שחזר את כל תזכורות?</string>
+    <string name="delete_all_notes_msg">מחק את כל תזכורות?</string>
+    <string name="restore_selected_notes_msg">שחזר בחירה?</string>
+    <string name="delete_selected_notes_msg">מחק בחירה?</string>
+    <string name="cancel">ביטול</string>
+    <string name="delete">מחק</string>
+    <string name="update_title">שנה שם</string>
+    <string name="the_folder_contains">התיקיה מכילה</string>
+    <string name="lists">רשימות</string>
+    <string name="notifications">תזכורות</string>
+    <string name="are_you_sure_you_want_to_delete_list">העם למחוק רשימה?</string>
+    <string name="are_you_sure_you_want_to_delete_folder">העם למחוק תיקיה?</string>
+    <string name="the_list_contains">הרשימה מכילה</string>
+    <string name="forward_arrow"><![CDATA[>]]></string>
+    <string name="back_arrow"><![CDATA[<]]></string>
+    <string name="no_notifications_yet">אין הערות</string>
+    <string name="new_list_name">שם הרשימה חדשה</string>
+    <string name="create_list">צור רשימה</string>
+    <string name="folder_name">שם התיקיה</string>
+    <string name="no_repeat">לא חוזר</string>
+    <string name="repeat_everyday">חוזר כל יום</string>
+    <string name="repeat_every_workday">חוזר כל יום עבודה</string>
+    <string name="repeat_every_week">חוזר כל שבוע</string>
+    <string name="repeat_every_month">חוזר כל חודש</string>
+    <string name="repeat_custom">חוזר מותאם אישית</string>
+    <string name="repeat_everyday_btn">כל יום</string>
+    <string name="repeat_every_workday_btn">כל יום עבודה</string>
+    <string name="repeat_every_week_btn">כל שבוע</string>
+    <string name="repeat_every_month_btn">כל חודש</string>
+    <string name="insert_text_to_search">הכנס טקסט לחיפוש</string>
+    <string name="s_sunday">א</string>
+    <string name="m_monday">ב</string>
+    <string name="t_tuesday">ג</string>
+    <string name="w_wednesday">ד</string>
+    <string name="t_thursday">ה</string>
+    <string name="f_friday">ו</string>
+    <string name="s_saturday">ש</string>
+    <string name="r_e_p_e_a_t">ח\nו\nז\nר</string>
+    <string name="repeat_every">חוזר כל</string>
+    <string name="move_to_recycling_bin_this_reminder">העבר לסל מיחזור תזכורת זאת?</string>
+    <string name="remove">העבר</string>
+    <string name="search_in_selected_date">חפש בתאריך הנבחר</string>
+    <string name="search_in_selected_list">חפש ברשימה הנבחרת</string>
+    <string name="next_repeat">חוזר ב:</string>
+    <string name="will_remind_at">יזכיר ב:</string>
+
+    <string name="about">על התוכנה:\n\n
+    אחסון תזכורות\n
+        בלחיצה על סמל \"+\" שממוקם על מסך ראשי על פנל נפתחת אפשרות להגדיר תזכורת:
+        פשוט תכתוב טקסט, הגדר שעה, הגדר עם צריך שתזכורת תחזור על עצמה,
+        לחץ על סמל כרטיס זיכרון כדי לשמור ובשעה שהגדרת תקבל מודעה.\n\n
+    אחסון טקסט\n
+        לפעמים צריך לשמור טקסט מסוים, כאן מגיע התוכנה לעזרה, פשוט הכנס או הדמק טקסט ולחץ על שמור.\n\n
+    גיבוי\n
+        כל המידע שלך נשמרת בענן של גוגל,
+        הגיבוי מתבצע ארבע פעמים ביום, המידע מחוברת לחשבון גוגל, כאשר תתקין אפליקציה כל המידע ישתחזר בהתקנה,
+        כל מה שציר בשביל זה: חשבון גוגל שמחובר לגוגל פליי ואופציה פועלת "גבה את הנתונים שלי" שנמצאת בהגדרות של התקן.\n\n
+    מעבר תזכורות\n
+        במסך ראשי כאשר תגרור תזכורת ימינה יזדמן לך להעביר תזכורת לרשימה אחרת - פשוט לחץ על רשימה רצויה.\n\n
+    סל המיחזור\n
+        במסך ראשי עם תיגרור תזכור שמולה היא תועבר על סל מיחזור, הוא ממוקם במסך ההגדרות משם תוכל לשחזר או למחוק לצמיתות את התזכורות.\n\n
+    אפשרויות תצוגה:\n
+        תצוגת יומן\n
+            כאשר תלחץ על סמל היומן ממוקם על מסך ראשי יזדמן לך ליראות תזכורות שמורות תחת יום שתבחר,
+        עם יש תחת יום פס תכלת זה אומר שיש תזכורות בתאריך זה.\n
+        תצוגת רצף\n\n
+            כאשר תלחץ על סמל רשימה, התזכורות שלך יסתדרו בסדר שהוספת אותם - האחרון למעלה.\n\n
+    מגירה\n
+            כאשר תלחץ על כפתור האופציות ממוקם במסך ראשי ייפתח מגירה, משם תוכל ליבחור רשימה רצויה כדי ליראות תזכורת כלולות ברשימה.
+            בתוך מגירה יש אפשרות ליצור רשימות ותיקיות.\n\n
+        חיפוש\n
+        כאשר תלחץ על זכוכית מגדלת ממוקם על מסך ראשי ייפתח שדה המאפשר חיפוש תזכורות,
+            פשוט הכנס טקסט ובלחיצה על זכוכית מגדלת ממול לשדה חיפוש, תוצג כל התזכורות כוללים את הטקסט.\n\n
+    סדר תיקיות ורשימות\n
+        אפשר למחוק או לקבוע סדר תיקיות ורשימות במסך "סדר" שנמצא במסך ההגדרות. תזכורות מהרשימות שתמחק יועברו על סל מיחזור.\n\n
+    האפליקציה נוצרה על ידי:\n
+    אנדריי קוזין
+
+    </string>
+
+</resources>

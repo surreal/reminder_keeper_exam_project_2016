@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Хранитель Напоминалок</string>
+
+    <string name="prompt_email">Почта</string>
+    <string name="prompt_password">Пароль (опционально)</string>
+    <string name="action_sign_in_short">Войти</string>
+    <string name="error_invalid_email">Эта почта не действительна</string>
+    <string name="error_invalid_password">Пароль слишком короткий</string>
+    <string name="error_incorrect_password">Пароль неправильный</string>
+    <string name="error_field_required">Это поле обязательно</string>
+    <string name="sunday">Воскресение</string>
+    <string name="monday">Понедельник</string>
+    <string name="tuesday">Вторник</string>
+    <string name="wednesday">Среда</string>
+    <string name="thursday">Четверг</string>
+    <string name="friday">Пятница</string>
+    <string name="saturday">Суббота</string>
+    <string name="sun">Вос</string>
+    <string name="mon">Пон</string>
+    <string name="tue">Вто</string>
+    <string name="wed">Сре</string>
+    <string name="thu">Чет</string>
+    <string name="fri">Пят</string>
+    <string name="sat">Суб</string>
+    <string name="january">Январь</string>
+    <string name="february">Февраль</string>
+    <string name="march">Март</string>
+    <string name="april">Апрель</string>
+    <string name="may">Май</string>
+    <string name="jun">Июнь</string>
+    <string name="july">Июль</string>
+    <string name="august">Август</string>
+    <string name="september">Сентябрь</string>
+    <string name="october">Октябрь</string>
+    <string name="november">Ноябрь</string>
+    <string name="december">Декабрь</string>
+    <string name="newNote">Новая</string>
+    <string name="save">Сохранить</string>
+    <string name="restore_all">Восстановить Все</string>
+    <string name="delete_all">Удалить все</string>
+    <string name="restore_selected">Восстановить выбранные</string>
+    <string name="delete_selected">Удалить Выделенные</string>
+    <string name="deselect_selected">Отменить Выделение</string>
+    <string name="search">Поиск</string>
+    <string name="all_notes">Все Напоминалки</string>
+    <string name="unclassified">Нерасфасованные</string>
+    <string name="select_list">Категория</string>
+    <string name="recycling_bin">УРНА</string>
+    <string name="search_in_done">Поиск в Сделано</string>
+    <string name="search_in_todo">Поиск в Сделать</string>
+    <string name="options">НАСТРОЙКИ</string>
+    <string name="rearrange_and_rename">УПОРЯДОЧИТЬ</string>
+    <string name="profile">Профиль</string>
+    <string name="login">Войти</string>
+    <string name="type_a_note_to_search">Что искать</string>
+    <string name="todo">Сделать</string>
+    <string name="done">Сделано</string>
+    <string name="set_time">Время</string>
+    <string name="set_date">Дата</string>
+    <string name="user">Пользователь</string>
+    <string name="logout">Выйти</string>
+    <string name="new_list">Новая Категория</string>
+    <string name="empty_folder_name_msg">Имя Папки пустое</string>
+    <string name="empty_list_massage">Имя Категории пустое</string>
+    <string name="select_folder">Выберать Папку</string>
+    <string name="new_folder">Новая Папка</string>
+    <string name="create">Создать</string>
+    <string name="notification_deleted_msg">Напоминалка удалена</string>
+    <string name="date_is_passed_msg">Установленная дата в прошлом</string>
+    <string name="time_not_set_msg">Время прошло или не установленно</string>
+    <string name="input_txt_msg">Напоминалка не может быть пуста</string>
+    <string name="restore">Восстановить</string>
+    <string name="restore_all_notes_msg">Восстановить все напоминалки?</string>
+    <string name="delete_all_notes_msg">Удалить все напоминалки?</string>
+    <string name="restore_selected_notes_msg">Восстановить выделенные напоминалки?</string>
+    <string name="delete_selected_notes_msg">Удалить выделенные напоминалки?</string>
+    <string name="cancel">Отмена</string>
+    <string name="delete">Удалить</string>
+    <string name="update_title">Обновить Название</string>
+    <string name="the_folder_contains">Папка содержит</string>
+    <string name="lists">Категории</string>
+    <string name="notifications">Напоминалки</string>
+    <string name="are_you_sure_you_want_to_delete_list">Действительно удолять Категорию?</string>
+    <string name="are_you_sure_you_want_to_delete_folder">Действительно удолять Папку?</string>
+    <string name="the_list_contains">Категория содежит</string>
+    <string name="forward_arrow"><![CDATA[>]]></string>
+    <string name="back_arrow"><![CDATA[<]]></string>
+    <string name="no_notifications_yet">Нет Напоминалок</string>
+    <string name="new_list_name">Имя Категории</string>
+    <string name="create_list">Создать Категорию</string>
+    <string name="folder_name">Имя Папки</string>
+    <string name="no_repeat">Не повторяется</string>
+    <string name="repeat_everyday">Повтор каждый день</string>
+    <string name="repeat_every_workday">Повтор каждый рабочий день</string>
+    <string name="repeat_every_week">Повтор каждую неделю</string>
+    <string name="repeat_every_month">Повторяется каждый месяц</string>
+    <string name="repeat_custom">Повтор Особый</string>
+    <string name="repeat_everyday_btn">Каждый день</string>
+    <string name="repeat_every_workday_btn">Рабочие дни</string>
+    <string name="repeat_every_week_btn">Каждую неделю</string>
+    <string name="repeat_every_month_btn">Каждый месяц</string>
+    <string name="insert_text_to_search">Введите текст для поиска</string>
+    <string name="s_sunday">В</string>
+    <string name="m_monday">П</string>
+    <string name="t_tuesday">В</string>
+    <string name="w_wednesday">С</string>
+    <string name="t_thursday">Ч</string>
+    <string name="f_friday">П</string>
+    <string name="s_saturday">С</string>
+    <string name="r_e_p_e_a_t">П\nО\nВ\nТ\nО\nР</string>
+    <string name="repeat_every">Повтор каждое</string>
+    <string name="move_to_recycling_bin_this_reminder">Переместить эту Напоминалку в Урну?</string>
+    <string name="remove">Переместить</string>
+    <string name="search_in_selected_date">Искать в выбранной дате</string>
+    <string name="search_in_selected_list">Искать в выбранной категории</string>
+    <string name="next_repeat">Следующий повтор:</string>
+    <string name="will_remind_at">Напомню в:</string>
+
+    <string name="about">О ПРОГРАММЕ\n\n
+        Напоминалки\n
+            При нажатии на кнопку \"+\" расположенная на Заглавном Экране на панели, откроется экран, напишите текст,
+            задайте нужное время, задайте повтор если нужно,
+            нажмите на иконку Карта Памяти чтобы сохранить и в назначенное время программа оповестит вас.\n\n
+        Хранение текста\n
+            Иногда нужно сохранить просто текст, для этого не обязательно устонавлевать время.\n\n
+        Резервное Копирование\n
+            Ваши данные автоматически четыре раза в день сохраняются в облаке Гугл.
+            при следующей устоновке программы все ваши данные автоматически востановятся,
+            всё что нужно для этого: пользователь гугл подключенный к Гугл плэй и включенная функция "Резервное копирование"
+            которая находится в настройках устройства\n\n
+        Перемещение Напоминалок\n
+            На Заглавном Экране если потянуть напоминалку в право можно переместить её в нужную Категорию.\n\n
+        Урна\n
+            Если потянуть Напоминалку в лево она переместится в Урну которую можно найти на экране Настройки,
+            от туда можно возвратить или удолить навсегда Напоминалку.\n\n
+        Вид\n
+            Вид Календаря\n
+                При нажатии на иконку Календарь которая находиться на Заглавном Экране, появляеться возможность показать
+                только те Напоминалки каторые заданные на конкретный день, для этого нажмите на нужный вам день.
+                Если под каким-то из дней есть голубая полоска значит в этот день есть Напоминалка/и\n
+            Вид Последовательность\n\n
+                При нажатии на иконку Список - Напоминалки сортируються в последоватилности по мере их добавления - последняя с верху.\n\n
+        Выдвижной ящик\n
+            при нажатии на кнопку Опций которая находиться на Заглавном Экране в виде трёх полосок выдвигаеться ящик.
+            в Ящике можно создавать Категории и Папки для сортировки напоминалок.
+            при нажатии на одну из категорий покажуться только напоминалки относящиеся к выбранной Категории.\n\n
+        Поиск Напоминалок\n
+            При нажатии на кнопку Лупа которая находиться в Выдвижном Ящике появляеться возможность искать Напоминалки,
+            введите нужный вам текст, нажмите на Лупу и программа выдаст все напоминалки с набранным текстом.\n\n
+        Сортировка Категорий и Папок\n
+            Для визуального удобства есть возможность сортировать в нужные позиции Папки и Категории,
+            для этого нажмите на кнопку Настройки в виде гайки которая находиться в Выдвижном Ящике и там на иконку ввиде гайка на папке
+            и перетащте Папку или Категорию на нужную позицию или Категорию в нужную папку,
+        там-же можно удолить папку или категорию, все напоминалки из удоляемых категорий переместятся в урну.\n\n
+        Автор и Создатель Программы:\n
+            Андрей Кузин
+    </string>
+
+</resources>

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "491730974953",
+    "project_id": "notification-in-time"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:491730974953:android:535b0e45a66d1acf",
+        "android_client_info": {
+          "package_name": "com.reminder_keeper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "491730974953-n2s0s8442q8pnhtifjlu3g53rfd4fjq8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.reminder_keeper",
+            "certificate_hash": "fe11f25c431055ed2f94f43c5cfb8ab763e13a3c"
+          }
+        },
+        {
+          "client_id": "491730974953-3ahvc3e1892s4ad019jp3tn64qkvnh3r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGXpCPi5JM71X5qiwE_l_jGewdG42h694"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
