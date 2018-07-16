@@ -120,14 +120,15 @@
     <string name="search_in_selected_list">Search in selected List</string>
     <string name="next_repeat">Next repeat:</string>
     <string name="will_remind_at">Will remind at:</string>
-
-    <string name="about">About Application:\n\n
+    
+    <string name="about">
+    About Application:\n\n
         The Application Reminder Keeper will help you not to miss important things and save a notes.\n\n
-    Set Reminder\n
+    To set Reminder\n
         Open Reminder View - click \"+\" placed on panel on Main View,
-        write a text, set time and date, set if need repeat(everyday, every work day, every week, every month or custom),
+        write a text, set time and date, set if need repeat,
         click on Memory Card for save the reminder, when the set time come the app will notify.\n\n
-    Keep Notes\n
+    To keep Notes\n
         sometime you need to store some text, this app will help you with this, just insert a text and click SAVE button.\n\n
     Backup\n
         your data will backup to Google Cloud four times at day, when app will be installed all data will restore,
