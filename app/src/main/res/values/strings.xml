@@ -120,8 +120,10 @@
     <string name="search_in_selected_list">Search in selected List</string>
     <string name="next_repeat">Next repeat:</string>
     <string name="will_remind_at">Will remind at:</string>
-
-    <string name="about">About Application:\n\n
+    
+    <string name="about">
+    About Application:\n\n
+        This Application Reminder Keeper will help not to miss important things and save a notes.\n\n
     To set Reminder\n
         Open Reminder View - click \"+\" placed on panel on Main View,
         write a text, set time and date, set if need repeat,
