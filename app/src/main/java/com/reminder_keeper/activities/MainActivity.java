@@ -336,7 +336,7 @@ public class MainActivity extends AuthorityClass
     //TODO: Set visible NEW button in Action Bar
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        menu.findItem(R.id.icon).setVisible(true).setIcon(R.mipmap.plus);
+        menu.findItem(R.id.icon).setVisible(true).setIcon(R.mipmap.plus).setTitle(getString(R.string.newNote));
         return super.onPrepareOptionsMenu(menu);
     }
 
