@@ -1,4 +1,2 @@
 # reminder_keeper
-<p align="center">
-  <img src="https://github.com/surreal/reminder_keeper/blob/master/images/1.png" width="100" title="hover text">
-</p>
+<img src="https://github.com/surreal/reminder_keeper/blob/master/images/1.png" width="100" title="hover text">
