@@ -175,14 +175,12 @@ public class EditFoldersActivity extends AppCompatActivity implements OnListItem
                 targetItemCurrentPosition = viewHolder.getAdapterPosition();
                 moveToPosition = target.getAdapterPosition();
 
+                Log.d("checkingOnMoveArray", "AdapterERV.childrenFPosId[] == " + AdapterERV.childrenFPosId);
                 if ((childrenFlatPositions.size() == 0) ||
                         (isGroupOnDrag && !AdapterERV.childrenFPosId.containsKey(moveToPosition)) ||
                         (!isGroupOnDrag && AdapterERV.childrenFPosId.containsKey(moveToPosition)))
                 {
-                    if (!recyclerView.isComputingLayout())
-                    {
-                    } else {
-                    }
+                    adapterERV.notifyItemMoved(targetItemCurrentPosition, moveToPosition);
                 }
                 return false;
             }
@@ -190,7 +188,6 @@ public class EditFoldersActivity extends AppCompatActivity implements OnListItem
             @Override
             public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder)
             {   super.clearView(recyclerView, viewHolder);
-
                 if (onMoveCounter > 0)
                 {
                     if (isGroupOnDrag)
@@ -379,6 +376,7 @@ public class EditFoldersActivity extends AppCompatActivity implements OnListItem
                 groupsToExpandTitles.add(adapterERV.getGroups().get(i).getTitle());
             }
         }
+        Log.d("checkAddedTitlesToArray", "groupsToExpandTitles[] == " + groupsToExpandTitles);
     }
 
     //TODO: expand relevant group
@@ -505,12 +503,12 @@ public class EditFoldersActivity extends AppCompatActivity implements OnListItem
         final AlertDialog dialog = dialogBuilder.create();
         View changeTitleView = LayoutInflater.from(this).inflate(R.layout.dialog_new_folder, null, true);
         final EditText changeTitleET = (EditText) changeTitleView.findViewById(R.id.input_title_view_title_et);
-        Button changeTitleBtn = (Button) changeTitleView.findViewById(R.id.input_title_view_button);
-        changeTitleBtn.setText(R.string.update_title);
+        Button updateTitleBtn = (Button) changeTitleView.findViewById(R.id.input_title_view_button);
+        updateTitleBtn.setText(R.string.update_title);
         changeTitleET.setText(getRelevantTitle(groupTitle, childTitle, listTitle));
         dialog.setView(changeTitleView);
+        updateTitleBtn.setOnClickListener(initOnElementsClickListener(groupTitle, childTitle, listTitle, changeTitleET, id, dialog));
         dialog.show();
-        changeTitleBtn.setOnClickListener(initOnElementsClickListener(groupTitle, childTitle, listTitle, changeTitleET, id, dialog));
     }
 
     private String getRelevantTitle(final String groupTitle, final String childTitle, final String listTitle)
@@ -585,11 +583,15 @@ public class EditFoldersActivity extends AppCompatActivity implements OnListItem
                         uri = DBProvider.CHECKED_TABLE_PATH_URI;
                         updateTableValues(listTitle, newTitle, uri, columnProjection);
                     }
+                    Log.d("checkGroupTitle", "groupTitle == " + groupTitle + "; childTitle == " + childTitle);
+                    addExpandedToArray();
                     initAdapter(isForDelete);
-                    expandRelevantGroup();
+                    if (groupTitle != null && childTitle == null){
+                        groupsToExpandTitles.set(groupsToExpandTitles.indexOf(groupTitle), changeTitleET.getText().toString());
+                        Log.d("checkAddedTitlesToArray", "groupsToExpandTitles[] == " + groupsToExpandTitles);
+                    }
                     dialog.dismiss();
-                }
-                else if (clickedElementString.equals(xElement))
+                } else if (clickedElementString.equals(xElement))
                 {
                     String relevantColumnIndex;
                     if (listTitle != null)
@@ -613,11 +615,11 @@ public class EditFoldersActivity extends AppCompatActivity implements OnListItem
 
                     Uri uri = childTitle != null ? DBProvider.CHILDREN_TABLE_PATH_URI : DBProvider.GROUPS_TABLE_PATH_URI;
                     activity.getContentResolver().delete(uri, DBOpenHelper.COLUMN_ID + "=" + id, null);
+                    addExpandedToArray();
                     initAdapter(isForDelete);
                     dialog.dismiss();
-                    addExpandedToArray();
-                    expandRelevantGroup();
                 }
+                expandRelevantGroup();
             }
         };
         return onElementsClickListener;

@@ -134,6 +134,7 @@ public class AdapterERV extends ExpandableRecyclerViewAdapter<AdapterERV.ViewHol
                 itemView.setOnLongClickListener(this);
                 titleTV.setOnClickListener(this);
                 titleTV.setOnLongClickListener(this);
+                itemView.setBackgroundResource(R.drawable.item_main_view_selector);
                 if (isForDelete)
                 {
                     RelativeLayout.LayoutParams arrowXImageParams = new RelativeLayout.LayoutParams(30,30);
@@ -223,6 +224,7 @@ public class AdapterERV extends ExpandableRecyclerViewAdapter<AdapterERV.ViewHol
             if (activityPassed.equals(EditFoldersActivity.EDIT_FOLDERS_ACTIVITY)) {
                 titleTV.setOnClickListener(this);
                 titleTV.setOnLongClickListener(this);
+
                 if (isForDelete) { onXRV.setOnClickListener(this); }
             }
         }
