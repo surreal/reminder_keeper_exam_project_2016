@@ -14,4 +14,6 @@
 <img src="https://github.com/surreal/reminder_keeper/blob/master/images/screenshot_12.png" width="100" title="screenshot 12">
 <img src="https://github.com/surreal/reminder_keeper/blob/master/images/screenshot_13.png" width="100" title="screenshot 13">
 <img src="https://github.com/surreal/reminder_keeper/blob/master/images/screenshot_14.png" width="100" title="screenshot 14">
+ <img src="https://github.com/surreal/reminder_keeper/blob/master/images/screenshot_15.png" width="100" title="screenshot 15">
+<img src="https://github.com/surreal/reminder_keeper/blob/master/images/screenshot_16.png" width="100" title="screenshot 16">
 </div>
