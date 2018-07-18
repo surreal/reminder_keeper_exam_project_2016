@@ -175,7 +175,6 @@ public class EditFoldersActivity extends AppCompatActivity implements OnListItem
                 targetItemCurrentPosition = viewHolder.getAdapterPosition();
                 moveToPosition = target.getAdapterPosition();
 
-                Log.d("checkingOnMoveArray", "AdapterERV.childrenFPosId[] == " + AdapterERV.childrenFPosId);
                 if ((childrenFlatPositions.size() == 0) ||
                         (isGroupOnDrag && !AdapterERV.childrenFPosId.containsKey(moveToPosition)) ||
                         (!isGroupOnDrag && AdapterERV.childrenFPosId.containsKey(moveToPosition)))
@@ -376,7 +375,6 @@ public class EditFoldersActivity extends AppCompatActivity implements OnListItem
                 groupsToExpandTitles.add(adapterERV.getGroups().get(i).getTitle());
             }
         }
-        Log.d("checkAddedTitlesToArray", "groupsToExpandTitles[] == " + groupsToExpandTitles);
     }
 
     //TODO: expand relevant group
@@ -583,12 +581,10 @@ public class EditFoldersActivity extends AppCompatActivity implements OnListItem
                         uri = DBProvider.CHECKED_TABLE_PATH_URI;
                         updateTableValues(listTitle, newTitle, uri, columnProjection);
                     }
-                    Log.d("checkGroupTitle", "groupTitle == " + groupTitle + "; childTitle == " + childTitle);
                     addExpandedToArray();
                     initAdapter(isForDelete);
                     if (groupTitle != null && childTitle == null){
                         groupsToExpandTitles.set(groupsToExpandTitles.indexOf(groupTitle), changeTitleET.getText().toString());
-                        Log.d("checkAddedTitlesToArray", "groupsToExpandTitles[] == " + groupsToExpandTitles);
                     }
                     dialog.dismiss();
                 } else if (clickedElementString.equals(xElement))
@@ -708,7 +704,6 @@ public class EditFoldersActivity extends AppCompatActivity implements OnListItem
                 childrenFlatPositions = tempAL;
             }
         }
-
         /* generate clicked group children positions and add to childrenFlatPositions[] */
         for (int i = clickedGroupFlatPos +1; i < clickedGroupFlatPos +1 +group.getItemCount(); i++) { childrenFlatPositions.add(i); }
     }
