@@ -1,6 +1,6 @@
 # Reminders Keeper
 <div>
-<img src="https://github.com/surreal/reminder_keeper/blob/master/images/screenshot_1.png" width="100" title="screenshot 1">
+<img src="https://github.com/surreal/reminder_keeper/blob/master/images/screenshot_17.png" width="100" title="screenshot 17">
 <img src="https://github.com/surreal/reminder_keeper/blob/master/images/screenshot_2.png" width="100" title="screenshot 2">
 <img src="https://github.com/surreal/reminder_keeper/blob/master/images/screenshot_3.png" width="100" title="screenshot 3">
 <img src="https://github.com/surreal/reminder_keeper/blob/master/images/screenshot_4.png" width="100" title="screenshot 4">
