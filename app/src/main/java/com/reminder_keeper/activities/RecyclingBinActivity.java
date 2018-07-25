@@ -266,6 +266,7 @@ public class RecyclingBinActivity extends AppCompatActivity
         DBOpenHelper dbOpenHelper = new DBOpenHelper(RecyclingBinActivity.this);
         SQLiteDatabase sqLiteDatabase = dbOpenHelper.getWritableDatabase();
         sqLiteDatabase.execSQL("DELETE FROM " + DBOpenHelper.RECYCLING_BIN_TABLE);
+        sqLiteDatabase.close();
     }
 
     //TODO: on item click - listen for clicked items ids

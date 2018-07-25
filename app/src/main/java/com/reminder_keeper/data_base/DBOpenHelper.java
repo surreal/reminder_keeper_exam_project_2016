@@ -4,13 +4,9 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-/**
- * Created by Andrey on 08/07/2017.
- */
-
 public class DBOpenHelper extends SQLiteOpenHelper {
 
-    public static final String DB_NAME_FILE = "remindersDB.db";
+    private static final String DB_NAME_FILE = "remindersDB.db";
     private static final int DB_VERSION = 1;
 
     public static final String TODO_TABLE = "todoTable";
@@ -19,6 +15,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
     public static final String CHILDREN_TABLE = "childrenTable";
     public static final String RECYCLING_BIN_TABLE = "RecyclingBinTable";
     public static final String SEARCH_TABLE = "SearchTable";
+
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_REMINDER = "reminder";
     public static final String COLUMN_DATE_TIME = "dateTime";
@@ -100,54 +97,17 @@ public class DBOpenHelper extends SQLiteOpenHelper {
                         COLUMN_SEARCH_KEY + " TEXT UNIQUE" +
                         ");"
                 );
-
-
-        /*
-        sqLiteDatabase.execSQL
-                (
-                        "INSERT INTO " + GROUPS_TABLE +
-                                " (" + COLUMN_GROUP + ", " + COLUMN_LIST + ")" +
-                                " VALUES " +
-                                "('FIRST', null), " +
-                                "('SECOND', null), " +
-                                "(null, 'outside list ONE'), " +
-                                "(null, 'outside list TWO');"
-                );
-
-        sqLiteDatabase.execSQL
-                (
-                        "INSERT INTO " + CHILDREN_TABLE +
-                                " (" + COLUMN_CHILD + ", " + COLUMN_GROUP + ")" +
-                                " VALUES " +
-                                "('one in FIRST', 'FIRST'), " +
-                                "('two in FIRST', 'FIRST'), " +
-                                "('one in SECOND', 'SECOND'), " +
-                                "('two in SECOND', 'SECOND');"
-                );
-
-        sqLiteDatabase.execSQL
-                (
-                        "INSERT INTO " + TODO_TABLE +
-                                " (" + COLUMN_REMINDER + ", " + COLUMN_DATE_TIME + ", " + COLUMN_GROUP + ", " + COLUMN_CHILD + ", " + COLUMN_LIST + ")" +
-                                " VALUES " +
-                                "('to by bracelet', '10:30\n12/12/2012', 'FIRST', 'one in FIRST', null), " +
-                                "('recyclerView explain', '15:20\n12/12/2012', 'FIRST', 'one in FIRST', null), " +
-                                "('Expandable RecyclerView', '15:20\n12/12/2012', 'FIRST', 'one in FIRST', null), " +
-                                "('View Holder', '15:20\n12/12/2012', 'SECOND', 'one in FIRST', null), " +
-                                "('pochinit comp uchilke', '15:20\n12/12/2012', 'SECOND', 'one in SECOND', null), " +
-                                "('sdelat prezentaciu', '15:20\n12/12/2012', 'SECOND', 'one in SECOND', null), " +
-                                "('To Outside', '15:20\n12/12/2012', null, null, 'outside list ONE'), " +
-                                "('To Outside', '15:20\n12/12/2012', null, null, 'outside list ONE'), " +
-                                "('To Outside', '15:20\n12/12/2012', null, null, 'outside list TWO'), " +
-                                "('bank leumi', '18:10\n12/12/2012', null, null, 'outside list TWO');"
-                );
-                */
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1)
     {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TODO_TABLE);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + CHECKED_TABLE);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + GROUPS_TABLE);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + CHILDREN_TABLE);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + RECYCLING_BIN_TABLE);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + SEARCH_TABLE);
         onCreate(sqLiteDatabase);
     }
 
