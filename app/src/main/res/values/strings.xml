@@ -51,10 +51,8 @@
     <string name="unclassified">Unclassified</string>
     <string name="select_list">Select List</string>
     <string name="recycling_bin">Recycling Bin</string>
-    <string name="search_in_done">Search In Done</string>
-    <string name="search_in_todo">Search In ToDo</string>
     <string name="options">CONFIGURATIONS</string>
-    <string name="rearrange_and_rename">ARRANGE</string>
+    <string name="rearrange_and_rename">THE ARRANGE</string>
     <string name="profile">PROFILE</string>
     <string name="login">LOGIN</string>
     <string name="type_a_note_to_search">Type a Note To Search</string>

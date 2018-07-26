@@ -48,10 +48,8 @@
     <string name="unclassified">ללא סיווג</string>
     <string name="select_list">בחר רשימה</string>
     <string name="recycling_bin">סל מיחזור</string>
-    <string name="search_in_done">חפש במשימות שבוצעו</string>
-    <string name="search_in_todo">חפש במשימות לביצוע</string>
     <string name="options">הגדרות</string>
-    <string name="rearrange_and_rename">סדר</string>
+    <string name="rearrange_and_rename">הסידור</string>
     <string name="profile">פרופיל</string>
     <string name="login">התחבר</string>
     <string name="type_a_note_to_search">מה לחפש</string>

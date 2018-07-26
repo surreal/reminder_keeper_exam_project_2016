@@ -164,7 +164,7 @@ public class DBProvider extends ContentProvider
             case TODO_TABLE_MATCHER_ID:
                 long newToDoId = sqLiteDatabase.insert(DBOpenHelper.TODO_TABLE, null, contentValues);
                 Log.d("checkingInsertUri", "URI == " + Uri.parse(TODO_TABLE_BASE_PATH + "/" + newToDoId));
-                //return Uri.parse(TODO_TABLE_BASE_PATH + "/" + newToDoId);
+                return Uri.parse(TODO_TABLE_BASE_PATH + "/" + newToDoId);
             case CHECKED_TABLE_MATCHER_ID:
                 long newCheckedId = sqLiteDatabase.insert(DBOpenHelper.CHECKED_TABLE, null, contentValues);
                 return Uri.parse(CHECKED_TABLE_BASE_PATH + "/" + newCheckedId);

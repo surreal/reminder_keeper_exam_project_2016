@@ -47,8 +47,6 @@
     <string name="unclassified">Нерасфасованные</string>
     <string name="select_list">Категория</string>
     <string name="recycling_bin">УРНА</string>
-    <string name="search_in_done">Поиск в Сделано</string>
-    <string name="search_in_todo">Поиск в Сделать</string>
     <string name="options">НАСТРОЙКИ</string>
     <string name="rearrange_and_rename">УПОРЯДОЧИТЬ</string>
     <string name="profile">Профиль</string>
