@@ -523,6 +523,7 @@ public class ReminderActivity extends AppCompatActivity
     {
         switch (item.getItemId())
         {
+            // SD Icon
             case R.id.icon:
                 sdClickedAction();
                 break;
@@ -604,7 +605,8 @@ public class ReminderActivity extends AppCompatActivity
     private void startActivityAction()
     {
         isSDClicked = true;
-        if (!getIntent().getBooleanExtra("isActivityForResult", false)){ startActivity(new Intent(this, MainActivity.class)); }
+        if (!getIntent().getBooleanExtra("isActivityForResult", false))
+        { startActivity(new Intent(this, MainActivity.class)); }
         finish();
     }
 

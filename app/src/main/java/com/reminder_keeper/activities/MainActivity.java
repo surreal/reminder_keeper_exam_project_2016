@@ -25,7 +25,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -72,11 +71,11 @@ public class MainActivity extends AuthorityClass
     private AutoCompleteTextView search_ACTV;
     private RelativeLayout searchACTV_RL, lupeBtn_RL, lupeACTV_IV;
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState)
     { super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         onCreateActions();
         setAllConfiguredAlarms();
     }
@@ -156,7 +155,7 @@ public class MainActivity extends AuthorityClass
                     isOnCalendarMode = !isOnCalendarMode;
                     calendarModeBTNChangeState(isOnCalendarMode);
                     setCalModeViewsVisibility(isOnCalendarMode);
-                    onChangeModeBtnClickedRunRelevantAdapter(true);
+                    onChangeModeBtnClickedInitRelevantAdapter(true);
                     String relevantSearchHint = isOnCalendarMode ? getString(R.string.search_in_selected_date) : getString(R.string.search_in_selected_list);
                     search_ACTV.setHint(relevantSearchHint);
                     break;
@@ -175,7 +174,7 @@ public class MainActivity extends AuthorityClass
         }
     };
 
-    private void onChangeModeBtnClickedRunRelevantAdapter(boolean isCalendarClicked) {
+    private void onChangeModeBtnClickedInitRelevantAdapter(boolean isCalendarClicked) {
         if (isOnCalendarMode) {
             setDaysAdapterAndSnap();
             loadAndShowSelectedDayItems(CalendarConverter.currentCalNoTD);
@@ -582,7 +581,7 @@ public class MainActivity extends AuthorityClass
             searchACTV_RL.setVisibility(View.VISIBLE);
         } else {
             searchACTV_RL.setVisibility(View.GONE);
-            onChangeModeBtnClickedRunRelevantAdapter(false);
+            onChangeModeBtnClickedInitRelevantAdapter(false);
         }
     }
 
