@@ -102,6 +102,7 @@ public class MainActivity extends AuthorityClass
 
         drawerLayoutView.setDrawerAdapterERV();
         setLoginButtonMainViewVisibility();
+        daysArrayList = isRTL ? loadDaysArrayMapRTL() : loadDaysArrayMapDefault();
         initRelevantAdapter(setCalNoTD);
     }
 
@@ -120,7 +121,6 @@ public class MainActivity extends AuthorityClass
         setListsTitlesVisible();
         initSwipe();
         calendarConverter = new CalendarConverter(this);
-        daysArrayList = isRTL ? loadDaysArrayMapRTL() : loadDaysArrayMapDefault();
         initDaysRVAndSnap();
     }
 
