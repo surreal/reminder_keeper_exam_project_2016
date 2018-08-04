@@ -20,9 +20,7 @@ public class SnapHelper extends LinearSnapHelper
 
     @Override
     public View findSnapView(RecyclerView.LayoutManager layoutManager)
-    {
-        return getStartView(layoutManager, getHorizontalHelper(layoutManager));
-    }
+    { return getStartView(layoutManager, getHorizontalHelper(layoutManager)); }
 
     public View getStartView(RecyclerView.LayoutManager layoutManager, OrientationHelper helper)
     {
@@ -30,32 +28,26 @@ public class SnapHelper extends LinearSnapHelper
         View firstVisibleView = layoutManager.findViewByPosition(firstVisiblePosition);
         boolean isLastItem = ((LinearLayoutManager) layoutManager).findLastCompletelyVisibleItemPosition() == layoutManager.getItemCount() - 1;
 
-        if (firstVisiblePosition == RecyclerView.NO_POSITION)
-        {
+        if (firstVisiblePosition == RecyclerView.NO_POSITION) {
             ((LinearLayoutManager) layoutManager).scrollToPositionWithOffset(position, 0);
         }
 
         if (firstVisiblePosition != -1)
         {
-            if (helper.getDecoratedStart(firstVisibleView) == 0)
-            {
+            if (helper.getDecoratedStart(firstVisibleView) == 0) {
                 counter = 0;
-                if (firstVisiblePosition != position)
-                {
+                if (firstVisiblePosition != position) {
                     ((LinearLayoutManager) layoutManager).scrollToPositionWithOffset(position, 0);
-
-                    if (firstVisiblePosition != position)
-                    {
+                    if (firstVisiblePosition != position) {
                         ((LinearLayoutManager) layoutManager).scrollToPositionWithOffset(position, 0);
                     }
                 }
             } else {
                 counter++;
-                if (counter == 1)
-                {
+                if (counter == 1) {
                     if (firstVisiblePosition > position) {
                         position +=  7;
-                    } else if (firstVisiblePosition < position -1){
+                    } else if (firstVisiblePosition < position -1) {
                         position -=  7;
                     }
                     ((LinearLayoutManager) layoutManager).scrollToPositionWithOffset(position +1, 0);

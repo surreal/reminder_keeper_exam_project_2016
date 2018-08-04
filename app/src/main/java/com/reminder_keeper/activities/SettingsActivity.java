@@ -23,6 +23,7 @@ public class SettingsActivity extends AppCompatActivity {
     private TextView userNameTV, emailTV, signInButtonTV;
     private ImageView profileImageIV, editFoldersIcon, recyclingBinIcon, aboutIcon;
     private TextView countOfNotes;
+    private int resultCodePassed = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -58,6 +59,7 @@ public class SettingsActivity extends AppCompatActivity {
         signIn.checkIfAccountLogged(userNameTV, emailTV, profileImageIV);
         setRecyclingBinRelevantIcon();
         new ToolbarView(this, getSupportActionBar(), SETTINGS_ACTIVITY);
+        resultCodePassed = resultCode;
     }
 
     private void setListeners()
@@ -103,7 +105,7 @@ public class SettingsActivity extends AppCompatActivity {
     {
         if (item.getItemId() == android.R.id.home)
         {
-            setResult(RESULT_CANCELED);
+            setResult(resultCodePassed);
             finish();
         }
         return super.onOptionsItemSelected(item);
@@ -112,7 +114,7 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     public void onBackPressed()
     {
-        setResult(RESULT_CANCELED);
+        setResult(resultCodePassed);
         finish();
     }
 }

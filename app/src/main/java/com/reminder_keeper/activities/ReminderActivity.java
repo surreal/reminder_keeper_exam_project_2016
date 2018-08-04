@@ -72,7 +72,6 @@ public class ReminderActivity extends AppCompatActivity
     private AlertDialog repeatViewDialog;
     private LinearLayout repeatNoRepeatLL;
     private ArrayList<Integer> selectedDaysForCustomRepeatArray;
-    private boolean isSDClicked;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -528,7 +527,7 @@ public class ReminderActivity extends AppCompatActivity
                 sdClickedAction();
                 break;
             case android.R.id.home:
-                startActivityAction();
+                finish();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -576,7 +575,8 @@ public class ReminderActivity extends AppCompatActivity
                 timeDateString = null;
                 Toast.makeText(this, R.string.time_not_set_msg, Toast.LENGTH_SHORT).show();
             }
-            startActivityAction();
+            setResult(RESULT_OK);
+            finish();
         } else {
             Toast.makeText(this, R.string.input_txt_msg, Toast.LENGTH_LONG).show();
         }
@@ -602,17 +602,9 @@ public class ReminderActivity extends AppCompatActivity
         }
     }
 
-    private void startActivityAction()
-    {
-        isSDClicked = true;
-        if (!getIntent().getBooleanExtra("isActivityForResult", false))
-        { startActivity(new Intent(this, MainActivity.class)); }
-        finish();
-    }
-
     @Override
     public void onBackPressed()
     {   super.onBackPressed();
-        startActivityAction();
+        finish();
     }
 }

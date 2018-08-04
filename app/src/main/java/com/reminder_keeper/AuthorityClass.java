@@ -11,7 +11,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -357,8 +356,7 @@ public class AuthorityClass extends AppCompatActivity implements OnListItemClick
             {
                 int idToDo = dayModel.getIdToDo();
                 int idChecked = dayModel.getIdChecked();
-                if (idToDo != -1)
-                {
+                if (idToDo != -1) {
                     selectedListIdsToDo.add(idToDo);
                 } else {
                     selectedListIdsChecked.add(idChecked);
@@ -386,7 +384,7 @@ public class AuthorityClass extends AppCompatActivity implements OnListItemClick
         if (toolbarCustom.titleTV.getText().toString().equals(activity.getString(R.string.all_notes)))
         {
             initNotificationsAdaptersRV();
-            rebindCursorsSetRV();
+            rebindCursorsSetMainRVs();
         } else if (isOnCalendarMode) {
             loadAndShowSelectedDayItems(calendar);
         } else {
@@ -395,16 +393,16 @@ public class AuthorityClass extends AppCompatActivity implements OnListItemClick
     }
 
     //TODO: set Adapters
-    public void rebindCursorsSetRV()
+    public void rebindCursorsSetMainRVs()
     {
         adapterToDo.reBindCursor(cursors.getCursorToDo());
         adapterChecked.reBindCursorChecked(cursors.getCursorChecked());
-        setRecyclerViews();
+        setRVs();
         setListsTitlesVisible();
     }
 
     //TODO: refresh main adapters
-    public void setRecyclerViews()
+    public void setRVs()
     {
         recyclerViewToDo.setAdapter(adapterToDo);
         recyclerViewChecked.setAdapter(adapterChecked);

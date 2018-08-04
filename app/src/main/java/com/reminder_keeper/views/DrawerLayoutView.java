@@ -102,7 +102,7 @@ public class DrawerLayoutView extends MainActivity
                 selectedListTitleDL = activity.getString(R.string.all_notes);
                 expandedGroupNameDL = null;
                 selectedChildTitleDL = null;
-                rebindCursorsSetRV();
+                rebindCursorsSetMainRVs();
                 setCalModeViewsVisibility(false);
                 toolbarCustom.setSequenceViewToolbar(activity.getString(R.string.all_notes));
                 calendarModeBTNChangeState(false);

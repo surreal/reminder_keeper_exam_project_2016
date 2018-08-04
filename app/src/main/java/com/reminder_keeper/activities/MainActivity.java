@@ -25,6 +25,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -70,6 +71,7 @@ public class MainActivity extends AuthorityClass
     private boolean isOnSearchMode;
     private AutoCompleteTextView search_ACTV;
     private RelativeLayout searchACTV_RL, lupeBtn_RL, lupeACTV_IV;
+    private SnapHelper snapHelper;
 
 
     @Override
@@ -78,12 +80,25 @@ public class MainActivity extends AuthorityClass
         setContentView(R.layout.activity_main);
         onCreateActions();
         setAllConfiguredAlarms();
+        Log.d("checkingLifeCycle", "onCreate()");
     }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        toolbarTitleString = ToolbarView.titleTV.getText().toString();
+    private void onCreateActions() {
+        activity = this;
+        toolbarTitleString = null;
+        setCalNoTD = new GregorianCalendar();
+        isOnCalendarMode = false;
+        Configuration configuration = getResources().getConfiguration();
+        if (configuration.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) { isRTL = true; }
+        castings();
+        drawerLayoutView = new DrawerLayoutView(activity);
+        setNotificationsRVLayouts();
+        initToggle();
+        rebindCursorsSetMainRVs();
+        setListsTitlesVisible();
+        initSwipe();
+        calendarConverter = new CalendarConverter(this);
+        daysArrayList = isRTL ? loadDaysArrayMapRTL() : loadDaysArrayMapDefault();
+        initDaysRVAndSnap();
     }
 
     @Override
@@ -102,26 +117,24 @@ public class MainActivity extends AuthorityClass
 
         drawerLayoutView.setDrawerAdapterERV();
         setLoginButtonMainViewVisibility();
-        daysArrayList = isRTL ? loadDaysArrayMapRTL() : loadDaysArrayMapDefault();
         initRelevantAdapter(setCalNoTD);
+        Log.d("checkingLifeCycle", "onStart()");
     }
 
-    private void onCreateActions() {
-        activity = this;
-        toolbarTitleString = null;
-        setCalNoTD = new GregorianCalendar();
-        isOnCalendarMode = false;
-        Configuration configuration = getResources().getConfiguration();
-        if (configuration.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) { isRTL = true; }
-        castings();
-        drawerLayoutView = new DrawerLayoutView(activity);
-        setNotificationsRVLayouts();
-        initToggle();
-        rebindCursorsSetRV();
-        setListsTitlesVisible();
-        initSwipe();
-        calendarConverter = new CalendarConverter(this);
-        initDaysRVAndSnap();
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d("checkingLifeCycle", "onActivityResult(); " + "resultCode == " + resultCode);
+        if (resultCode == RESULT_OK){
+            daysArrayList = isRTL ? loadDaysArrayMapRTL() : loadDaysArrayMapDefault();
+            onChangeModeInitRelevantAdapter(isOnCalendarMode);
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        toolbarTitleString = ToolbarView.titleTV.getText().toString();
     }
 
     //TODO: castings
@@ -155,7 +168,7 @@ public class MainActivity extends AuthorityClass
                     isOnCalendarMode = !isOnCalendarMode;
                     calendarModeBTNChangeState(isOnCalendarMode);
                     setCalModeViewsVisibility(isOnCalendarMode);
-                    onChangeModeBtnClickedInitRelevantAdapter(true);
+                    onChangeModeInitRelevantAdapter(true);
                     String relevantSearchHint = isOnCalendarMode ? getString(R.string.search_in_selected_date) : getString(R.string.search_in_selected_list);
                     search_ACTV.setHint(relevantSearchHint);
                     break;
@@ -174,18 +187,18 @@ public class MainActivity extends AuthorityClass
         }
     };
 
-    private void onChangeModeBtnClickedInitRelevantAdapter(boolean isCalendarClicked) {
+    private void onChangeModeInitRelevantAdapter(boolean isCalendarClicked) {
         if (isOnCalendarMode) {
             setDaysAdapterAndSnap();
             loadAndShowSelectedDayItems(CalendarConverter.currentCalNoTD);
         } else {
             if (isCalendarClicked) {
                 toolbarCustom.setSequenceViewToolbar(getString(R.string.all_notes));
-                rebindCursorsSetRV();
+                rebindCursorsSetMainRVs();
             } else {
                 if (ToolbarView.titleTV.getText().toString().equals(getString(R.string.all_notes))) {
                     toolbarCustom.setSequenceViewToolbar(getString(R.string.all_notes));
-                    rebindCursorsSetRV();
+                    rebindCursorsSetMainRVs();
                 } else {
                     runOnTableLookListsOrChildrenToShow(false);
                 }
@@ -196,7 +209,8 @@ public class MainActivity extends AuthorityClass
     private void initDaysRVAndSnap() {
         linearLayoutDays = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, isRTL);
         recyclerViewDays.setLayoutManager(linearLayoutDays);
-        new SnapHelper(firstPosition).attachToRecyclerView(recyclerViewDays);
+        snapHelper = new SnapHelper(firstPosition);
+        snapHelper.attachToRecyclerView(recyclerViewDays);
     }
 
     private ArrayList<DayModel> loadDaysArrayMapRTL() {
@@ -353,8 +367,8 @@ public class MainActivity extends AuthorityClass
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.icon:
-                startActivity(new Intent(activity, ReminderActivity.class));
-                finish();
+                startActivityForResult(new Intent(activity, ReminderActivity.class),1);
+                //finish();
                 break;
         }
 
@@ -581,7 +595,7 @@ public class MainActivity extends AuthorityClass
             searchACTV_RL.setVisibility(View.VISIBLE);
         } else {
             searchACTV_RL.setVisibility(View.GONE);
-            onChangeModeBtnClickedInitRelevantAdapter(false);
+            onChangeModeInitRelevantAdapter(false);
         }
     }
 

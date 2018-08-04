@@ -132,8 +132,7 @@ public class EditFoldersActivity extends AppCompatActivity implements OnListItem
         {
             case android.R.id.home:
                 nullTheArrays();
-                Intent intent = new Intent();
-                setResult(RESULT_CANCELED, intent);
+                setResult(RESULT_OK);
                 finish();
                 break;
             case R.id.icon:
@@ -683,6 +682,8 @@ public class EditFoldersActivity extends AppCompatActivity implements OnListItem
     @Override
     public void onBackPressed()
     {   super.onBackPressed();
+        setResult(RESULT_OK);
+        finish();
         nullTheArrays();
     }
 
