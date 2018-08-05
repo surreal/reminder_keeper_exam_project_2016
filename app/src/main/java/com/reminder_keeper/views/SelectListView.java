@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -19,7 +20,6 @@ import com.reminder_keeper.R;
 
 public class SelectListView implements DialogInterface.OnDismissListener
 {
-    public static final String SELECT_LIST_VIEW = "selectListView";
     private static RecyclerView recyclerViewSelectListView;
     public static AlertDialog selectListViewDialog;
     private CursorsDBMethods cursors;
@@ -53,7 +53,7 @@ public class SelectListView implements DialogInterface.OnDismissListener
         selectListViewDialog.setView(selectListView);
         recyclerViewSelectListView = (RecyclerView) selectListView.findViewById(R.id.select_list_view_recycler_view);
         Button newListButton = (Button) selectListView.findViewById(R.id.select_list_view_create_new_list_button);
-        newListButton.setOnClickListener(new NewListBtnClickListener(activity, SELECT_LIST_VIEW));
+        newListButton.setOnClickListener(new NewListBtnClickListener(activity, requestFrom));
 
         final LinearLayout unclassifiedLLayout = (LinearLayout) selectListView.findViewById(R.id.select_list_view_layout_unclassified);
         unclassifiedLLayout.setOnClickListener(new View.OnClickListener() {

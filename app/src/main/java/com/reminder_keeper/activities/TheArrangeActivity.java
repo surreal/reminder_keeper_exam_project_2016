@@ -443,7 +443,6 @@ public class TheArrangeActivity extends AppCompatActivity implements OnListItemC
 
     private int countOfReminders(final String groupTitle, final String childTitle, final String listTitle)
     {
-        Log.d("checkCountOfReminders", "groupTitle == " + groupTitle + "; childTitle == " + childTitle + "; listTitle == " + listTitle);
         counter = 0;
         cursor = cursorsDBMethods.getCursorToDo();
         cursor = CursorsDBMethods.cursor;
@@ -548,7 +547,6 @@ public class TheArrangeActivity extends AppCompatActivity implements OnListItemC
                         updateTableValues(listTitle, newTitle, uri, columnProjection);
                     }
                     addExpandedToArray();
-                    Log.d("checkingTheArray", "groupsToExpandTitles[] == " + groupsToExpandTitles + "; groupTitle == " + groupTitle);
                     if (groupTitle != null && childTitle == null){ groupsToExpandTitles.set(groupsToExpandTitles.indexOf(groupTitle), changeTitleET.getText().toString()); }
                     initAdapter(isForDelete);
                     dialog.dismiss();
@@ -594,7 +592,6 @@ public class TheArrangeActivity extends AppCompatActivity implements OnListItemC
 
     private void moveRemindersToRB(String listTitle, String groupTitle, String childTitle, Uri uri, String columnIndex)
     {
-        Log.d("moveRemindersToRB", "listTitle == " + listTitle + "; childTitle == " + childTitle + "; groupTitle == " + groupTitle);
         cursor = activity.getContentResolver().query(uri, null, null,null,null);
         String title = "";
         if (childTitle != null) {

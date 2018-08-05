@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -12,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.reminder_keeper.activities.MainActivity;
 import com.reminder_keeper.adapters.AdapterB_Folders;
 import com.reminder_keeper.CursorsDBMethods;
 import com.reminder_keeper.data_base.DBOpenHelper;
@@ -185,9 +187,11 @@ public class NewListBtnClickListener implements View.OnClickListener
             newListViewDialog = null;
             if (requestFrom.equals(DrawerLayoutView.DRAWER_LAYOUT_VIEW)) {
                 new DrawerLayoutView(activity).setDrawerAdapterERV();
-            } else if (requestFrom.equals(SelectListView.SELECT_LIST_VIEW)) {
-                SelectListView selectListView = new SelectListView(activity, requestFrom);
-                selectListView.setAdapter();
+            } else if (requestFrom.equals(MainActivity.MAIN_ACTIVITY)) {
+                new SelectListView(activity, requestFrom).setAdapter();
+                new DrawerLayoutView(activity).setDrawerAdapterERV();
+            } else {
+                new SelectListView(activity, requestFrom).setAdapter();
             }
         }
     };

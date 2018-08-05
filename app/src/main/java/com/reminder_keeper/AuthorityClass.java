@@ -11,6 +11,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -292,6 +293,7 @@ public class AuthorityClass extends AppCompatActivity implements OnListItemClick
                 selectedChildNameSLV = selectedChildTitle;
                 selectedListSLV = listTitle;
                 selectListView.itemClickedInSLV();
+                initRemindersAdaptersRV();
             }
         }
     }

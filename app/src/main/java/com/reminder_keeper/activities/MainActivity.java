@@ -80,7 +80,6 @@ public class MainActivity extends AuthorityClass
         setContentView(R.layout.activity_main);
         onCreateActions();
         setAllConfiguredAlarms();
-        Log.d("checkingLifeCycle", "onCreate()");
     }
     private void onCreateActions() {
         activity = this;
@@ -118,13 +117,11 @@ public class MainActivity extends AuthorityClass
         drawerLayoutView.setDrawerAdapterERV();
         setLoginButtonMainViewVisibility();
         initRelevantAdapter(setCalNoTD);
-        Log.d("checkingLifeCycle", "onStart()");
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d("checkingLifeCycle", "onActivityResult(); " + "resultCode == " + resultCode);
         if (resultCode == RESULT_OK){
             daysArrayList = isRTL ? loadDaysArrayMapRTL() : loadDaysArrayMapDefault();
             onChangeModeInitRelevantAdapter(isOnCalendarMode);

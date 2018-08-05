@@ -468,8 +468,6 @@ public class ReminderActivity extends AppCompatActivity
                 contentValues.put(DBOpenHelper.COLUMN_REPEAT_CUSTOM_DAYS_OR_DATE, dayDateString);
             }
         }
-        Log.d("checkingContentValues", "groupTitle == " + groupTitle + "; childTitle == " + childTitle);
-        Log.d("checkingContentValues", "ToolbarView.titleTV.getText().toString() == " + ToolbarView.titleTV.getText().toString());
 
         if (ToolbarView.titleTV.getText().toString().equals(getString(R.string.unclassified)) ||
                 ToolbarView.titleTV.getText().toString().equals(getString(R.string.select_list)))

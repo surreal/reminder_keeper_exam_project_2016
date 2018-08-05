@@ -2,6 +2,7 @@
 package com.reminder_keeper.adapters.AdapterERV;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -240,6 +241,7 @@ public class AdapterERV extends ExpandableRecyclerViewAdapter<AdapterERV.ViewHol
         @Override
         public void onClick(View view) {
             if (view == itemView) {
+
                 if (isGroup)
                 { super.onClick(view);
                     listener.itemClicked(title, null, null, null, false, id);
