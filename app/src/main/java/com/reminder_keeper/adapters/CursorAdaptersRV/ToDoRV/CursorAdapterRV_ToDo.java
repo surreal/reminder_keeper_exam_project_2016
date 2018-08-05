@@ -62,7 +62,7 @@ public class CursorAdapterRV_ToDo extends CursorAdapterRV_ToDoAbstract<CursorAda
 
     public class ViewHolder extends ViewHolderRV_Abstract
             implements CompoundButton.OnCheckedChangeListener, View.OnClickListener, View.OnTouchListener, View.OnLongClickListener {
-        private final TextView noteTextToDo, timeTextToDo, repeatIndicatorTV;
+        private final TextView reminderTextToDo, timeTextToDo, repeatIndicatorTV;
         private final CheckBox checkBox;
         private int idToDo;
         private String reminderValue, dateTimeDBValue, repeatOptionDBValue, repeatDaysOrDateDBValue, days = activity.getString(R.string.repeat_every) + " ";
@@ -70,7 +70,7 @@ public class CursorAdapterRV_ToDo extends CursorAdapterRV_ToDoAbstract<CursorAda
 
         public ViewHolder(View itemView)
         {   super(itemView);
-            noteTextToDo = (TextView) itemView.findViewById(R.id.item_view_reminder_reminder_tv);
+            reminderTextToDo = (TextView) itemView.findViewById(R.id.item_view_reminder_reminder_tv);
             timeTextToDo = (TextView) itemView.findViewById(R.id.item_view_reminder_date_tv);
             repeatIndicatorTV = (TextView) itemView.findViewById(R.id.item_view_reminder_repeat_indicator_tv);
             itemView.setOnClickListener(this);
@@ -107,7 +107,7 @@ public class CursorAdapterRV_ToDo extends CursorAdapterRV_ToDoAbstract<CursorAda
                     timeTextToDo.setTextColor(activity.getResources().getColor(R.color.colorGreen));
                 }
             }
-            noteTextToDo.setText(reminderValue);
+            reminderTextToDo.setText(reminderValue);
             timeTextToDo.setText(dateTimeDBValue);
         }
 

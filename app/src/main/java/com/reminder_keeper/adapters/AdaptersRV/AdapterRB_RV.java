@@ -51,14 +51,14 @@ public class AdapterRB_RV extends CursorAdapterRV_ToDoAbstract<AdapterRB_RV.View
     }
 
     public class ViewHolderRB extends ViewHolderRV_Abstract implements View.OnClickListener{
-        private TextView noteTV;
+        private TextView reminderTV;
         private TextView timeTV;
         private boolean isSelected;
         private int itemId;
 
         public ViewHolderRB(View itemView)
         {   super(itemView);
-            noteTV = (TextView) itemView.findViewById(R.id.item_view_recycling_bin_note_tv);
+            reminderTV = (TextView) itemView.findViewById(R.id.item_view_recycling_bin_reminder_tv);
             timeTV = (TextView) itemView.findViewById(R.id.item_view_recycling_bin_time_tv);
             itemView.setOnClickListener(this);
         }
@@ -67,7 +67,7 @@ public class AdapterRB_RV extends CursorAdapterRV_ToDoAbstract<AdapterRB_RV.View
         public void bindCursor(Cursor cursor)
         {
             itemId = cursor.getInt(cursor.getColumnIndex(DBOpenHelper.COLUMN_ID));
-            noteTV.setText(cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_REMINDER)));
+            reminderTV.setText(cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_REMINDER)));
             timeTV.setText(cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_DATE_TIME)));
         }
 

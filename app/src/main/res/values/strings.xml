@@ -39,7 +39,7 @@
     <string name="october">October</string>
     <string name="november">November</string>
     <string name="december">December</string>
-    <string name="newNote">NEW</string>
+    <string name="new_reminder">NEW</string>
     <string name="save">Save</string>
     <string name="restore_all">Restore All</string>
     <string name="delete_all">Delete All</string>
@@ -47,7 +47,7 @@
     <string name="delete_selected">Delete Selected</string>
     <string name="deselect_selected">Deselect Selected</string>
     <string name="search">Search</string>
-    <string name="all_notes">ALL NOTES</string>
+    <string name="all_reminders">ALL REMINDERS</string>
     <string name="unclassified">Unclassified</string>
     <string name="select_list">Select List</string>
     <string name="recycling_bin">Recycling Bin</string>
@@ -55,7 +55,7 @@
     <string name="rearrange_and_rename">THE ARRANGE</string>
     <string name="profile">PROFILE</string>
     <string name="login">LOGIN</string>
-    <string name="type_a_note_to_search">Type a Note To Search</string>
+    <string name="type_a_reminder_text_for_search">Type a Reminder Text for Search</string>
     <string name="todo">ToDo</string>
     <string name="done">Done</string>
     <string name="set_time">Set Time</string>
@@ -68,27 +68,27 @@
     <string name="select_folder">Select Folder</string>
     <string name="new_folder">New Folder</string>
     <string name="create">create</string>
-    <string name="notification_deleted_msg">Notification was deleted</string>
     <string name="date_is_passed_msg">The Date Is Passed</string>
     <string name="time_not_set_msg">The Time is passed or not set</string>
-    <string name="input_txt_msg">Notification can\'t be empty</string>
+    <string name="input_empty_msg">Reminder can\'t be empty</string>
     <string name="restore">Restore</string>
-    <string name="restore_all_notes_msg">Restore All Notes?</string>
-    <string name="delete_all_notes_msg">Delete All Notes?</string>
-    <string name="restore_selected_notes_msg">Restore Selected Notes?</string>
-    <string name="delete_selected_notes_msg">Delete Selected Notes?</string>
+    <string name="restore_all_reminders_msg">Restore All Reminders?</string>
+    <string name="delete_all_reminders_permanently">Delete All Reminders Permanently?</string>
+    <string name="restore_selected_reminders_msg">Restore Selected Reminders?</string>
+    <string name="delete_selected_reminders_msg">Delete Selected Reminders Permanently?</string>
     <string name="cancel">Cancel</string>
     <string name="delete">Remove</string>
     <string name="update_title">UPDATE TITLE</string>
-    <string name="the_folder_contains">The Folder Contains</string>
+    <string name="the_folder">The Folder</string>
+    <string name="including">INCLUDING</string>
     <string name="lists">Lists</string>
-    <string name="notifications">Notifications</string>
-    <string name="are_you_sure_you_want_to_delete_list">Are you sure you want to delete list?</string>
-    <string name="are_you_sure_you_want_to_delete_folder">Are you sure you want to delete folder?</string>
-    <string name="the_list_contains">The List contains</string>
+    <string name="reminders">Notifications</string>
+    <string name="remove_this_list_and_all_reminders_inside">Remove this List and All Reminders inside?</string>
+    <string name="remove_this_folder_and_all_reminders_inside">Remove this Folder and All Lists, Reminders inside?</string>
+    <string name="the_list">The List</string>
     <string name="forward_arrow"><![CDATA[>]]></string>
     <string name="back_arrow"><![CDATA[<]]></string>
-    <string name="no_notifications_yet">No Notifications Yet</string>
+    <string name="no_reminders_yet">No Reminders Yet</string>
     <string name="new_list_name">New List Name</string>
     <string name="create_list">Create list</string>
     <string name="folder_name">Folder Name</string>
@@ -121,12 +121,12 @@
     
     <string name="about">
     About Application:\n\n
-        The Application Reminder Keeper will help you not to miss important things and save a notes.\n\n
+        The Application Reminder Keeper will help you not to miss important things and save a reminders.\n\n
     To set Reminder\n
         Open Reminder View - click \"+\" placed on panel on Main View,
         write a text, set time and date, set if need repeat,
         click on Memory Card for save the reminder, when the set time come the app will notify.\n\n
-    To keep Notes\n
+    To keep Reminders\n
         sometime you need to store some text, this app will help you with this, just insert a text and click SAVE button.\n\n
     Backup\n
         your data will backup to Google Cloud four times at day, when app will be installed all data will restore,
@@ -151,7 +151,7 @@
         The search action will search the reminder in existing folder or in existing date, for example - to search reminders configured to notify
         on specific date, just enter the calendar mode - for that click the calendar button placed on Main Screen, click needed date, click Lupe
         icon near text field to search reminder stored for this day.
-        Or enter the needed List from drawer and search there your reminder, for example - click at "All Notes" List placed at drawer,
+        Or enter the needed List from drawer and search there your reminder, for example - click at "All Reminders" List placed at drawer,
         click on Magnifying Glass icon, insert a text, click on Lupe near to the text field and you will see all reminders with this text.\n\n
     Rearrange and rename Lists and Folders\n
         From CONFIGURATIONS VIEW you can enter to ARRANGE VIEW, there you can rearrange,

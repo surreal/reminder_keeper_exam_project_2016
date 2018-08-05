@@ -6,7 +6,7 @@
     android:background="@drawable/item_recycling_bin_selector">
 
     <TextView
-        android:id="@+id/item_view_recycling_bin_note_tv"
+        android:id="@+id/item_view_recycling_bin_reminder_tv"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:text="my"

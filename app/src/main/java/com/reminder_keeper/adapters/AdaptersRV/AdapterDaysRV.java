@@ -2,7 +2,6 @@ package com.reminder_keeper.adapters.AdaptersRV;
 
 import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,7 +86,7 @@ public class AdapterDaysRV extends RecyclerView.Adapter<AdapterDaysRV.ViewHolder
         public ViewHolder(final View itemView)
         { super(itemView);
             dayOfMonthTV = (TextView) itemView.findViewById(R.id.item_view_horizontal_tv);
-            isHaveNotificationsHighLighterTV = (TextView) itemView.findViewById(R.id.item_view_horizontal_have_notes_highlighter);
+            isHaveNotificationsHighLighterTV = (TextView) itemView.findViewById(R.id.item_view_horizontal_have_reminder_highlighter);
 
             itemView.setOnClickListener(new View.OnClickListener()
             { @Override

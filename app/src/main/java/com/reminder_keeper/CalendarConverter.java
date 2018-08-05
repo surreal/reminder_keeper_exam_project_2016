@@ -16,7 +16,7 @@ public class CalendarConverter
 {
     public static Calendar currentCalWithTD, calIsSetWithTD, currentCalNoTD, calIsSetNoTD;
     public static int year, monthForDB, monthForCalendar, dayOfMonth, hour, minutes;
-    public static String timeString, dateString, timeDateString,  timeDateStringForNotification;
+    public static String timeString, dateString, timeDateString,  timeDateForNotificationItem_String;
     private static Context context;
     private static Cursor cursor;
     private String dayString, monthString;
@@ -117,7 +117,7 @@ public class CalendarConverter
         return dayString;
     }
 
-    //TODO: init date and time if action is new Note
+    //TODO: init date and time if action is new Reminder
     public void convertDateTimeForDB()
     {
         year = currentCalWithTD.get(Calendar.YEAR);
@@ -177,7 +177,7 @@ public class CalendarConverter
     public void setTimeDateForDB()
     {
         timeDateString = timeString + "\n" + dateString;
-        setTimeDateForNotification();
+        setTimeDateForNotificationItem();
     }
     public String setTimeDateForDB(Calendar calendar)
     {
@@ -186,12 +186,9 @@ public class CalendarConverter
         return timeDateString;
     }
 
-    private void setTimeDateForNotification()
-    {
-        timeDateStringForNotification = timeString + " -> " + dateString;
-    }
+    private void setTimeDateForNotificationItem() { timeDateForNotificationItem_String = timeString + " -> " + dateString; }
 
-    public String setTimeDateForNotification(Calendar calendar)
+    public String setTimeDateForNotificationItem(Calendar calendar)
     {
         String timeDateStringForNotification = context.getString(R.string.next_repeat) + " ";
         timeDateStringForNotification += setTimeString(calendar.get(Calendar.HOUR_OF_DAY),

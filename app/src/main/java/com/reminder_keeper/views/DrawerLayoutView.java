@@ -26,7 +26,7 @@ public class DrawerLayoutView extends MainActivity
     public static final String DRAWER_LAYOUT_VIEW = "drawerLayoutView";
     private SignIn signIn;
     public static AdapterERV adapterERV;
-    public static int countOfNotifications;
+    public static int countOfReminders;
     private Activity activity;
     public Button newListButton;
 
@@ -37,7 +37,7 @@ public class DrawerLayoutView extends MainActivity
         cursors = new CursorsDBMethods(activity);
         signIn = new SignIn(activity, null);
         signIn.checkIfAccountLogged(profileNameTV, profileEmailTV, profileImageIV);
-        countOfNotifications();
+        countOfReminders();
         initListeners();
     }
 
@@ -46,10 +46,10 @@ public class DrawerLayoutView extends MainActivity
     {
         drawerLayout = (DrawerLayout) activity.findViewById(R.id.activity_main_drawer_Layout);
         newListButton = (Button) activity.findViewById(R.id.drawer_layout_button_new_list);
-        numOfNotificationsTV = (TextView) activity.findViewById(R.id.drawer_layout_num_of_notifications);
+        numOfRemindersTV = (TextView) activity.findViewById(R.id.drawer_layout_num_of_reminders);
         linearLayoutUnclassifiedList = (LinearLayout) activity.findViewById(R.id.drawer_layout_linear_layout_unclassified);
         recyclerViewGAndL = (RecyclerView) activity.findViewById(R.id.drawer_layout_recycler_view_folders);
-        rLayoutAllNotes = (RelativeLayout) activity.findViewById(R.id.drawer_layout_all_notes_linear_layout_all_notes);
+        rLayoutAllReminders = (RelativeLayout) activity.findViewById(R.id.drawer_layout_all_reminders_linear_layout);
         settingsIV = (ImageView) activity.findViewById(R.id.drawer_layout_profile_settings);
         profileNameTV = (TextView) activity.findViewById(R.id.drawer_layout_profile_name);
         profileEmailTV = (TextView) activity.findViewById(R.id.drawer_layout_profile_email);
@@ -62,9 +62,9 @@ public class DrawerLayoutView extends MainActivity
         profileImageIV.setOnClickListener(onElementsClickListener);
         settingsIV.setOnClickListener(onElementsClickListener);
         linearLayoutUnclassifiedList.setOnClickListener(onElementsClickListener);
-        rLayoutAllNotes.setOnClickListener(onElementsClickListener);
+        rLayoutAllReminders.setOnClickListener(onElementsClickListener);
         newListButton.setOnClickListener(new NewListBtnClickListener(activity, DRAWER_LAYOUT_VIEW));
-        numOfNotificationsTV.setText(countOfNotifications + "");
+        numOfRemindersTV.setText(countOfReminders + "");
     }
 
     //TODO: set adapters
@@ -77,11 +77,8 @@ public class DrawerLayoutView extends MainActivity
         signIn.checkIfAccountLogged(profileNameTV, profileEmailTV, profileImageIV);
     }
 
-    //TODO count of Notes
-    public void countOfNotifications()
-    {
-        countOfNotifications = cursors.getCursorToDo().getCount() + cursors.getCursorChecked().getCount();
-    }
+    //TODO count of Reminders
+    public void countOfReminders() { countOfReminders = cursors.getCursorToDo().getCount() + cursors.getCursorChecked().getCount(); }
 
     //TODO: on views click listener
     View.OnClickListener onElementsClickListener = new View.OnClickListener()
@@ -98,13 +95,13 @@ public class DrawerLayoutView extends MainActivity
                 setCalModeViewsVisibility(false);
                 adapterERV.selectUnselectItemView(linearLayoutUnclassifiedList);
                 drawerLayout.closeDrawers();
-            } else if (view == rLayoutAllNotes) {
-                selectedListTitleDL = activity.getString(R.string.all_notes);
+            } else if (view == rLayoutAllReminders) {
+                selectedListTitleDL = activity.getString(R.string.all_reminders);
                 expandedGroupNameDL = null;
                 selectedChildTitleDL = null;
                 rebindCursorsSetMainRVs();
                 setCalModeViewsVisibility(false);
-                toolbarCustom.setSequenceViewToolbar(activity.getString(R.string.all_notes));
+                toolbarCustom.setSequenceViewToolbar(activity.getString(R.string.all_reminders));
                 calendarModeBTNChangeState(false);
                 adapterERV.selectUnselectItemView(null);
                 drawerLayout.closeDrawers();

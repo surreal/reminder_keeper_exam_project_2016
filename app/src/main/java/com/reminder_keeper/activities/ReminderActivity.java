@@ -4,11 +4,9 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.ContentValues;
-import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -50,11 +48,11 @@ public class ReminderActivity extends AppCompatActivity
         OnListItemClickListener
 {
     public static final String REMINDER_ACTIVITY = "ReminderActivity";
-    private static String selectedGroupTitle, selectedChildTitle, selectedListTitle;
     private static Cursor cursor;
+    private static String childTitle, listTitle, groupTitle, reminderTextFromDB;
+
     private Uri uri;
     private String where;
-    private String childTitle, listTitle, noteFromDB;
     private int passedItemIdToDo, passedItemIdChecked;
     private TextView timeInput, dateInput, repeatTV;
     private EditText inputText;
@@ -82,7 +80,6 @@ public class ReminderActivity extends AppCompatActivity
         cursors = new CursorsDBMethods(this);
         calendarConverter = new CalendarConverter(this);
         selectedDaysForCustomRepeatArray = new ArrayList<>();
-
         castings();
         setRepeatDialog();
         passedId();
@@ -91,10 +88,10 @@ public class ReminderActivity extends AppCompatActivity
     //TODO: castings
     private void castings()
     {
-        repeatTV = (TextView) findViewById(R.id.activity_note_repeat_tv);
-        inputText = (EditText) findViewById(R.id.activity_note_EditText);
-        timeInput = (TextView) findViewById(R.id.activity_note_time_tv);
-        dateInput = (TextView) findViewById(R.id.activity_note_date_tv);
+        repeatTV = (TextView) findViewById(R.id.activity_reminder_repeat_tv);
+        inputText = (EditText) findViewById(R.id.activity_reminder_EditText);
+        timeInput = (TextView) findViewById(R.id.activity_reminder_time_tv);
+        dateInput = (TextView) findViewById(R.id.activity_reminder_date_tv);
         dateInput.setOnClickListener(this);
         timeInput.setOnClickListener(this);
         repeatTV.setOnClickListener(this);
@@ -123,7 +120,7 @@ public class ReminderActivity extends AppCompatActivity
         } else {
             ToolbarView.titleTV.setText(title);
         }
-        inputText.setText(noteFromDB);
+        inputText.setText(reminderTextFromDB);
         if (timeDateString != null)
         {
             calendarConverter.convertDateTimeFromDB();
@@ -149,7 +146,8 @@ public class ReminderActivity extends AppCompatActivity
         if (cursor.getCount() > 0)
         {
             cursor.moveToFirst();
-            noteFromDB = cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_REMINDER));
+            reminderTextFromDB = cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_REMINDER));
+            groupTitle = cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_GROUP));
             childTitle = cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_CHILD));
             listTitle = cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_LIST));
             timeDateString = cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_DATE_TIME));
@@ -470,18 +468,20 @@ public class ReminderActivity extends AppCompatActivity
                 contentValues.put(DBOpenHelper.COLUMN_REPEAT_CUSTOM_DAYS_OR_DATE, dayDateString);
             }
         }
+        Log.d("checkingContentValues", "groupTitle == " + groupTitle + "; childTitle == " + childTitle);
+        Log.d("checkingContentValues", "ToolbarView.titleTV.getText().toString() == " + ToolbarView.titleTV.getText().toString());
 
         if (ToolbarView.titleTV.getText().toString().equals(getString(R.string.unclassified)) ||
                 ToolbarView.titleTV.getText().toString().equals(getString(R.string.select_list)))
         {
             contentValues.put(DBOpenHelper.COLUMN_LIST, AuthorityClass.UNCLASSIFIED);
         } else {
-            if (selectedGroupTitle != null && selectedChildTitle != null) {
-                contentValues.put(DBOpenHelper.COLUMN_GROUP, selectedGroupTitle);
-                contentValues.put(DBOpenHelper.COLUMN_CHILD, selectedChildTitle);
+            if (groupTitle != null && childTitle != null) {
+                contentValues.put(DBOpenHelper.COLUMN_GROUP, groupTitle);
+                contentValues.put(DBOpenHelper.COLUMN_CHILD, childTitle);
                 contentValues.putNull(DBOpenHelper.COLUMN_LIST);
-            } else if (selectedListTitle != null) {
-                contentValues.put(DBOpenHelper.COLUMN_LIST, selectedListTitle);
+            } else if (listTitle != null) {
+                contentValues.put(DBOpenHelper.COLUMN_LIST, listTitle);
                 contentValues.putNull(DBOpenHelper.COLUMN_GROUP);
                 contentValues.putNull(DBOpenHelper.COLUMN_CHILD);
             }
@@ -578,7 +578,7 @@ public class ReminderActivity extends AppCompatActivity
             setResult(RESULT_OK);
             finish();
         } else {
-            Toast.makeText(this, R.string.input_txt_msg, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.input_empty_msg, Toast.LENGTH_LONG).show();
         }
     }
 
@@ -586,9 +586,9 @@ public class ReminderActivity extends AppCompatActivity
     @Override
     public void itemClicked(String expandedGroupTitle, String selectedChildTitle, String listTitle, String passedFrom, boolean isForAction, int id)
     {
-        selectedGroupTitle = expandedGroupTitle;
-        ReminderActivity.selectedChildTitle = selectedChildTitle;
-        selectedListTitle = listTitle;
+        groupTitle = expandedGroupTitle;
+        childTitle = selectedChildTitle;
+        this.listTitle = listTitle;
         //TODO: child selected
         if (expandedGroupTitle != null && selectedChildTitle != null)
         {

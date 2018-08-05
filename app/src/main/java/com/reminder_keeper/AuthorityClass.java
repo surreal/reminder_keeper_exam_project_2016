@@ -44,7 +44,7 @@ public class AuthorityClass extends AppCompatActivity implements OnListItemClick
     public static final String ID_TO_DO = "idToDo";
     public static final String ID_CHECKED = "idChecked";
     public static final String UNCLASSIFIED = "Unclassified";
-    public static final String REMINDER_TEXT = "notificationTitle";
+    public static final String REMINDER_TEXT = "reminderText";
     public static final String REQUEST_CODE = "requestCode";
     public static final String DATE_TIME = "dateTime";
     public static final String REPEAT_EVERY_DAY = "repeatEveryDay";
@@ -61,7 +61,7 @@ public class AuthorityClass extends AppCompatActivity implements OnListItemClick
     public static String expandedGroupNameDL, selectedChildTitleDL, selectedListTitleDL;
 
     public static int firstPosition;
-    public static int idToDoNoteItem, idCheckedNoteItem = -1;
+    public static int idToDoReminderItem, idCheckedReminderItem = -1;
     private static int idDB;
 
     public static boolean isOnCalendarMode;
@@ -77,14 +77,14 @@ public class AuthorityClass extends AppCompatActivity implements OnListItemClick
     public static RecyclerView recyclerViewToDo, recyclerViewChecked, recyclerViewGAndL, recyclerViewDays;
 
     public LinearLayout linearLayoutUnclassifiedList;
-    public RelativeLayout rLayoutAllNotes;
+    public RelativeLayout rLayoutAllReminders;
 
     public static LinearLayout calendar_ll;
     public static LinearLayoutManager linearLayoutDays;
     private static SnapHelper snapHelper;
 
     public static TextView listsTitleTextChecked, listsTitleTextToDo;
-    public TextView numOfNotificationsTV, profileEmailTV, profileNameTV;
+    public TextView numOfRemindersTV, profileEmailTV, profileNameTV;
     public ImageView settingsIV, profileImageIV;
     public static ImageView calAndSeq_IV;
     public static RelativeLayout calAndSeqBtn_RL;
@@ -102,8 +102,8 @@ public class AuthorityClass extends AppCompatActivity implements OnListItemClick
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState)
     {   super.onCreate(savedInstanceState);
-        idCheckedNoteItem = -1;
-        idToDoNoteItem = -1;
+        idCheckedReminderItem = -1;
+        idToDoReminderItem = -1;
         cursors = new CursorsDBMethods(activity);
     }
 
@@ -170,7 +170,7 @@ public class AuthorityClass extends AppCompatActivity implements OnListItemClick
             String toolbarTitle = ToolbarView.titleTV.getText().toString();
             toolbarTitle = toolbarTitle.equals(getString(R.string.unclassified)) ? UNCLASSIFIED : toolbarTitle;
             reminderDB = cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_REMINDER)).toLowerCase();
-            if (ToolbarView.titleTV.getText().toString().equals(getString(R.string.all_notes))) {
+            if (ToolbarView.titleTV.getText().toString().equals(getString(R.string.all_reminders))) {
                 if (reminderDB.contains(searchInputText_ACTV))
                 { selectedListIdsArray.add(idDB); }
             } else if ((reminderDB.contains(searchInputText_ACTV))
@@ -193,7 +193,7 @@ public class AuthorityClass extends AppCompatActivity implements OnListItemClick
     //TODO: show selected List
     public void showSelectedList()
     {
-        initNotificationsAdaptersRV();
+        initRemindersAdaptersRV();
 
         cursor = CursorsDBMethods.cursor;
         String selection = setStringIdsForDB(selectedListIdsToDo);
@@ -367,23 +367,23 @@ public class AuthorityClass extends AppCompatActivity implements OnListItemClick
     }
 
     //TODO: set Adapters and Layouts
-    public void setNotificationsRVLayouts()
+    public void setRemindersRVLayouts()
     {
         recyclerViewToDo.setLayoutManager(new LinearLayoutManager(activity));
         recyclerViewChecked.setLayoutManager(new LinearLayoutManager(activity));
-        initNotificationsAdaptersRV();
+        initRemindersAdaptersRV();
     }
 
-    private void initNotificationsAdaptersRV() {
+    private void initRemindersAdaptersRV() {
         adapterToDo = new CursorAdapterRV_ToDo(activity, cursors.getCursorToDo());
         adapterChecked = new CursorAdapterRV_Checked(activity, cursors.getCursorChecked());
     }
 
     public void initRelevantAdapter(Calendar calendar)
     {
-        if (toolbarCustom.titleTV.getText().toString().equals(activity.getString(R.string.all_notes)))
+        if (toolbarCustom.titleTV.getText().toString().equals(activity.getString(R.string.all_reminders)))
         {
-            initNotificationsAdaptersRV();
+            initRemindersAdaptersRV();
             rebindCursorsSetMainRVs();
         } else if (isOnCalendarMode) {
             loadAndShowSelectedDayItems(calendar);
@@ -413,14 +413,14 @@ public class AuthorityClass extends AppCompatActivity implements OnListItemClick
         recyclerViewDays.dispatchSetSelected(false);
     }
 
-    public void setNotificationAlarm(Context context, String notificationTitle, String dateTimeNotification, int requestCode, int idToDo, Calendar calendar, String repeatAction, ArrayList<Integer> selectedDays)
+    public void setNotificationAlarm(Context context, String notificationTitle, String dateTime, int requestCode, int idToDo, Calendar calendar, String repeatAction, ArrayList<Integer> selectedDays)
     {
         Intent notificationReceiverIntent = new Intent(context, NotifierNotificationReceiver.class);
         notificationReceiverIntent.putExtra(REMINDER_TEXT, notificationTitle);
         notificationReceiverIntent.putExtra(REQUEST_CODE, requestCode);
         notificationReceiverIntent.putExtra(ID_TO_DO, idToDo);
         notificationReceiverIntent.putExtra(REPEAT_ACTION, repeatAction);
-        notificationReceiverIntent.putExtra(DATE_TIME, dateTimeNotification);
+        notificationReceiverIntent.putExtra(DATE_TIME, dateTime);
         notificationReceiverIntent.putExtra(REPEAT_CUSTOM_DAYS_ARRAY, selectedDays);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, idToDo, notificationReceiverIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(ALARM_SERVICE);

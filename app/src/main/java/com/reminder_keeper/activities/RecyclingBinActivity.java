@@ -100,23 +100,23 @@ public class RecyclingBinActivity extends AppCompatActivity
             case R.id.menuItemRestoreAll:
                 if (cursor.getCount() > 0)
                 {
-                    dialogQuastion = getString(R.string.restore_all_notes_msg);
-                    moveNotesToDBToDo();
+                    dialogQuastion = getString(R.string.restore_all_reminders_msg);
+                    moveRemindersToDBToDo();
                 }
                 break;
             case R.id.menuItemRemoveAll:
                 if (cursor.getCount() > 0)
                 {
-                    dialogQuastion = getString(R.string.delete_all_notes_msg);
+                    dialogQuastion = getString(R.string.delete_all_reminders_permanently);
                     deleteData();
                 }
                 break;
             case R.id.menuItemRestoreSelected:
-                dialogQuastion = getString(R.string.restore_selected_notes_msg);
-                moveNotesToDBToDo();
+                dialogQuastion = getString(R.string.restore_selected_reminders_msg);
+                moveRemindersToDBToDo();
                 break;
             case R.id.menuItemRemoveSelected:
-                dialogQuastion = getString(R.string.delete_selected_notes_msg);
+                dialogQuastion = getString(R.string.delete_selected_reminders_msg);
                 deleteData();
                 break;
             case R.id.menuItemUnSelect:
@@ -126,8 +126,8 @@ public class RecyclingBinActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    //TODO: restore notes (selected / all)
-    private void moveNotesToDBToDo()
+    //TODO: restore reminders (selected / all)
+    private void moveRemindersToDBToDo()
     {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         final AlertDialog dialog = dialogBuilder.create();
@@ -164,7 +164,7 @@ public class RecyclingBinActivity extends AppCompatActivity
         dialog.show();
     }
 
-    //TODO: delete notes (selected / all)
+    //TODO: delete reminders (selected / all)
     private void deleteData()
     {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
@@ -260,7 +260,7 @@ public class RecyclingBinActivity extends AppCompatActivity
         recyclerView.setAdapter(adapterRBRV);
     }
 
-    //TODO: delete all notes
+    //TODO: delete all reminder
     private void deleteAllData()
     {
         DBOpenHelper dbOpenHelper = new DBOpenHelper(RecyclingBinActivity.this);

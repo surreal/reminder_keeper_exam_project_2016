@@ -21,7 +21,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/activity_note_time_tv"
+            android:id="@+id/activity_reminder_time_tv"
             android:layout_width="0sp"
             android:layout_height="30dp"
             android:layout_weight="1"
@@ -35,7 +35,7 @@
             android:textStyle="bold|italic" />
 
         <TextView
-            android:id="@+id/activity_note_repeat_tv"
+            android:id="@+id/activity_reminder_repeat_tv"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:background="@drawable/button_selector"
@@ -48,7 +48,7 @@
             android:layout_height="wrap_content" />
 
         <TextView
-            android:id="@+id/activity_note_date_tv"
+            android:id="@+id/activity_reminder_date_tv"
             android:layout_weight="1"
             android:layout_width="0sp"
             android:layout_height="30dp"
@@ -63,7 +63,7 @@
     </LinearLayout>
 
     <EditText
-        android:id="@+id/activity_note_EditText"
+        android:id="@+id/activity_reminder_EditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20sp"

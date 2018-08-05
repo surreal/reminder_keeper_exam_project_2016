@@ -91,7 +91,7 @@ public class MainActivity extends AuthorityClass
         if (configuration.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) { isRTL = true; }
         castings();
         drawerLayoutView = new DrawerLayoutView(activity);
-        setNotificationsRVLayouts();
+        setRemindersRVLayouts();
         initToggle();
         rebindCursorsSetMainRVs();
         setListsTitlesVisible();
@@ -193,11 +193,11 @@ public class MainActivity extends AuthorityClass
             loadAndShowSelectedDayItems(CalendarConverter.currentCalNoTD);
         } else {
             if (isCalendarClicked) {
-                toolbarCustom.setSequenceViewToolbar(getString(R.string.all_notes));
+                toolbarCustom.setSequenceViewToolbar(getString(R.string.all_reminders));
                 rebindCursorsSetMainRVs();
             } else {
-                if (ToolbarView.titleTV.getText().toString().equals(getString(R.string.all_notes))) {
-                    toolbarCustom.setSequenceViewToolbar(getString(R.string.all_notes));
+                if (ToolbarView.titleTV.getText().toString().equals(getString(R.string.all_reminders))) {
+                    toolbarCustom.setSequenceViewToolbar(getString(R.string.all_reminders));
                     rebindCursorsSetMainRVs();
                 } else {
                     runOnTableLookListsOrChildrenToShow(false);
@@ -350,7 +350,7 @@ public class MainActivity extends AuthorityClass
     //TODO: Set visible NEW button in Action Bar
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        menu.findItem(R.id.icon).setVisible(true).setIcon(R.mipmap.plus).setTitle(getString(R.string.newNote));
+        menu.findItem(R.id.icon).setVisible(true).setIcon(R.mipmap.plus).setTitle(getString(R.string.new_reminder));
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -368,7 +368,6 @@ public class MainActivity extends AuthorityClass
         switch (item.getItemId()) {
             case R.id.icon:
                 startActivityForResult(new Intent(activity, ReminderActivity.class),1);
-                //finish();
                 break;
         }
 
@@ -406,10 +405,10 @@ public class MainActivity extends AuthorityClass
         activity.startActivityForResult(intent, 1);
     }
 
-    //TODO: called from CursorAdaptersRV(NOTES) on item action down
+    //TODO: called from CursorAdaptersRV(REMINDERS) on item action down
     public void onItemActionDown(int idDBToDo, int idDBChecked) {
-        idToDoNoteItem = idDBToDo;
-        idCheckedNoteItem = idDBChecked;
+        idToDoReminderItem = idDBToDo;
+        idCheckedReminderItem = idDBChecked;
     }
 
     //TODO: init swipe
@@ -431,7 +430,7 @@ public class MainActivity extends AuthorityClass
                         @Override
                         public void onClick(View view) {
                             moveToRecyclerBin();
-                            deleteAlarmNotification(idToDoNoteItem);
+                            deleteAlarmNotification(idToDoReminderItem);
                             deleteDialog.dismiss();
                             //initRelevantAdapter(CalendarConverter.calIsSetNoTD);
                         }
@@ -503,18 +502,18 @@ public class MainActivity extends AuthorityClass
 
     //TODO: move to recycling bin
     private void moveToRecyclerBin() {
-        String where = idToDoNoteItem != -1 ? DBOpenHelper.COLUMN_ID + "=" + idToDoNoteItem : DBOpenHelper.COLUMN_ID + "=" + idCheckedNoteItem;
-        Uri relevantUri = idToDoNoteItem != -1 ? DBProvider.TODO_TABLE_PATH_URI : DBProvider.CHECKED_TABLE_PATH_URI;
+        String where = idToDoReminderItem != -1 ? DBOpenHelper.COLUMN_ID + "=" + idToDoReminderItem : DBOpenHelper.COLUMN_ID + "=" + idCheckedReminderItem;
+        Uri relevantUri = idToDoReminderItem != -1 ? DBProvider.TODO_TABLE_PATH_URI : DBProvider.CHECKED_TABLE_PATH_URI;
         cursor = CursorsDBMethods.cursor;
         cursor = getContentResolver().query(relevantUri, null, where, null, null);
         cursor.moveToFirst();
-        String note = cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_REMINDER));
+        String reminderText = cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_REMINDER));
         String timeDate = cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_DATE_TIME));
         String list = cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_LIST));
         String group = cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_GROUP));
         String child = cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_CHILD));
-        cursors.moveToRecyclingBin(group, child, list, note, timeDate);
-        cursors.removeFromDB(idToDoNoteItem, idCheckedNoteItem);
+        cursors.moveToRecyclingBin(group, child, list, reminderText, timeDate);
+        cursors.removeFromDB(idToDoReminderItem, idCheckedReminderItem);
         initRelevantAdapter(CalendarConverter.calIsSetNoTD);
     }
 
@@ -530,7 +529,7 @@ public class MainActivity extends AuthorityClass
     public void deleteAlarmNotification(int idToDo) {
         Intent notificationReceiverIntent = new Intent(activity, NotifierNotificationReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(activity, idToDo, notificationReceiverIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        AlarmManager alarmManager = (AlarmManager) activity.getSystemService(ALARM_SERVICE);
         alarmManager.cancel(pendingIntent);
     }
 
@@ -564,7 +563,7 @@ public class MainActivity extends AuthorityClass
                 cursor.moveToFirst();
                 String repeatOption = cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_REPEAT_OPTION));
                 customRepeatDaysArray = repeatOption.equals(REPEAT_CUSTOM) ? convertDaysToIntArray(cursor) : null;
-                setNotificationAlarm(this ,dayModel.getNote(), "", requestCode, dayModel.getIdToDo() , dayModel.getCalendar(), repeatOption, customRepeatDaysArray);
+                setNotificationAlarm(this ,dayModel.getReminderText(), "", requestCode, dayModel.getIdToDo() , dayModel.getCalendar(), repeatOption, customRepeatDaysArray);
             }
         }
     }

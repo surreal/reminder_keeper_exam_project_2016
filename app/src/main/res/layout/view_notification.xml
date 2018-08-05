@@ -20,7 +20,7 @@
     </RelativeLayout>
 
     <TextView
-        android:id="@+id/item_notification_next_note"
+        android:id="@+id/item_notification_next_reminder"
         android:layout_width="40dp"
         android:gravity="center"
         android:layout_height="match_parent"
@@ -33,7 +33,7 @@
         android:layout_marginEnd="5dp"/>
 
     <TextView
-        android:id="@+id/item_notification_previous_note"
+        android:id="@+id/item_notification_previous_reminder"
         android:layout_width="40dp"
         android:gravity="center"
         android:layout_height="match_parent"
@@ -55,18 +55,18 @@
         android:layout_marginEnd="10dp"/>
 
     <TextView
-        android:id="@+id/item_notification_note"
+        android:id="@+id/item_notification_reminder_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="my note"
+        android:text="my reminder"
         android:textColor="@android:color/tertiary_text_dark"
         android:layout_marginTop="5dp"
         android:textSize="15sp"
         android:gravity="center"
         android:maxLines="1"
         android:layout_alignParentTop="true"
-        android:layout_toStartOf="@id/item_notification_next_note"
-        android:layout_toEndOf="@id/item_notification_previous_note"/>
+        android:layout_toStartOf="@id/item_notification_next_reminder"
+        android:layout_toEndOf="@id/item_notification_previous_reminder"/>
 
     <TextView
         android:id="@+id/item_notification_time_date"
@@ -79,6 +79,6 @@
         android:layout_marginBottom="5dp"
         android:maxLines="1"
         android:layout_alignParentBottom="true"
-        android:layout_toStartOf="@id/item_notification_next_note"
-        android:layout_toEndOf="@id/item_notification_previous_note"/>
+        android:layout_toStartOf="@id/item_notification_next_reminder"
+        android:layout_toEndOf="@id/item_notification_previous_reminder"/>
 </RelativeLayout>

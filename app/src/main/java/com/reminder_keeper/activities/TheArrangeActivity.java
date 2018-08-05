@@ -1,7 +1,6 @@
 package com.reminder_keeper.activities;
 
 import android.content.ContentValues;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Typeface;
@@ -42,9 +41,9 @@ import com.thoughtbot.expandablerecyclerview.listeners.GroupExpandCollapseListen
 import com.thoughtbot.expandablerecyclerview.listeners.OnGroupClickListener;
 import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;
 
-public class EditFoldersActivity extends AppCompatActivity implements OnListItemClickListener, GroupExpandCollapseListener, OnGroupClickListener
+public class TheArrangeActivity extends AppCompatActivity implements OnListItemClickListener, GroupExpandCollapseListener, OnGroupClickListener
 {
-    public static final String EDIT_FOLDERS_ACTIVITY = "EditFoldersActivity";
+    public static final String EDIT_FOLDERS_ACTIVITY = "TheArrangeActivity";
     private static RecyclerView recyclerView;
     private static AdapterERV adapterERV;
     private static boolean isGroupOnDrag;
@@ -56,7 +55,7 @@ public class EditFoldersActivity extends AppCompatActivity implements OnListItem
     public static boolean isOnDrug;
     private Cursor cursor;
     private static CursorsDBMethods cursorsDBMethods;
-    private static EditFoldersActivity activity;
+    private static TheArrangeActivity activity;
     private static boolean isForDelete;
     public static String clickedElementString;
     public final static String xElement = "X_ELEMENT";
@@ -64,13 +63,14 @@ public class EditFoldersActivity extends AppCompatActivity implements OnListItem
     private int counter = 0;
     private ArrayList<GroupItemModel> groupsLC;
     private int clickedGroupFlatPos;
+    private MainActivity mainActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {   super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_folders);
         activity = this;
-
+        mainActivity = new MainActivity();
         groupsToExpandTitles = new ArrayList<>();
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar_custom));
         new ToolbarView(this, getSupportActionBar(), EDIT_FOLDERS_ACTIVITY);
@@ -138,7 +138,6 @@ public class EditFoldersActivity extends AppCompatActivity implements OnListItem
             case R.id.icon:
                 isForDelete = !isForDelete;
                 addExpandedToArray();
-
                 if (isForDelete) {
                     item.setIcon(R.mipmap.v);
                     initAdapter(true);
@@ -146,7 +145,6 @@ public class EditFoldersActivity extends AppCompatActivity implements OnListItem
                     item.setIcon(R.mipmap.x);
                     initAdapter(false);
                 }
-
                 expandRelevantGroup();
         }
         return super.onOptionsItemSelected(item);
@@ -424,7 +422,7 @@ public class EditFoldersActivity extends AppCompatActivity implements OnListItem
         deleteConfirmationTV.setGravity(Gravity.CENTER);
         deleteConfirmationTV.setTextSize(25);
         deleteConfirmationTV.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-        deleteConfirmationTV.setTextColor(activity.getResources().getColor(R.color.colorRed));
+        //deleteConfirmationTV.setTextColor(activity.getResources().getColor(R.color.colorRed));
         deleteConfirmationTV.setPadding(0,20,0, 20);
 
         LinearLayout linearLayout = new LinearLayout(activity);
@@ -441,18 +439,22 @@ public class EditFoldersActivity extends AppCompatActivity implements OnListItem
                 }
             }
 
-            String folderMsg = getString(R.string.the_folder_contains)
-                    + ": \n" + getString(R.string.lists) + " - "
-                    + listsInGroupCount + "\n" + getString(R.string.notifications)
-                    + " - " + countOfNotes(groupTitle, childTitle, listTitle)
-                    + "\n" + getString(R.string.are_you_sure_you_want_to_delete_folder);
+            String folderMsg = getString(R.string.the_folder)
+                    + " '" + groupTitle + "'" + "\n"
+                    + getString(R.string.including) + ": \n"
+                    + getString(R.string.lists) + " - " + listsInGroupCount + "\n"
+                    + getString(R.string.reminders) + " - " + countOfReminders(groupTitle, childTitle, listTitle) + "\n"
+                    + getString(R.string.remove_this_folder_and_all_reminders_inside);
             deleteConfirmationTV.setText(folderMsg);
 
         } else if (listTitle != null || childTitle != null) {
-            String listMsg = getString(R.string.the_list_contains) + ": \n"
-                    + getString(R.string.notifications)
-                    + " - " + countOfNotes(groupTitle, childTitle, listTitle) + "\n"
-                    + getString(R.string.are_you_sure_you_want_to_delete_list);
+            String title = listTitle != null ? listTitle : childTitle;
+            String listMsg = getString(R.string.the_list)
+                    + " '" + title + "'\n"
+                    + getString(R.string.including) + ": \n"
+                    + getString(R.string.reminders)
+                    + " - " + countOfReminders(groupTitle, childTitle, listTitle) + "\n"
+                    + getString(R.string.remove_this_list_and_all_reminders_inside);
             deleteConfirmationTV.setText(listMsg);
         }
 
@@ -463,35 +465,24 @@ public class EditFoldersActivity extends AppCompatActivity implements OnListItem
         deleteConfirmationBTN.setOnClickListener(initOnElementsClickListener(groupTitle, childTitle, listTitle, null, id, dialog));
     }
 
-    private int countOfNotes(final String groupTitle, final String childTitle, final String listTitle)
+    private int countOfReminders(final String groupTitle, final String childTitle, final String listTitle)
     {
+        Log.d("checkCountOfReminders", "groupTitle == " + groupTitle + "; childTitle == " + childTitle + "; listTitle == " + listTitle);
         counter = 0;
-        if (listTitle != null) {
-            countOfNotesAtRelevantIndex(listTitle, DBOpenHelper.COLUMN_LIST);
-        } else if (groupTitle != null && childTitle != null) {
-            countOfNotesAtRelevantIndex(childTitle, DBOpenHelper.COLUMN_CHILD);
-        } else if (groupTitle != null && childTitle == null) {
-            countOfNotesAtRelevantIndex(groupTitle, DBOpenHelper.COLUMN_GROUP);
-        }
-        return counter;
-    }
-
-    private void countOfNotesAtRelevantIndex(String relevantTitle, String columnIndex)
-    {
         cursor = cursorsDBMethods.getCursorToDo();
         cursor = CursorsDBMethods.cursor;
+        String currentGroup, currentChild, currentList;
         while (cursor.moveToNext())
         {
-            String currentTitle = cursor.getString(cursor.getColumnIndex(columnIndex));
-            if (relevantTitle.equals(currentTitle)) { counter++; }
+            currentGroup = cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_GROUP));
+            currentChild = cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_CHILD));
+            currentList = cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_LIST));
+            if (((currentChild != null && childTitle != null && childTitle.equals(currentChild)) && groupTitle.equals(currentGroup)) ||
+                    (listTitle != null && currentList != null && currentList.equals(listTitle)) ||
+                    (groupTitle != null && currentGroup != null && currentGroup.equals(groupTitle)))
+            { counter++; }
         }
-        cursor = cursorsDBMethods.getCursorChecked();
-        cursor = CursorsDBMethods.cursor;
-        while (cursor.moveToNext())
-        {
-            String currentTitle = cursor.getString(cursor.getColumnIndex(columnIndex));
-            if (relevantTitle.equals(currentTitle)) { counter++; }
-        }
+        return counter;
     }
 
     private void initChangeTitleView(final String groupTitle, final String childTitle, final String listTitle, final int id)
@@ -581,33 +572,23 @@ public class EditFoldersActivity extends AppCompatActivity implements OnListItem
                         updateTableValues(listTitle, newTitle, uri, columnProjection);
                     }
                     addExpandedToArray();
+                    Log.d("checkingTheArray", "groupsToExpandTitles[] == " + groupsToExpandTitles + "; groupTitle == " + groupTitle);
+                    if (groupTitle != null && childTitle == null){ groupsToExpandTitles.set(groupsToExpandTitles.indexOf(groupTitle), changeTitleET.getText().toString()); }
                     initAdapter(isForDelete);
-                    if (groupTitle != null && childTitle == null){
-                        groupsToExpandTitles.set(groupsToExpandTitles.indexOf(groupTitle), changeTitleET.getText().toString());
-                    }
                     dialog.dismiss();
                 } else if (clickedElementString.equals(xElement))
                 {
-                    String relevantColumnIndex;
-                    if (listTitle != null)
-                    {
-                        relevantColumnIndex = DBOpenHelper.COLUMN_LIST;
-                        moveNotesToRB(listTitle, DBProvider.TODO_TABLE_PATH_URI, relevantColumnIndex);
-                        moveNotesToRB(listTitle, DBProvider.CHECKED_TABLE_PATH_URI, relevantColumnIndex);
-                    } else if (childTitle != null)
-                    {
-                        relevantColumnIndex = DBOpenHelper.COLUMN_CHILD;
-                        moveNotesToRB(childTitle, DBProvider.TODO_TABLE_PATH_URI, relevantColumnIndex);
-                        moveNotesToRB(childTitle, DBProvider.CHECKED_TABLE_PATH_URI, relevantColumnIndex);
-                    } else if (groupTitle != null)
-                    {
-                        relevantColumnIndex = DBOpenHelper.COLUMN_GROUP;
-                        moveNotesToRB(groupTitle, DBProvider.TODO_TABLE_PATH_URI, relevantColumnIndex);
-                        moveNotesToRB(groupTitle, DBProvider.CHECKED_TABLE_PATH_URI, relevantColumnIndex);
-
-                        findEndRemoveFromChildDB(groupTitle);
+                    if (listTitle != null) {
+                        moveRemindersToRB(listTitle, null, null, DBProvider.TODO_TABLE_PATH_URI, DBOpenHelper.COLUMN_LIST);
+                        moveRemindersToRB(listTitle,  null, null, DBProvider.CHECKED_TABLE_PATH_URI, DBOpenHelper.COLUMN_LIST);
+                    } else if (childTitle != null) {
+                        moveRemindersToRB(null, groupTitle, childTitle, DBProvider.TODO_TABLE_PATH_URI, DBOpenHelper.COLUMN_CHILD);
+                        moveRemindersToRB(null, groupTitle, childTitle, DBProvider.CHECKED_TABLE_PATH_URI, DBOpenHelper.COLUMN_CHILD);
+                    } else if (groupTitle != null) {
+                        moveRemindersToRB(null, groupTitle, null, DBProvider.TODO_TABLE_PATH_URI, DBOpenHelper.COLUMN_GROUP);
+                        moveRemindersToRB(null, groupTitle, null, DBProvider.CHECKED_TABLE_PATH_URI, DBOpenHelper.COLUMN_GROUP);
+                        findAndRemoveFromChildDB(groupTitle);
                     }
-
                     Uri uri = childTitle != null ? DBProvider.CHILDREN_TABLE_PATH_URI : DBProvider.GROUPS_TABLE_PATH_URI;
                     activity.getContentResolver().delete(uri, DBOpenHelper.COLUMN_ID + "=" + id, null);
                     addExpandedToArray();
@@ -620,7 +601,7 @@ public class EditFoldersActivity extends AppCompatActivity implements OnListItem
         return onElementsClickListener;
     }
 
-    private void findEndRemoveFromChildDB(String title)
+    private void findAndRemoveFromChildDB(String title)
     {
         cursor = activity.getContentResolver().query(DBProvider.CHILDREN_TABLE_PATH_URI, null, null,null,null);
         while(cursor.moveToNext())
@@ -635,9 +616,18 @@ public class EditFoldersActivity extends AppCompatActivity implements OnListItem
         }
     }
 
-    private void moveNotesToRB(String title, Uri uri, String columnIndex)
+    private void moveRemindersToRB(String listTitle, String groupTitle, String childTitle, Uri uri, String columnIndex)
     {
+        Log.d("moveRemindersToRB", "listTitle == " + listTitle + "; childTitle == " + childTitle + "; groupTitle == " + groupTitle);
         cursor = activity.getContentResolver().query(uri, null, null,null,null);
+        String title = "";
+        if (childTitle != null) {
+            title = childTitle;
+        } else if (listTitle != null) {
+            title = listTitle;
+        } else if (groupTitle != null) {
+            title = groupTitle;
+        }
         while(cursor.moveToNext())
         {
             int id = cursor.getInt(cursor.getColumnIndex(DBOpenHelper.COLUMN_ID));
@@ -647,11 +637,20 @@ public class EditFoldersActivity extends AppCompatActivity implements OnListItem
             String notification = cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_REMINDER));
             String timeDate = cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_DATE_TIME));
 
-            String relevantColumnString = cursor.getString(cursor.getColumnIndex(columnIndex));
-            if ((relevantColumnString != null && relevantColumnString.equals(title)))
+            String relevantColumnTitle = cursor.getString(cursor.getColumnIndex(columnIndex));
+
+            if ((relevantColumnTitle != null && relevantColumnTitle.equals(title)))
             {
-                cursorsDBMethods.moveToRecyclingBin(group, child, list, notification, timeDate);
-                activity.getContentResolver().delete(uri, DBOpenHelper.COLUMN_ID + "=" + id, null);
+                if ((childTitle != null && groupTitle.equals(group) && childTitle.equals(child)) ||
+                        (listTitle != null && listTitle.equals(list)) ||
+                        (groupTitle != null && groupTitle.equals(group)))
+                {
+                    cursorsDBMethods.moveToRecyclingBin(group, child, list, notification, timeDate);
+                    activity.getContentResolver().delete(uri, DBOpenHelper.COLUMN_ID + "=" + id, null);
+                }
+                if (uri == DBProvider.TODO_TABLE_PATH_URI) {
+                    mainActivity.deleteAlarmNotification(id);
+                }
             }
         }
     }

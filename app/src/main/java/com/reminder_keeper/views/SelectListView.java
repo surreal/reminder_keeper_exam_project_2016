@@ -81,7 +81,7 @@ public class SelectListView implements DialogInterface.OnDismissListener
 
     public void itemClickedInSLV()
     {
-        cursors.moveToDB(MainActivity.idToDoNoteItem, MainActivity.idCheckedNoteItem, false);
+        cursors.moveToDB(MainActivity.idToDoReminderItem, MainActivity.idCheckedReminderItem, false);
         mainActivity.initRelevantAdapter(MainActivity.setCalNoTD);
         selectListViewDialog.dismiss();
     }

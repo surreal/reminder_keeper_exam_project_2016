@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.util.Log;
 
 import com.reminder_keeper.adapters.AdaptersRV.Models.DayModel;
 import com.reminder_keeper.CalendarConverter;
@@ -20,7 +19,7 @@ public class NotificationItemBroadcastReceiver extends BroadcastReceiver
 {
     private static int index = 0;
     private static Cursor cursor;
-    private static String note, timeDate, fullTimeDate = "";
+    private static String reminderText, timeDate, fullTimeDate = "";
     public static ArrayList<DayModel> itemsWithTimeDateArray;
     private static CalendarConverter calendarConverter;
     private static Context context;
@@ -50,10 +49,10 @@ public class NotificationItemBroadcastReceiver extends BroadcastReceiver
                     cursor.moveToFirst();
                     convertTimeDateFromDB();
                 } else {
-                    note = context.getResources().getString(R.string.no_notifications_yet);
+                    reminderText = context.getResources().getString(R.string.no_reminders_yet);
                 }
             }
-            new NotificationItemView(context, note, timeDate, id, isGreen);
+            new NotificationItemView(context, reminderText, timeDate, id, isGreen);
         } else {
             if (itemsWithTimeDateArray.size() >= 1) {
                 if (itemsWithTimeDateArray.size() > 1) {
@@ -64,7 +63,7 @@ public class NotificationItemBroadcastReceiver extends BroadcastReceiver
                     }
                 }
                 convertValuesFromModel();
-                note = itemsWithTimeDateArray.get(index).getNote();
+                reminderText = itemsWithTimeDateArray.get(index).getReminderText();
             } else {
                 if (cursor.getCount() > 0) {
                     if (isNextClicked) {
@@ -75,7 +74,7 @@ public class NotificationItemBroadcastReceiver extends BroadcastReceiver
                     convertTimeDateFromDB();
                 }
             }
-            new NotificationItemView(context, note, timeDate, id, isGreen);
+            new NotificationItemView(context, reminderText, timeDate, id, isGreen);
             //printArray(itemsWithTimeDateArray);
         }
     }
@@ -89,7 +88,7 @@ public class NotificationItemBroadcastReceiver extends BroadcastReceiver
         {
             index = itemsWithTimeDateArray.size() -1;
         }
-        note = itemsWithTimeDateArray.get(index).getNote();
+        reminderText = itemsWithTimeDateArray.get(index).getReminderText();
         DayModel model = itemsWithTimeDateArray.get(index);
         id = model.getIdToDo();
         timeDate = calendarConverter.setDateString(model.getCalendar().get(Calendar.DAY_OF_MONTH),
@@ -103,7 +102,7 @@ public class NotificationItemBroadcastReceiver extends BroadcastReceiver
     private void convertTimeDateFromDB()
     {
         id = cursor.getInt(cursor.getColumnIndex(DBOpenHelper.COLUMN_ID));
-        note = cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_REMINDER));
+        reminderText = cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_REMINDER));
         fullTimeDate = cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_DATE_TIME));
         timeDate = fullTimeDate != null ? fullTimeDate.substring(6, 16) + " -> " + fullTimeDate.substring(0,5) : "";
     }

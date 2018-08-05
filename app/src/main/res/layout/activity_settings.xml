@@ -110,7 +110,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/activity_settings_count_of_notes"
+                    android:id="@+id/activity_settings_count_of_reminders"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_alignParentEnd="true"

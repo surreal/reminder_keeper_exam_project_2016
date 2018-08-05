@@ -10,7 +10,6 @@ import android.content.Intent;
 
 import android.database.Cursor;
 import android.support.v7.app.NotificationCompat;
-import android.util.Log;
 
 import com.reminder_keeper.AuthorityClass;
 import com.reminder_keeper.CalendarConverter;
@@ -80,7 +79,7 @@ public class NotifierNotificationReceiver extends BroadcastReceiver
                    break;
            }
 
-           dateTime = calendarConverter.setTimeDateForNotification(calendar);
+           dateTime = calendarConverter.setTimeDateForNotificationItem(calendar);
            String nextDateTimeForDB = calendarConverter.setTimeDateForDB(calendar);
 
            ContentValues contentValues = new ContentValues();

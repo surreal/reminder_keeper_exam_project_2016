@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.app.ActionBar;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
@@ -13,7 +12,7 @@ import android.widget.Toast;
 
 import com.reminder_keeper.activities.AboutActivity;
 import com.reminder_keeper.activities.AccountActivity;
-import com.reminder_keeper.activities.EditFoldersActivity;
+import com.reminder_keeper.activities.TheArrangeActivity;
 import com.reminder_keeper.activities.LoginActivity;
 import com.reminder_keeper.activities.MainActivity;
 import com.reminder_keeper.activities.ReminderActivity;
@@ -52,7 +51,7 @@ public class ToolbarView
         switch (requestFrom)
         {
             case MainActivity.MAIN_ACTIVITY:
-                titleTV.setText(R.string.all_notes);
+                titleTV.setText(R.string.all_reminders);
                 break;
             case ReminderActivity.REMINDER_ACTIVITY:
                 titleTV.setText(R.string.select_list);
@@ -76,7 +75,7 @@ public class ToolbarView
                 titleTV.setText(R.string.options);
                 titleTV.setPaddingRelative(0,0,150,0);
                 break;
-            case EditFoldersActivity.EDIT_FOLDERS_ACTIVITY:
+            case TheArrangeActivity.EDIT_FOLDERS_ACTIVITY:
                 titleTV.setText(R.string.rearrange_and_rename);
                 break;
             case AccountActivity.ACCOUNT_ACTIVITY:

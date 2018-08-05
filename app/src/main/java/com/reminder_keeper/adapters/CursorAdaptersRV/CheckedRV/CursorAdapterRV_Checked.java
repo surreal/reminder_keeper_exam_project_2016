@@ -53,33 +53,33 @@ public class CursorAdapterRV_Checked extends CursorAdapterRV_CheckedAbstract<Cur
     public class ViewHolder extends ViewHolderRV_Abstract
                             implements CompoundButton.OnCheckedChangeListener, View.OnClickListener, View.OnTouchListener
     {
-        private final TextView noteTextChecked, timeTextChecked;
+        private final TextView reminderTextCheckedTV, timeTextCheckedTV;
         private final CheckBox checkBoxChecked;
-        private String valueNoteChecked, valueTimeChecked;
+        private String reminderTextChecked, valueTimeChecked;
         private int valueIdChecked;
 
         public ViewHolder(View itemView)
         {   super(itemView);
-            noteTextChecked = (TextView) itemView.findViewById(R.id.item_view_reminder_reminder_tv);
-            timeTextChecked = (TextView) itemView.findViewById(R.id.item_view_reminder_date_tv);
+            reminderTextCheckedTV = (TextView) itemView.findViewById(R.id.item_view_reminder_reminder_tv);
+            timeTextCheckedTV = (TextView) itemView.findViewById(R.id.item_view_reminder_date_tv);
             checkBoxChecked = (CheckBox) itemView.findViewById(R.id.item_view_reminder_checkbox);
             checkBoxChecked.setChecked(true);
             checkBoxChecked.setOnCheckedChangeListener(this);
             itemView.setOnClickListener(this);
             itemView.setOnTouchListener(this);
 
-            noteTextChecked.setTextColor(activity.getResources().getColor(android.R.color.tertiary_text_dark));
-            timeTextChecked.setTextColor(activity.getResources().getColor(android.R.color.tertiary_text_dark));
+            reminderTextCheckedTV.setTextColor(activity.getResources().getColor(android.R.color.tertiary_text_dark));
+            timeTextCheckedTV.setTextColor(activity.getResources().getColor(android.R.color.tertiary_text_dark));
         }
 
         @Override
         public void bindCursor(Cursor cursor)
         {
             valueIdChecked = cursor.getInt(cursor.getColumnIndex(DBOpenHelper.COLUMN_ID));
-            valueNoteChecked = cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_REMINDER));
+            reminderTextChecked = cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_REMINDER));
             valueTimeChecked = cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_DATE_TIME));
-            noteTextChecked.setText(valueNoteChecked);
-            timeTextChecked.setText(valueTimeChecked);
+            reminderTextCheckedTV.setText(reminderTextChecked);
+            timeTextCheckedTV.setText(valueTimeChecked);
         }
 
         @Override

@@ -11,10 +11,10 @@ public class DayModel implements Comparable
     private Calendar calendar;
     private int idToDo;
     private int idChecked;
-    private String note;
+    private String reminderText;
     private int position;
 
-    public DayModel(Calendar calendar, int idToDo, int idChecked, boolean isHaveNotification, boolean isSelected, String note, int position)
+    public DayModel(Calendar calendar, int idToDo, int idChecked, boolean isHaveNotification, boolean isSelected, String reminderText, int position)
     {
         this.position = position;
         this.calendar = calendar;
@@ -22,7 +22,7 @@ public class DayModel implements Comparable
         this.isSelected = isSelected;
         this.idToDo = idToDo;
         this.idChecked = idChecked;
-        this.note = note;
+        this.reminderText = reminderText;
     }
 
     public Calendar getCalendar() { return calendar; }
@@ -31,7 +31,7 @@ public class DayModel implements Comparable
     public boolean isHaveNotification() { return isHaveNotification; }
     public boolean isSelected() { return isSelected; }
     public void setSelected(boolean selected) { isSelected = selected; }
-    public String getNote() { return note; }
+    public String getReminderText() { return reminderText; }
     public int getPosition() { return position; }
 
     @Override

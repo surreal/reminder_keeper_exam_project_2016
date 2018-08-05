@@ -48,7 +48,7 @@
             android:name=".activities.RecyclingBinActivity"
             android:launchMode="singleInstance" />
         <activity
-            android:name=".activities.EditFoldersActivity"
+            android:name=".activities.TheArrangeActivity"
             android:launchMode="singleInstance" />
         <activity
             android:name=".activities.AboutActivity"

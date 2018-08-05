@@ -139,13 +139,13 @@ public class CursorsDBMethods
         return uri;
     }
 
-    public void moveToRecyclingBin(String group, String child, String list, String notification, String timeDate)
+    public void moveToRecyclingBin(String group, String child, String list, String reminderText, String timeDate)
     {
         ContentValues contentValues = new ContentValues();
         contentValues.put(DBOpenHelper.COLUMN_LIST, list);
         contentValues.put(DBOpenHelper.COLUMN_GROUP, group);
         contentValues.put(DBOpenHelper.COLUMN_CHILD, child);
-        contentValues.put(DBOpenHelper.COLUMN_REMINDER, notification);
+        contentValues.put(DBOpenHelper.COLUMN_REMINDER, reminderText);
         contentValues.put(DBOpenHelper.COLUMN_DATE_TIME, timeDate);
         activity.getContentResolver().insert(DBProvider.RECYCLING_BIN_TABLE_PATH_URI, contentValues);
     }

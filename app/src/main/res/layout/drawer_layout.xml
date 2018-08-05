@@ -77,7 +77,7 @@
             android:clickable="true">
 
             <RelativeLayout
-                android:id="@+id/drawer_layout_all_notes_linear_layout_all_notes"
+                android:id="@+id/drawer_layout_all_reminders_linear_layout"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:orientation="horizontal"
@@ -86,7 +86,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="@string/all_notes"
+                    android:text="@string/all_reminders"
                     android:textSize="20dp"
                     android:textStyle="bold"
                     android:textColor="@color/colorYellow"
@@ -94,7 +94,7 @@
                     android:gravity="center_vertical"/>
 
                 <TextView
-                    android:id="@+id/drawer_layout_num_of_notifications"
+                    android:id="@+id/drawer_layout_num_of_reminders"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="99"

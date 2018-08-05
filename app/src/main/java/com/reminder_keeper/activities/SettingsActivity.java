@@ -22,7 +22,7 @@ public class SettingsActivity extends AppCompatActivity {
     private CursorsDBMethods cursors;
     private TextView userNameTV, emailTV, signInButtonTV;
     private ImageView profileImageIV, editFoldersIcon, recyclingBinIcon, aboutIcon;
-    private TextView countOfNotes;
+    private TextView countOfReminders;
     private int resultCodePassed = 0;
 
     @Override
@@ -50,7 +50,7 @@ public class SettingsActivity extends AppCompatActivity {
         editFoldersIcon = (ImageView) findViewById(R.id.activity_settings_edit_folders_icon);
         recyclingBinIcon = (ImageView) findViewById(R.id.activity_settings_recycling_bin_icon);
         aboutIcon = (ImageView) findViewById(R.id.activity_settings_about_icon);
-        countOfNotes = (TextView) findViewById(R.id.activity_settings_count_of_notes);
+        countOfReminders = (TextView) findViewById(R.id.activity_settings_count_of_reminders);
     }
 
     @Override
@@ -73,7 +73,7 @@ public class SettingsActivity extends AppCompatActivity {
         public void onClick(View view) {
 
             if (view == editFoldersIcon) {
-                startActivityForResult(new Intent(SettingsActivity.this, EditFoldersActivity.class), REQUEST_CODE_SETTINGS_ACTIVITY);
+                startActivityForResult(new Intent(SettingsActivity.this, TheArrangeActivity.class), REQUEST_CODE_SETTINGS_ACTIVITY);
             } else if (view == recyclingBinIcon) {
                 startActivityForResult(new Intent(SettingsActivity.this, RecyclingBinActivity.class), REQUEST_CODE_SETTINGS_ACTIVITY);
             } else if (view == aboutIcon) {
@@ -82,10 +82,7 @@ public class SettingsActivity extends AppCompatActivity {
         }
     };
 
-    private void countOfNotesInsideRecyclingBin()
-    {
-        countOfNotes.setText(cursors.getCursorRecyclingBin().getCount() + "");
-    }
+    private void countOfRemindersInsideRecyclingBin() { countOfReminders.setText(cursors.getCursorRecyclingBin().getCount() + ""); }
 
     //TODO: set relevant Recycling Bin icon (empty, full)
     private void setRecyclingBinRelevantIcon()
@@ -97,7 +94,7 @@ public class SettingsActivity extends AppCompatActivity {
             recyclingBinIcon.setImageResource(R.mipmap.recycling_bin_full);
         }
 
-        countOfNotesInsideRecyclingBin();
+        countOfRemindersInsideRecyclingBin();
     }
 
     @Override
