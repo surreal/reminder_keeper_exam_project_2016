@@ -74,7 +74,9 @@ public class DrawerLayoutView extends MainActivity
         adapterERV = new AdapterERV(groups, activity, ACTION_FROM_DRAWER_LAYOUT,false);
         recyclerViewGAndL.setLayoutManager(new LinearLayoutManager(activity));
         recyclerViewGAndL.setAdapter(adapterERV);
-        signIn.checkIfAccountLogged(profileNameTV, profileEmailTV, profileImageIV);
+        countOfReminders();
+        numOfRemindersTV.setText(countOfReminders + "");
+        //signIn.checkIfAccountLogged(profileNameTV, profileEmailTV, profileImageIV);
     }
 
     //TODO count of Reminders

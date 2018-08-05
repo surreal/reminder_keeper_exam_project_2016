@@ -184,6 +184,7 @@ public class NewListBtnClickListener implements View.OnClickListener
     DialogInterface.OnDismissListener onDismissNewListViewDialogListener = new DialogInterface.OnDismissListener() {
         @Override
         public void onDismiss(DialogInterface dialogInterface) {
+            Log.d("checkOnDismiss", "onDismiss()");
             newListViewDialog = null;
             if (requestFrom.equals(DrawerLayoutView.DRAWER_LAYOUT_VIEW)) {
                 new DrawerLayoutView(activity).setDrawerAdapterERV();
