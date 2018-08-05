@@ -404,32 +404,10 @@ public class TheArrangeActivity extends AppCompatActivity implements OnListItemC
     {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity);
         AlertDialog dialog = dialogBuilder.create();
-        Button deleteConfirmationBTN = new Button(activity);
-        deleteConfirmationBTN.setGravity(Gravity.CENTER);
-        int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
 
-        deleteConfirmationBTN.setWidth(screenWidth);
-        deleteConfirmationBTN.setPadding(0,20,0, 20);
-        deleteConfirmationBTN.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-        deleteConfirmationBTN.setTextSize(15);
-        deleteConfirmationBTN.setBackgroundResource(R.drawable.button_inside_select_folder_view_selector);
-        LinearLayout linearLayoutBTN = new LinearLayout(activity);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 100);
-        linearLayoutBTN.setLayoutParams(params);
-        linearLayoutBTN.addView(deleteConfirmationBTN);
-
-        TextView deleteConfirmationTV = new TextView(activity);
-        deleteConfirmationTV.setGravity(Gravity.CENTER);
-        deleteConfirmationTV.setTextSize(25);
-        deleteConfirmationTV.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-        //deleteConfirmationTV.setTextColor(activity.getResources().getColor(R.color.colorRed));
-        deleteConfirmationTV.setPadding(0,20,0, 20);
-
-        LinearLayout linearLayout = new LinearLayout(activity);
-        linearLayout.setOrientation(LinearLayout.VERTICAL);
-        linearLayout.setPadding(0,0,0, 20);
-
-        deleteConfirmationBTN.setText(getString(R.string.delete));
+        View dialogView = LayoutInflater.from(activity).inflate(R.layout.dialog_confirm_delete, null, false);
+        TextView deleteConfirmationBTN = (TextView) dialogView.findViewById(R.id.dialog_confirm_delete_remove_button_tv);
+        TextView deleteConfirmationTV = (TextView) dialogView.findViewById(R.id.dialog_confirm_delete_msg_tv);
 
         int listsInGroupCount = 0;
         if (groupTitle != null && childTitle == null) {
@@ -458,9 +436,7 @@ public class TheArrangeActivity extends AppCompatActivity implements OnListItemC
             deleteConfirmationTV.setText(listMsg);
         }
 
-        linearLayout.addView(deleteConfirmationTV);
-        linearLayout.addView(linearLayoutBTN);
-        dialog.setView(linearLayout);
+        dialog.setView(dialogView);
         dialog.show();
         deleteConfirmationBTN.setOnClickListener(initOnElementsClickListener(groupTitle, childTitle, listTitle, null, id, dialog));
     }

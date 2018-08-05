@@ -426,7 +426,7 @@ public class MainActivity extends AuthorityClass
                     AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity);
                     final AlertDialog deleteDialog = dialogBuilder.create();
                     View view = LayoutInflater.from(activity).inflate(R.layout.dialog_confirm_delete, null, false);
-                    view.findViewById(R.id.dialog_confirm_delete_delete_tv).setOnClickListener(new View.OnClickListener() {
+                    view.findViewById(R.id.dialog_confirm_delete_remove_button_tv).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             moveToRecyclerBin();
