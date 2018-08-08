@@ -293,7 +293,6 @@ public class AuthorityClass extends AppCompatActivity implements OnListItemClick
                 selectedChildNameSLV = selectedChildTitle;
                 selectedListSLV = listTitle;
                 selectListView.itemClickedInSLV();
-                //initRemindersAdaptersRV();
             }
         }
     }
