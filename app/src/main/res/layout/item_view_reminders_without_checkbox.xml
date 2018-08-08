@@ -3,7 +3,7 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="60dp"
-    android:background="@drawable/item_recycling_bin_selector">
+    android:background="@drawable/selected_selector">
 
     <TextView
         android:id="@+id/item_view_recycling_bin_reminder_tv"

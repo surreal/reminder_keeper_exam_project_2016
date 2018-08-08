@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.reminder_keeper.activities.ReminderActivity;
 import com.reminder_keeper.activities.TheArrangeActivity;
 import com.reminder_keeper.adapters.AdapterERV.models.GroupItemModel;
 import com.reminder_keeper.listeners.OnListItemClickListener;
@@ -37,6 +38,7 @@ public class AdapterERV extends ExpandableRecyclerViewAdapter<AdapterERV.ViewHol
     public static boolean isConstructorWithExpand;
     public static View selectedItemView;
 
+
     public AdapterERV(List<? extends ExpandableGroup> groups, Activity activity, String activityPassed, boolean isForDelete)
     {   super(groups);
 
@@ -51,7 +53,7 @@ public class AdapterERV extends ExpandableRecyclerViewAdapter<AdapterERV.ViewHol
         childrenFPosId = new HashMap<>();
         groupsFPosId = new HashMap<>();
 
-        if (!activityPassed.equals(TheArrangeActivity.EDIT_FOLDERS_ACTIVITY)){ isConstructorWithExpand = false; }
+        if (!activityPassed.equals(TheArrangeActivity.THE_ARRANGE_ACTIVITY)){ isConstructorWithExpand = false; }
     }
 
     @Override
@@ -77,9 +79,9 @@ public class AdapterERV extends ExpandableRecyclerViewAdapter<AdapterERV.ViewHol
     {
         ChildItemModel childItemModel = (ChildItemModel) group.getItems().get(childIndex);
         holder.setChildTitle(childItemModel.getTitle());
+        holder.setGroupTitle(group.getTitle());
         holder.setFlatPosition(flatPosition);
         holder.setId(childItemModel.getId());
-        holder.setGroupTitle(group.getTitle());
 
         if (!TheArrangeActivity.isOnDrug)
         {
@@ -95,8 +97,10 @@ public class AdapterERV extends ExpandableRecyclerViewAdapter<AdapterERV.ViewHol
         holder.setId(groupItemModel.getId());
         holder.setType(groupItemModel.isGroup());
         holder.setGroup(group);
-        if (activityPassed.equals(TheArrangeActivity.EDIT_FOLDERS_ACTIVITY)) {
+        if (activityPassed.equals(TheArrangeActivity.THE_ARRANGE_ACTIVITY)) {
             if (isConstructorCalled) { groupsFPosId.put(flatPosition, groupItemModel.getId()); }
+        } else if (activityPassed.equals(ReminderActivity.REMINDER_ACTIVITY)){
+
         }
     }
 
@@ -129,12 +133,13 @@ public class AdapterERV extends ExpandableRecyclerViewAdapter<AdapterERV.ViewHol
             xIV = (ImageView) itemView.findViewById(R.id.item_view_child_x_iv);
             itemView.setOnClickListener(this);
             itemView.setId(id);
-            if (activityPassed.equals(TheArrangeActivity.EDIT_FOLDERS_ACTIVITY))
+
+            if (activityPassed.equals(TheArrangeActivity.THE_ARRANGE_ACTIVITY))
             {
                 itemView.setOnLongClickListener(this);
                 titleTV.setOnClickListener(this);
                 titleTV.setOnLongClickListener(this);
-                itemView.setBackgroundResource(R.drawable.item_main_view_selector);
+                itemView.setBackgroundResource(R.drawable.pressed_selector);
                 if (isForDelete)
                 {
                     RelativeLayout.LayoutParams arrowXImageParams = new RelativeLayout.LayoutParams(30,30);
@@ -157,6 +162,15 @@ public class AdapterERV extends ExpandableRecyclerViewAdapter<AdapterERV.ViewHol
         private void setChildTitle(String childTitle) {
             this.childTitle = childTitle;
             titleTV.setText(childTitle);
+            if (activityPassed.equals(ReminderActivity.REMINDER_ACTIVITY)){
+                if (ReminderActivity.selectedChildTitle != null && ReminderActivity.selectedChildTitle.equals(childTitle)){
+                    if (selectedItemView != null){
+                        selectedItemView.setSelected(false);
+                    }
+                    selectedItemView = itemView;
+                    itemView.setSelected(true);
+                }
+            }
         }
 
         @Override
@@ -164,7 +178,7 @@ public class AdapterERV extends ExpandableRecyclerViewAdapter<AdapterERV.ViewHol
         {
             if (view == itemView) {
                 itemView.setSelected(true);
-                if (activityPassed.equals(TheArrangeActivity.EDIT_FOLDERS_ACTIVITY)) {
+                if (activityPassed.equals(TheArrangeActivity.THE_ARRANGE_ACTIVITY)) {
                     listener.itemClicked(groupTitle, childTitle, null, null, false, id);
                 } else {
                     selectUnselectItemView(itemView);
@@ -221,10 +235,9 @@ public class AdapterERV extends ExpandableRecyclerViewAdapter<AdapterERV.ViewHol
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
             setParams();
-            if (activityPassed.equals(TheArrangeActivity.EDIT_FOLDERS_ACTIVITY)) {
+            if (activityPassed.equals(TheArrangeActivity.THE_ARRANGE_ACTIVITY)) {
                 titleTV.setOnClickListener(this);
                 titleTV.setOnLongClickListener(this);
-
                 if (isForDelete) { onXRV.setOnClickListener(this); }
             }
         }
@@ -235,21 +248,28 @@ public class AdapterERV extends ExpandableRecyclerViewAdapter<AdapterERV.ViewHol
         }
         private void setFlatPosition(int position) { this.flatPosition = position; }
         private void setId(int id) { this.id = id; }
-        private void setType(boolean isGroup) { this.isGroup = isGroup; }
         private void setGroup(ExpandableGroup group) { this.group = group; }
+        private void setType(boolean isGroup) {
+            this.isGroup = isGroup;
+            if (!isGroup){
+                if (ReminderActivity.listTitle != null)
+                {
+                    itemView.setSelected(true);
+                }
+            }
+        }
 
         @Override
         public void onClick(View view) {
             if (view == itemView) {
-
                 if (isGroup)
                 { super.onClick(view);
                     listener.itemClicked(title, null, null, null, false, id);
                 } else {
-                    if (activityPassed.equals(TheArrangeActivity.EDIT_FOLDERS_ACTIVITY)) {
+                    if (activityPassed.equals(TheArrangeActivity.THE_ARRANGE_ACTIVITY)) {
                         listener.itemClicked(null, null, title, activityPassed, false, id);
                     } else {
-                        itemView.setBackgroundResource(R.drawable.drawer_list_child_selector);
+                        itemView.setBackgroundResource(R.drawable.selected_selector);
                         selectUnselectItemView(itemView);
                         listener.itemClicked(null, null, title, activityPassed, true, id);
                     }
@@ -272,7 +292,7 @@ public class AdapterERV extends ExpandableRecyclerViewAdapter<AdapterERV.ViewHol
         }
         @Override
         public boolean onLongClick(View view) {
-            if (activityPassed.equals(TheArrangeActivity.EDIT_FOLDERS_ACTIVITY)) {
+            if (activityPassed.equals(TheArrangeActivity.THE_ARRANGE_ACTIVITY)) {
                 theArrangeActivity.onLongClick(title, true);
             }
             return false;
@@ -280,7 +300,7 @@ public class AdapterERV extends ExpandableRecyclerViewAdapter<AdapterERV.ViewHol
         @Override
         public void collapse() {
             initRelevantViewsOnCollapse();
-            if (activityPassed.equals(TheArrangeActivity.EDIT_FOLDERS_ACTIVITY)) {
+            if (activityPassed.equals(TheArrangeActivity.THE_ARRANGE_ACTIVITY)) {
                 if (!TheArrangeActivity.isOnDrug) {
                     loadGroupMap(false);
                     loadChildrenMap(false);
@@ -296,7 +316,7 @@ public class AdapterERV extends ExpandableRecyclerViewAdapter<AdapterERV.ViewHol
         @Override
         public void expand() {
             initRelevantViewsOnExpand();
-            if (activityPassed.equals(TheArrangeActivity.EDIT_FOLDERS_ACTIVITY)) {
+            if (activityPassed.equals(TheArrangeActivity.THE_ARRANGE_ACTIVITY)) {
                 if (!TheArrangeActivity.isOnDrug) {
                     loadGroupMap(true);
                     loadChildrenMap(true);
@@ -398,7 +418,7 @@ public class AdapterERV extends ExpandableRecyclerViewAdapter<AdapterERV.ViewHol
                 listGroupIconIV.setImageResource(R.mipmap.silver_folder);
                 arrowXImage.setVisibility(View.VISIBLE);
 
-                if (!activityPassed.equals(TheArrangeActivity.EDIT_FOLDERS_ACTIVITY)) {
+                if (!activityPassed.equals(TheArrangeActivity.THE_ARRANGE_ACTIVITY)) {
                     listener.itemClicked(title, null, null, activityPassed, false, id);
                 }
             } else {

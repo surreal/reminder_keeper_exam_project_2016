@@ -5,7 +5,7 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="40dp"
-    android:background="@drawable/item_main_view_selector">
+    android:background="@drawable/selected_selector">
 
     <ImageView
         android:id="@+id/item_view_groups_relevant_icon"

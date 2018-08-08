@@ -49,7 +49,7 @@ public class ReminderActivity extends AppCompatActivity
 {
     public static final String REMINDER_ACTIVITY = "ReminderActivity";
     private static Cursor cursor;
-    private static String childTitle, listTitle, groupTitle, reminderTextFromDB;
+    public static String childTitle, listTitle, groupTitle, reminderTextFromDB, selectedChildTitle;
 
     private Uri uri;
     private String where;
@@ -449,10 +449,7 @@ public class ReminderActivity extends AppCompatActivity
         if (selectedRepeatOption.equals(AuthorityClass.REPEAT_CUSTOM) && selectedDaysForCustomRepeatArray.size() > 0)
         {
             String daysInNums = "";
-            for (int day : selectedDaysForCustomRepeatArray)
-            {
-                daysInNums += day + "";
-            }
+            for (int day : selectedDaysForCustomRepeatArray) { daysInNums += day + ""; }
             contentValues.put(DBOpenHelper.COLUMN_REPEAT_OPTION, selectedRepeatOption);
             contentValues.put(DBOpenHelper.COLUMN_REPEAT_CUSTOM_DAYS_OR_DATE, daysInNums);
         } else {
@@ -525,7 +522,7 @@ public class ReminderActivity extends AppCompatActivity
                 sdClickedAction();
                 break;
             case android.R.id.home:
-                finish();
+                finishAndNullTheStatics();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -574,10 +571,18 @@ public class ReminderActivity extends AppCompatActivity
                 Toast.makeText(this, R.string.time_not_set_msg, Toast.LENGTH_SHORT).show();
             }
             setResult(RESULT_OK);
-            finish();
+            finishAndNullTheStatics();
         } else {
             Toast.makeText(this, R.string.input_empty_msg, Toast.LENGTH_LONG).show();
         }
+    }
+
+    private void finishAndNullTheStatics(){
+        groupTitle = null;
+        childTitle = null;
+        selectedChildTitle = null;
+        listTitle = null;
+        finish();
     }
 
     //TODO: on list item clicked
@@ -588,13 +593,12 @@ public class ReminderActivity extends AppCompatActivity
         childTitle = selectedChildTitle;
         this.listTitle = listTitle;
         //TODO: child selected
-        if (expandedGroupTitle != null && selectedChildTitle != null)
-        {
+        if (expandedGroupTitle != null && selectedChildTitle != null) {
             ToolbarView.titleTV.setText(selectedChildTitle);
             SelectListView.selectListViewDialog.dismiss();
             //TODO: list selected
-        } else if (listTitle != null)
-        {
+        } else if (listTitle != null) {
+            this.selectedChildTitle = null;
             ToolbarView.titleTV.setText(listTitle);
             SelectListView.selectListViewDialog.dismiss();
         }
@@ -603,6 +607,6 @@ public class ReminderActivity extends AppCompatActivity
     @Override
     public void onBackPressed()
     {   super.onBackPressed();
-        finish();
+        finishAndNullTheStatics();
     }
 }

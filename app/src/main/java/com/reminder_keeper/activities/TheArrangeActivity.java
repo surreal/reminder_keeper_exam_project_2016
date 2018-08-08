@@ -1,9 +1,7 @@
 package com.reminder_keeper.activities;
 
 import android.content.ContentValues;
-import android.content.res.Resources;
 import android.database.Cursor;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,16 +11,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -43,7 +37,7 @@ import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;
 
 public class TheArrangeActivity extends AppCompatActivity implements OnListItemClickListener, GroupExpandCollapseListener, OnGroupClickListener
 {
-    public static final String EDIT_FOLDERS_ACTIVITY = "TheArrangeActivity";
+    public static final String THE_ARRANGE_ACTIVITY = "TheArrangeActivity";
     private static RecyclerView recyclerView;
     private static AdapterERV adapterERV;
     private static boolean isGroupOnDrag;
@@ -73,7 +67,7 @@ public class TheArrangeActivity extends AppCompatActivity implements OnListItemC
         mainActivity = new MainActivity();
         groupsToExpandTitles = new ArrayList<>();
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar_custom));
-        new ToolbarView(this, getSupportActionBar(), EDIT_FOLDERS_ACTIVITY);
+        new ToolbarView(this, getSupportActionBar(), THE_ARRANGE_ACTIVITY);
         setRecyclerView();
         initAdapter(false);
         initDragFoldersAndLists();
@@ -96,7 +90,7 @@ public class TheArrangeActivity extends AppCompatActivity implements OnListItemC
     {
         this.isForDelete = isForDelete;
         groupsLC = new AuthorityClass().loadGroupsChildrenAndListsForERVAdapter();
-        adapterERV = new AdapterERV(groupsLC, activity, EDIT_FOLDERS_ACTIVITY, isForDelete);
+        adapterERV = new AdapterERV(groupsLC, activity, THE_ARRANGE_ACTIVITY, isForDelete);
         recyclerView.setAdapter(adapterERV);
         //recyclerView.stopNestedScroll();
 

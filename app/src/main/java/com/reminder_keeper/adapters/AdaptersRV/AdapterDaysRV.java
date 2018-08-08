@@ -73,7 +73,7 @@ public class AdapterDaysRV extends RecyclerView.Adapter<AdapterDaysRV.ViewHolder
             }
             holder.dayOfMonthTV.setBackgroundResource(R.drawable.cycle_yellow_background);
         } else {
-            holder.dayOfMonthTV.setBackgroundResource(R.drawable.day_item_selector);
+            holder.dayOfMonthTV.setBackgroundResource(R.drawable.selected_selector);
         }
     }
 

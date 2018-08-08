@@ -9,7 +9,7 @@
         android:id="@+id/select_list_view_create_new_list_button"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:text="New List"
+        android:text="@string/new_list"
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
@@ -38,7 +38,7 @@
             android:text="@string/unclassified"
             android:textSize="20sp"
             android:textColor="@color/color_grey_blue"
-            android:background="@drawable/item_main_view_selector"
+            android:background="@drawable/selected_selector"
             android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp"
             android:gravity="center_vertical" />

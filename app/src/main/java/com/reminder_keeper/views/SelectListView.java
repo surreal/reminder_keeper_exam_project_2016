@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -15,8 +14,12 @@ import com.reminder_keeper.activities.MainActivity;
 import com.reminder_keeper.activities.ReminderActivity;
 import com.reminder_keeper.adapters.AdapterERV.AdapterERV;
 import com.reminder_keeper.CursorsDBMethods;
+import com.reminder_keeper.adapters.AdapterERV.models.GroupItemModel;
 import com.reminder_keeper.listeners.NewListBtnClickListener;
 import com.reminder_keeper.R;
+import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;
+
+import java.util.ArrayList;
 
 public class SelectListView implements DialogInterface.OnDismissListener
 {
@@ -26,22 +29,23 @@ public class SelectListView implements DialogInterface.OnDismissListener
     private Activity activity;
     private String requestFrom;
     private final MainActivity mainActivity;
+    private ArrayList<GroupItemModel> groupItemModels;
+    private AdapterERV adapterERV;
 
     public SelectListView(Activity activity, String requestFrom)
     {
         this.activity = activity;
         this.requestFrom = requestFrom;
         cursors = new CursorsDBMethods(activity);
-        cursors.getCursorGroups();
-        cursors.getCursorChildren();
         mainActivity = new MainActivity();
     }
 
-    public void setAdapter()
+    public void initAdapter()
     {
-        mainActivity.loadGroupsChildrenAndListsForERVAdapter();
         recyclerViewSelectListView.setLayoutManager(new LinearLayoutManager(activity));
-        recyclerViewSelectListView.setAdapter(new AdapterERV(MainActivity.groups, activity, requestFrom, false));
+        groupItemModels = mainActivity.loadGroupsChildrenAndListsForERVAdapter();
+        adapterERV = new AdapterERV(groupItemModels, activity, requestFrom, false);
+        recyclerViewSelectListView.setAdapter(adapterERV);
     }
 
     //TODO: init selectList View
@@ -75,7 +79,17 @@ public class SelectListView implements DialogInterface.OnDismissListener
 
         });
         selectListViewDialog.setOnDismissListener(this);
-        setAdapter();
+        initAdapter();
+
+        if(requestFrom.equals(ReminderActivity.REMINDER_ACTIVITY)){
+            for (ExpandableGroup expandableGroup : adapterERV.getGroups()){
+                if(ReminderActivity.groupTitle != null && ReminderActivity.groupTitle.equals(expandableGroup.getTitle())){
+                    if (ReminderActivity.childTitle != null){ ReminderActivity.selectedChildTitle = ReminderActivity.childTitle; }
+                    adapterERV.toggleGroup(expandableGroup);
+                }
+            }
+        }
+
         selectListViewDialog.show();
     }
 

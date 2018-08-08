@@ -82,7 +82,7 @@
     <string name="the_folder">The Folder</string>
     <string name="including">INCLUDING</string>
     <string name="lists">Lists</string>
-    <string name="reminders">Notifications</string>
+    <string name="reminders">Reminders</string>
     <string name="remove_this_list_and_all_reminders_inside">Remove this List and All Reminders inside?</string>
     <string name="remove_this_folder_and_all_reminders_inside">Remove this Folder and All Lists, Reminders inside?</string>
     <string name="the_list">The List</string>

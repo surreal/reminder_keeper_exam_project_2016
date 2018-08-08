@@ -75,7 +75,7 @@ public class ToolbarView
                 titleTV.setText(R.string.options);
                 titleTV.setPaddingRelative(0,0,150,0);
                 break;
-            case TheArrangeActivity.EDIT_FOLDERS_ACTIVITY:
+            case TheArrangeActivity.THE_ARRANGE_ACTIVITY:
                 titleTV.setText(R.string.rearrange_and_rename);
                 break;
             case AccountActivity.ACCOUNT_ACTIVITY:
