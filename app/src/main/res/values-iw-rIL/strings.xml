@@ -94,7 +94,7 @@
     <string name="repeat_every_workday">חוזר כל יום עבודה</string>
     <string name="repeat_every_week">חוזר כל שבוע</string>
     <string name="repeat_every_month">חוזר כל חודש</string>
-    <string name="repeat_custom">חוזר מותאם אישית</string>
+    <string name="repeat_custom">מותאם אישית</string>
     <string name="repeat_everyday_btn">כל יום</string>
     <string name="repeat_every_workday_btn">כל יום עבודה</string>
     <string name="repeat_every_week_btn">כל שבוע</string>

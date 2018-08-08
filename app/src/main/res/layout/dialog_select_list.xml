@@ -14,6 +14,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
         android:textColor="@color/colorYellow"
+        android:textStyle="bold"
         android:background="@drawable/button_selector"/>
 
     <LinearLayout
@@ -22,7 +23,7 @@
         android:layout_height="30dp"
         android:orientation="horizontal"
         android:layout_marginTop="10dp"
-        android:background="@android:color/white">
+        android:background="@drawable/selected_selector">
 
         <ImageView
             android:layout_width="25dp"

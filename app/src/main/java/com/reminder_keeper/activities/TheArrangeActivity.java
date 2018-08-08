@@ -414,8 +414,8 @@ public class TheArrangeActivity extends AppCompatActivity implements OnListItemC
             String folderMsg = getString(R.string.the_folder)
                     + " '" + groupTitle + "'" + "\n"
                     + getString(R.string.including) + ": \n"
-                    + getString(R.string.lists) + " - " + listsInGroupCount + "\n"
-                    + getString(R.string.reminders) + " - " + countOfReminders(groupTitle, childTitle, listTitle) + "\n"
+                    + getString(R.string.lists) + " - " + listsInGroupCount + "," + "\n"
+                    + getString(R.string.reminders) + " - " + countOfReminders(groupTitle, childTitle, listTitle) + "." + "\n"
                     + getString(R.string.remove_this_folder_and_all_reminders_inside);
             deleteConfirmationTV.setText(folderMsg);
 
@@ -424,8 +424,7 @@ public class TheArrangeActivity extends AppCompatActivity implements OnListItemC
             String listMsg = getString(R.string.the_list)
                     + " '" + title + "'\n"
                     + getString(R.string.including) + ": \n"
-                    + getString(R.string.reminders)
-                    + " - " + countOfReminders(groupTitle, childTitle, listTitle) + "\n"
+                    + getString(R.string.reminders) + " - " + countOfReminders(groupTitle, childTitle, listTitle) + "." + "\n"
                     + getString(R.string.remove_this_list_and_all_reminders_inside);
             deleteConfirmationTV.setText(listMsg);
         }

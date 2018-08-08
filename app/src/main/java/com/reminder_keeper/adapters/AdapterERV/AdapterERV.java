@@ -252,7 +252,7 @@ public class AdapterERV extends ExpandableRecyclerViewAdapter<AdapterERV.ViewHol
         private void setType(boolean isGroup) {
             this.isGroup = isGroup;
             if (!isGroup){
-                if (ReminderActivity.listTitle != null)
+                if (ReminderActivity.listTitle != null && ReminderActivity.listTitle.equals(title))
                 {
                     itemView.setSelected(true);
                 }

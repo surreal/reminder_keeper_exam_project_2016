@@ -75,6 +75,7 @@ public class SelectListView implements DialogInterface.OnDismissListener
                     ToolbarView.titleTV.setText(R.string.unclassified);
                     ReminderActivity.groupTitle = null;
                     ReminderActivity.selectedChildTitle = null;
+                    ReminderActivity.listTitle = null;
                     selectListViewDialog.dismiss();
                 }
             }
