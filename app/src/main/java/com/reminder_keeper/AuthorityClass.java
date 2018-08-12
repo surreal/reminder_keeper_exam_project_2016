@@ -11,7 +11,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -115,25 +114,32 @@ public class AuthorityClass extends AppCompatActivity implements OnListItemClick
      **/
     public void runOnTableLookListsOrChildrenToShow(boolean isForSearch)
     {
+        ArrayList<Integer> tempArrayTodo = null, tempArrayChecked = null;
         if (isForSearch && isOnCalendarMode)
         {
+            tempArrayTodo = selectedListIdsToDo;
+            tempArrayChecked = selectedListIdsChecked;
             cursor = getContentResolver().query(DBProvider.TODO_TABLE_PATH_URI, null, setStringIdsForDB(selectedListIdsToDo), null, null);
-            addIdsToRelevantArraysOnCalView(cursor, true);
+            addRelevantIdsToArraysOnCalView(cursor, true);
             cursor = getContentResolver().query(DBProvider.CHECKED_TABLE_PATH_URI, null, setStringIdsForDB(selectedListIdsChecked), null, null);
-            addIdsToRelevantArraysOnCalView(cursor, false);
+            addRelevantIdsToArraysOnCalView(cursor, false);
         } else {
             addIdsToRelevantArrays(isForSearch);
         }
         showSelectedList();
+        if (tempArrayTodo != null || tempArrayChecked!= null){
+            selectedListIdsToDo = tempArrayTodo;
+            selectedListIdsChecked = tempArrayChecked;
+        }
     }
 
-    private void addIdsToRelevantArraysOnCalView(Cursor cursor, boolean isToDoList) {
+    private void addRelevantIdsToArraysOnCalView(Cursor cursor, boolean isToDoList) {
         ArrayList<Integer> tempArray = new ArrayList<>();
         while (cursor.moveToNext())
         {
-            String reminder = cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_REMINDER)).toLowerCase();
+            String reminderText = cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_REMINDER)).toLowerCase();
             int id = cursor.getInt(cursor.getColumnIndex(DBOpenHelper.COLUMN_ID));
-            if (reminder.contains(searchInputText_ACTV)) { tempArray.add(id); }
+            if (reminderText.contains(searchInputText_ACTV)) { tempArray.add(id); }
         }
         if (isToDoList) {
             selectedListIdsToDo = tempArray;
@@ -147,15 +153,15 @@ public class AuthorityClass extends AppCompatActivity implements OnListItemClick
         selectedListIdsToDo = new ArrayList<>();
         cursors.getCursorToDo();
         cursor = CursorsDBMethods.cursor;
-        runOnRelevantTableAddRelevantData(cursor, isForSearch, selectedListIdsToDo);
+        runOnRelevantTableGetRelevantData(cursor, isForSearch, selectedListIdsToDo);
 
         selectedListIdsChecked = new ArrayList<>();
         cursors.getCursorChecked();
         cursor = CursorsDBMethods.cursor;
-        runOnRelevantTableAddRelevantData(cursor, isForSearch, selectedListIdsChecked);
+        runOnRelevantTableGetRelevantData(cursor, isForSearch, selectedListIdsChecked);
     }
 
-    private void runOnRelevantTableAddRelevantData(Cursor cursor, boolean isForSearch, ArrayList<Integer> selectedListIdsArray)
+    private void runOnRelevantTableGetRelevantData(Cursor cursor, boolean isForSearch, ArrayList<Integer> selectedListIdsArray)
     {
         while (cursor.moveToNext())
         {
@@ -195,7 +201,6 @@ public class AuthorityClass extends AppCompatActivity implements OnListItemClick
     public void showSelectedList()
     {
         initRemindersAdaptersRV();
-
         cursor = CursorsDBMethods.cursor;
         String selection = setStringIdsForDB(selectedListIdsToDo);
         cursor = activity.getContentResolver().query(DBProvider.TODO_TABLE_PATH_URI ,null, selection, null,null,null);
@@ -205,7 +210,6 @@ public class AuthorityClass extends AppCompatActivity implements OnListItemClick
         cursor = activity.getContentResolver().query(DBProvider.CHECKED_TABLE_PATH_URI ,null, selection, null,null,null);
         adapterChecked.reBindCursorChecked(cursor);
         recyclerViewChecked.setAdapter(adapterChecked);
-
         setListsTitlesVisible();
     }
 
@@ -213,18 +217,15 @@ public class AuthorityClass extends AppCompatActivity implements OnListItemClick
     public static String setStringIdsForDB(ArrayList<Integer> selectedListIds)
     {
         String rowsId;
-        if (selectedListIds.size() > 1)
-        {
+        if (selectedListIds.size() > 1) {
             rowsId = "_id = " +  selectedListIds.get(0);
-            for (int index = 1; index < selectedListIds.size(); index++)
-            {
+            for (int index = 1; index < selectedListIds.size(); index++) {
                 rowsId += ( " OR " + "_id" + "=" +  + selectedListIds.get(index));
             }
         } else if (selectedListIds.size() == 1){
             rowsId = "_id = " + selectedListIds.get(0);
         } else {
             rowsId = "_id = 0";
-
         }
         return rowsId;
     }
@@ -268,8 +269,7 @@ public class AuthorityClass extends AppCompatActivity implements OnListItemClick
         return groups;
     }
 
-    //TODO: calling from AdapterERV -> item From List Clicked (Drawer or Dialog)
-    @Override
+    @Override //TODO: calling from AdapterERV -> item From List Clicked (Drawer or Dialog)
     public void itemClicked(String expandedGroupTitle, String selectedChildTitle, String listTitle, String passedFrom, boolean isForAction, int id)
     {
         if (isForAction)

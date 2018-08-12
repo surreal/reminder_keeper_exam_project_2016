@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -38,6 +39,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.reminder_keeper.broadcasts.NotifierNotificationReceiver;
 import com.reminder_keeper.broadcasts.NotificationItemBroadcastReceiver;
@@ -80,6 +82,13 @@ public class MainActivity extends AuthorityClass
         setContentView(R.layout.activity_main);
         onCreateActions();
         setAllConfiguredAlarms();
+
+        Cursor cursor1 = getContentResolver().query(DBProvider.TODO_TABLE_PATH_URI,
+                null, "reminder LIKE 'today%'",null, null);
+        while (cursor1.moveToNext()){
+            String reminderText = cursor1.getString(cursor1.getColumnIndex(DBOpenHelper.COLUMN_REMINDER));
+            Log.d("checkingTheQuery", "DB DATA -> " + "; reminderText == " + reminderText);
+        }
     }
     private void onCreateActions() {
         activity = this;
@@ -176,7 +185,7 @@ public class MainActivity extends AuthorityClass
                 case R.id.activity_main_actv_lupe:
                     lupeACTV_IV.setSelected(true);
                     addSearchRequestTextToTable();
-                    setACTVArrayAdapter();
+                    setACTVArrayAdapterOfSearchQueries();
                     searchInputText_ACTV = search_ACTV.getText().toString().trim().toLowerCase().trim();
                     if (!searchInputText_ACTV.equals("")) { runOnTableLookListsOrChildrenToShow(true); }
                     break;
@@ -602,7 +611,7 @@ public class MainActivity extends AuthorityClass
         getContentResolver().insert(DBProvider.SEARCH_TABLE_PATH_URI, contentValues);
     }
 
-    private void setACTVArrayAdapter()
+    private void setACTVArrayAdapterOfSearchQueries()
     {
         ArrayList<String> searchKeys = new ArrayList<>();
         cursors.getCursorSearchTable();
