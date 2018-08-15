@@ -33,19 +33,13 @@ public class ToolbarView
 
     private Calendar calendar;
     private RelativeLayout currentDateRL;
-    private final RelativeLayout.LayoutParams titleTVParams;
+    private RelativeLayout.LayoutParams titleTVParams;
 
     public ToolbarView(final Activity activity, ActionBar actionBar, final String requestFrom)
     {
-        titleTVParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        titleTVParams.addRule(RelativeLayout.CENTER_IN_PARENT);
-        titleTVParams.addRule(RelativeLayout.CENTER_VERTICAL);
-
         currentDateRL = (RelativeLayout) activity.findViewById(R.id.toolbar_custom_current_date_RL);
         currentDateTV = (TextView) activity.findViewById(R.id.toolbar_custom_current_date_tv);
         titleTV = (TextView) activity.findViewById(R.id.toolbar_custom_title_tv);
-        titleTV.setLayoutParams(titleTVParams);
-
         calendar = new GregorianCalendar();
 
         switch (requestFrom)
@@ -98,6 +92,7 @@ public class ToolbarView
     {
         titleTVParams.removeRule(RelativeLayout.CENTER_IN_PARENT);
         titleTVParams.addRule(RelativeLayout.ALIGN_PARENT_START);
+        titleTVParams.addRule(RelativeLayout.CENTER_VERTICAL);
         currentDateRL.setVisibility(View.VISIBLE);
         titleTV.setText(dayMonth);
         currentDateTV.setText(calendar.get(Calendar.DAY_OF_MONTH) + "");
@@ -119,8 +114,9 @@ public class ToolbarView
 
     public void setSequenceViewToolbar(String title)
     {
-        titleTVParams.removeRule(RelativeLayout.ALIGN_PARENT_START);
+        titleTVParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         titleTVParams.addRule(RelativeLayout.CENTER_IN_PARENT);
+        titleTV.setLayoutParams(titleTVParams);
         currentDateRL.setVisibility(View.GONE);
         titleTV.setText(title);
     }

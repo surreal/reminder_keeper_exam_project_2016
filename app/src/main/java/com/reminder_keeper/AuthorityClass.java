@@ -175,7 +175,7 @@ public class AuthorityClass extends AppCompatActivity implements OnListItemClick
                 selectedListTitleDL = listTitle;
                 toolbarTitle = listTitle != null ? listTitle : selectedChildTitle;
                 String columnIndex = listTitle != null ? DBOpenHelper.COLUMN_LIST : DBOpenHelper.COLUMN_CHILD;
-                selectionForDBQuery = columnIndex + " LIKE " + "'%" + selectedChildTitle + "%' ";
+                selectionForDBQuery = columnIndex + " LIKE " + "'%" + toolbarTitle + "%'";
                 initRelevantModeAdapter();
                 calendarModeBTNChangeState(false);
                 drawerLayout.closeDrawers();
