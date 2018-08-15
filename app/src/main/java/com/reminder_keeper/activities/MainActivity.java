@@ -83,10 +83,10 @@ public class MainActivity extends AuthorityClass
     }
     private void onCreateActions() {
         activity = this;
-        toolbarTitle = null;
         setCalNoTD = new GregorianCalendar();
         isOnCalendarMode = false;
         isOnSearchMode = false;
+        toolbarTitle = getString(R.string.all_reminders);
         Configuration configuration = getResources().getConfiguration();
         if (configuration.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) { isRTL = true; }
         castings();
@@ -106,13 +106,8 @@ public class MainActivity extends AuthorityClass
         new BackupManager(getApplicationContext()).dataChanged();
         Intent onStartIntent = new Intent(activity, NotificationItemBroadcastReceiver.class).putExtra("isForStartIntent", true);
         sendBroadcast(onStartIntent);
-
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar_custom));
         toolbarCustom = new ToolbarView(this, getSupportActionBar(), MAIN_ACTIVITY);
-        toolbarTitle = toolbarTitle == null ? getString(R.string.all_reminders) : toolbarTitle;
-        ToolbarView.titleTV.setText(toolbarTitle);
-
-        Log.d("checkLifecycle", "onStart()");
         drawerLayoutView.setDrawerAdapterERV();
         setLoginButtonMainViewVisibility();
         initRelevantModeAdapter();
@@ -121,17 +116,7 @@ public class MainActivity extends AuthorityClass
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK){
-            daysArrayList = isRTL ? loadDaysArrayMapRTL() : loadDaysArrayMapDefault();
-            Log.d("checkLifecycle", "onActivityResult()");
-            //initRelevantModeAdapter();
-        }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        toolbarTitle = ToolbarView.titleTV.getText().toString();
+        if (resultCode == RESULT_OK){ daysArrayList = isRTL ? loadDaysArrayMapRTL() : loadDaysArrayMapDefault(); }
     }
 
     //TODO: castings

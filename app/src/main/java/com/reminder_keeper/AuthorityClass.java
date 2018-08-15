@@ -95,8 +95,7 @@ public class AuthorityClass extends AppCompatActivity implements OnListItemClick
 
     public static CalendarConverter calendarConverter;
     public static Calendar setCalNoTD;
-    public static String searchInputText_ET;
-    public static String toolbarTitle;
+    public static String searchInputText_ET, toolbarTitle;
     public static String selectionForDBQuery;
 
 
@@ -169,7 +168,6 @@ public class AuthorityClass extends AppCompatActivity implements OnListItemClick
             //TODO: show selected listDB action
             if (passedFrom.equals(ACTION_FROM_DRAWER_LAYOUT))
             {
-                Log.d("checkingTheGroupClick", "group clicked");
                 expandedGroupNameDL = expandedGroupTitle;
                 selectedChildTitleDL = selectedChildTitle;
                 selectedListTitleDL = listTitle;
@@ -330,7 +328,6 @@ public class AuthorityClass extends AppCompatActivity implements OnListItemClick
 
     /** init relevant mode adapter like: Search Mode, Calendar Mode, Sequence Mode; Setting relevant Toolbar Title*/
     public void initRelevantModeAdapter(){
-        Log.d("checkingOnInsertAction", "isOnSearchMode == " + isOnSearchMode + "; isOnCalendarMode == " + isOnCalendarMode + "; searchInputText_ET == " + searchInputText_ET);
         if (isOnSearchMode) {
             if (isOnCalendarMode)
             {
@@ -355,10 +352,7 @@ public class AuthorityClass extends AppCompatActivity implements OnListItemClick
                 } else if (searchInputText_ET.equals("") && !ToolbarView.titleTV.getText().toString().equals(activity.getString(R.string.all_reminders))){
                     rebindRemindersCursors(selectionForDBQuery, selectionForDBQuery);
                 } else {
-                    //loadArraysWithRelevantIds(selectionForDBQuery);
                     String selection = selectionForDBQuery + " AND " + DBOpenHelper.COLUMN_REMINDER + " LIKE " + "'%" + searchInputText_ET + "%'";
-                    Log.d("checkTheSelection", selection);
-                    //loadArraysOnInput();
                     rebindRemindersCursors(selection, selection);
                 }
             }
@@ -367,6 +361,7 @@ public class AuthorityClass extends AppCompatActivity implements OnListItemClick
             loadArraysWithSelectedDayItemsIds(setCalNoTD);
             rebindRemindersCursors(setStringIdsForDB(selectedListIdsToDo), setStringIdsForDB(selectedListIdsChecked));
         } else {
+
             toolbarCustom.setSequenceViewToolbar(toolbarTitle);
             if (ToolbarView.titleTV.getText().toString().equals(activity.getString(R.string.all_reminders))){
                 rebindRemindersCursors(null, null);

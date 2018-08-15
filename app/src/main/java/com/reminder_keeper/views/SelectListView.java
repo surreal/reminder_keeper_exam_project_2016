@@ -92,7 +92,6 @@ public class SelectListView implements DialogInterface.OnDismissListener
                 }
             }
         }
-
         selectListViewDialog.show();
     }
 

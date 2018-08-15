@@ -90,9 +90,10 @@ public class ToolbarView
 
     public void setCalendarViewToolbar(String dayMonth)
     {
-        titleTVParams.removeRule(RelativeLayout.CENTER_IN_PARENT);
+        titleTVParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         titleTVParams.addRule(RelativeLayout.ALIGN_PARENT_START);
         titleTVParams.addRule(RelativeLayout.CENTER_VERTICAL);
+        titleTV.setLayoutParams(titleTVParams);
         currentDateRL.setVisibility(View.VISIBLE);
         titleTV.setText(dayMonth);
         currentDateTV.setText(calendar.get(Calendar.DAY_OF_MONTH) + "");
