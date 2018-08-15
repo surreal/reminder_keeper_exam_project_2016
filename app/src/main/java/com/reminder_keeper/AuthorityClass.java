@@ -108,7 +108,7 @@ public class AuthorityClass extends AppCompatActivity implements OnListItemClick
         cursors = new CursorsDBMethods(activity);
     }
 
-    //TODO: set String ids for parameter 'selectionForDBQuery' in method getContentResolver().query()
+    //TODO: set String ids for parameter 'selection' in method getContentResolver().query()
     public static String setStringIdsForDB(ArrayList<Integer> selectedListIds)
     {
         String rowsId;
@@ -355,10 +355,11 @@ public class AuthorityClass extends AppCompatActivity implements OnListItemClick
                 } else if (searchInputText_ET.equals("") && !ToolbarView.titleTV.getText().toString().equals(activity.getString(R.string.all_reminders))){
                     rebindRemindersCursors(selectionForDBQuery, selectionForDBQuery);
                 } else {
-                    Log.d("checkTheSelection", selectionForDBQuery);
-                    loadArraysWithRelevantIds(selectionForDBQuery);
-                    loadArraysOnInput();
-                    rebindRemindersCursors(setStringIdsForDB(selectedListIdsToDo), setStringIdsForDB(selectedListIdsChecked));
+                    //loadArraysWithRelevantIds(selectionForDBQuery);
+                    String selection = selectionForDBQuery + " AND " + DBOpenHelper.COLUMN_REMINDER + " LIKE " + "'%" + searchInputText_ET + "%'";
+                    Log.d("checkTheSelection", selection);
+                    //loadArraysOnInput();
+                    rebindRemindersCursors(selection, selection);
                 }
             }
         } else if (isOnCalendarMode){

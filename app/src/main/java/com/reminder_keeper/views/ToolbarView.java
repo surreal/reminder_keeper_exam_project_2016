@@ -109,7 +109,7 @@ public class ToolbarView
                 MainActivity mainActivity = new MainActivity();
                 mainActivity.loadArraysWithSelectedDayItemsIds(currentCalNoTD);
                 mainActivity.rebindRemindersCursors(mainActivity.setStringIdsForDB(MainActivity.selectedListIdsToDo), mainActivity.setStringIdsForDB(MainActivity.selectedListIdsChecked));
-
+                mainActivity.setDaysAdapterAndSnap();
                 Toast.makeText(MainActivity.activity, calendarConverter.setDateString(calendar.get(Calendar.DAY_OF_MONTH),
                         calendar.get(Calendar.MONTH), calendar.get(Calendar.YEAR)),
                         Toast.LENGTH_LONG).show();

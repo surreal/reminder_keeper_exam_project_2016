@@ -91,10 +91,9 @@ public class DrawerLayoutView extends MainActivity
                 selectedListTitleDL = UNCLASSIFIED;
                 expandedGroupNameDL = null;
                 selectedChildTitleDL = null;
-                toolbarCustom.setSequenceViewToolbar(activity.getString(R.string.unclassified));
                 calendarModeBTNChangeState(false);
-                selectionForDBQuery = DBOpenHelper.COLUMN_LIST + " LIKE " + "'%" + selectedListTitleDL + "%' ";
-                toolbarTitle = selectedListTitleDL;
+                selectionForDBQuery = DBOpenHelper.COLUMN_LIST + " LIKE " + "'%" + selectedListTitleDL + "%'";
+                toolbarTitle = activity.getString(R.string.unclassified);
                 initRelevantModeAdapter();
                 adapterERV.selectUnselectItemView(linearLayoutUnclassifiedList);
                 drawerLayout.closeDrawers();
