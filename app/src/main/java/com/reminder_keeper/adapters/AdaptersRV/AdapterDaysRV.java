@@ -25,6 +25,8 @@ public class AdapterDaysRV extends RecyclerView.Adapter<AdapterDaysRV.ViewHolder
     private int lastSelectedPosition;
     private boolean isDaysAdapterCalled;
     private final Calendar currentCalendar;
+    private final MainActivity mainActivity;
+    private Calendar gCalendar;
 
     public AdapterDaysRV(ArrayList<DayModel> daysModelsArrayList)
     {
@@ -32,6 +34,7 @@ public class AdapterDaysRV extends RecyclerView.Adapter<AdapterDaysRV.ViewHolder
         isDaysAdapterCalled = true;
         currentCalendar = Calendar.getInstance();
         currentDayOfYear = currentCalendar.get(Calendar.DAY_OF_YEAR);
+        mainActivity = new MainActivity();
     }
 
     @Override
@@ -87,12 +90,10 @@ public class AdapterDaysRV extends RecyclerView.Adapter<AdapterDaysRV.ViewHolder
         { super(itemView);
             dayOfMonthTV = (TextView) itemView.findViewById(R.id.item_view_horizontal_tv);
             isHaveNotificationsHighLighterTV = (TextView) itemView.findViewById(R.id.item_view_horizontal_have_reminder_highlighter);
-
             itemView.setOnClickListener(new View.OnClickListener()
             { @Override
             public void onClick(View view)
             {
-                final MainActivity mainActivity = new MainActivity();
                 CalendarConverter calendarConverter = new CalendarConverter(MainActivity.activity);
                 if (daysModelsArrayList.get(lastSelectedPosition).isSelected())
                 {
@@ -100,8 +101,8 @@ public class AdapterDaysRV extends RecyclerView.Adapter<AdapterDaysRV.ViewHolder
                     daysModelsArrayList.get(lastSelectedPosition).setSelected(false);
                 }
                 mainActivity.dispatchSelected();
-                Calendar gCalendar = new GregorianCalendar(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),0,0,0);
-                mainActivity.loadAndShowSelectedDayItems(gCalendar);
+                gCalendar = new GregorianCalendar(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH),0,0,0);
+                mainActivity.dayItemClicked(gCalendar);
                 itemView.setSelected(true);
                 lastSelectedView = itemView;
                 lastSelectedPosition = position;

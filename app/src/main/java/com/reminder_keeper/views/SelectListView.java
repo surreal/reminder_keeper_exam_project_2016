@@ -99,7 +99,7 @@ public class SelectListView implements DialogInterface.OnDismissListener
     public void itemClickedInSLV()
     {
         cursors.moveToDB(MainActivity.idToDoReminderItem, MainActivity.idCheckedReminderItem, false);
-        mainActivity.initRelevantAdapter(MainActivity.setCalNoTD);
+        mainActivity.initRelevantModeAdapter();
         selectListViewDialog.dismiss();
     }
 
@@ -108,7 +108,7 @@ public class SelectListView implements DialogInterface.OnDismissListener
     {
         if (requestFrom.equals(MainActivity.MAIN_ACTIVITY))
         {
-            mainActivity.initRelevantAdapter(MainActivity.setCalNoTD);
+            mainActivity.initRelevantModeAdapter();
         }
     }
 }

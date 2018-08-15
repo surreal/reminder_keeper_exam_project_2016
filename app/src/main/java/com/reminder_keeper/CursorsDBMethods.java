@@ -19,7 +19,7 @@ import static com.reminder_keeper.AuthorityClass.selectedListSLV;
 
 public class CursorsDBMethods
 {
-    public static Cursor cursor, cursorGroups, cursorGroupsLists, cursorChildren, cursorRecyclingBin, cursorSearchKeys;
+    public static Cursor cursor, cursorGroups, cursorGroupsLists, cursorChildren, cursorRecyclingBin;
     private static Activity activity;
     private ContentValues contentValues;
 
@@ -79,12 +79,6 @@ public class CursorsDBMethods
     {
         cursorRecyclingBin = activity.getContentResolver().query(DBProvider.RECYCLING_BIN_TABLE_PATH_URI, null, null, null, null);
         return cursorRecyclingBin;
-    }
-
-    public Cursor getCursorSearchTable()
-    {
-        cursorSearchKeys = activity.getContentResolver().query(DBProvider.SEARCH_TABLE_PATH_URI, null, null, null, null);
-        return cursorSearchKeys;
     }
 
     //TODO: move to relevant DB if checked or swiped on MainActivity

@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -583,6 +584,9 @@ public class ReminderActivity extends AppCompatActivity
         selectedChildTitle = null;
         listTitle = null;
         finish();
+        if (MainActivity.activity == null){
+            startActivity(new Intent(this, MainActivity.class));
+        }
     }
 
     //TODO: on list item clicked

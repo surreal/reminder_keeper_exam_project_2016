@@ -14,7 +14,6 @@ public class DBOpenHelper extends SQLiteOpenHelper {
     public static final String GROUPS_TABLE = "groupsTable";
     public static final String CHILDREN_TABLE = "childrenTable";
     public static final String RECYCLING_BIN_TABLE = "RecyclingBinTable";
-    public static final String SEARCH_TABLE = "SearchTable";
 
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_REMINDER = "reminder";
@@ -22,7 +21,6 @@ public class DBOpenHelper extends SQLiteOpenHelper {
     public static final String COLUMN_GROUP = "groupName";
     public static final String COLUMN_LIST = "listName";
     public static final String COLUMN_CHILD = "childrenName";
-    public static final String COLUMN_SEARCH_KEY = "searchKeyWord";
     public static final String COLUMN_REPEAT_OPTION = "repeatAction";
     public static final String COLUMN_REPEAT_CUSTOM_DAYS_OR_DATE = "repeatCustomDays";
 
@@ -89,14 +87,6 @@ public class DBOpenHelper extends SQLiteOpenHelper {
                         COLUMN_GROUP + " TEXT " +
                         ");"
                 );
-
-        sqLiteDatabase.execSQL
-                ("CREATE TABLE " + SEARCH_TABLE +
-                        " (" +
-                        COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                        COLUMN_SEARCH_KEY + " TEXT UNIQUE" +
-                        ");"
-                );
     }
 
     @Override
@@ -107,8 +97,6 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + GROUPS_TABLE);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + CHILDREN_TABLE);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + RECYCLING_BIN_TABLE);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + SEARCH_TABLE);
         onCreate(sqLiteDatabase);
     }
-
 }

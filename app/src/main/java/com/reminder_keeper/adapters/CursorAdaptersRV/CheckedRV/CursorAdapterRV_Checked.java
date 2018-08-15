@@ -100,7 +100,7 @@ public class CursorAdapterRV_Checked extends CursorAdapterRV_CheckedAbstract<Cur
                     try
                     {
                         cursors.moveToDB(-1, valueIdChecked, true);
-                        mainActivity.initRelevantAdapter(CalendarConverter.calIsSetNoTD);
+                        mainActivity.initRelevantModeAdapter();
                     } catch (Exception  e)
                     {
                         e.printStackTrace();

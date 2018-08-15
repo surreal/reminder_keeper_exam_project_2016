@@ -5,14 +5,12 @@ import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.app.backup.BackupManager;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -26,21 +24,24 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.reminder_keeper.adapters.CursorAdaptersRV.CheckedRV.CursorAdapterRV_Checked;
+import com.reminder_keeper.adapters.CursorAdaptersRV.ToDoRV.CursorAdapterRV_ToDo;
 import com.reminder_keeper.broadcasts.NotifierNotificationReceiver;
 import com.reminder_keeper.broadcasts.NotificationItemBroadcastReceiver;
 import com.reminder_keeper.views.ToolbarView;
@@ -64,17 +65,14 @@ public class MainActivity extends AuthorityClass
 {
     public static final String MAIN_ACTIVITY = "MainActivity";
     public static Activity activity;
-    public static String toolbarTitleString;
     public static boolean isRTL;
     private Cursor cursor;
     private Button createAccountMV_Btn;
     private ActionBarDrawerToggle toggle;
     private DrawerLayoutView drawerLayoutView;
-    private boolean isOnSearchMode;
-    private AutoCompleteTextView search_ACTV;
-    private RelativeLayout searchACTV_RL, lupeBtn_RL, lupeACTV_IV;
+    private static EditText search_ET;
+    private RelativeLayout searchACTV_RL, lupeBtn_RL;
     private SnapHelper snapHelper;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState)
@@ -82,27 +80,20 @@ public class MainActivity extends AuthorityClass
         setContentView(R.layout.activity_main);
         onCreateActions();
         setAllConfiguredAlarms();
-
-        Cursor cursor1 = getContentResolver().query(DBProvider.TODO_TABLE_PATH_URI,
-                null, "reminder LIKE 'today%'",null, null);
-        while (cursor1.moveToNext()){
-            String reminderText = cursor1.getString(cursor1.getColumnIndex(DBOpenHelper.COLUMN_REMINDER));
-            Log.d("checkingTheQuery", "DB DATA -> " + "; reminderText == " + reminderText);
-        }
     }
     private void onCreateActions() {
         activity = this;
-        toolbarTitleString = null;
+        toolbarTitle = null;
         setCalNoTD = new GregorianCalendar();
         isOnCalendarMode = false;
+        isOnSearchMode = false;
         Configuration configuration = getResources().getConfiguration();
         if (configuration.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) { isRTL = true; }
         castings();
         drawerLayoutView = new DrawerLayoutView(activity);
-        setRemindersRVLayouts();
+        setRemindersRVLayoutsInitAdapters();
         initToggle();
-        rebindCursorsSetMainRVs();
-        setListsTitlesVisible();
+        rebindRemindersCursors(null, null);
         initSwipe();
         calendarConverter = new CalendarConverter(this);
         daysArrayList = isRTL ? loadDaysArrayMapRTL() : loadDaysArrayMapDefault();
@@ -112,20 +103,19 @@ public class MainActivity extends AuthorityClass
     @Override
     protected void onStart() {
         super.onStart();
-
         new BackupManager(getApplicationContext()).dataChanged();
         Intent onStartIntent = new Intent(activity, NotificationItemBroadcastReceiver.class).putExtra("isForStartIntent", true);
         sendBroadcast(onStartIntent);
 
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar_custom));
         toolbarCustom = new ToolbarView(this, getSupportActionBar(), MAIN_ACTIVITY);
-        if (toolbarTitleString != null) {
-            ToolbarView.titleTV.setText(toolbarTitleString);
-        }
+        toolbarTitle = toolbarTitle == null ? getString(R.string.all_reminders) : toolbarTitle;
+        ToolbarView.titleTV.setText(toolbarTitle);
 
+        Log.d("checkLifecycle", "onStart()");
         drawerLayoutView.setDrawerAdapterERV();
         setLoginButtonMainViewVisibility();
-        initRelevantAdapter(setCalNoTD);
+        initRelevantModeAdapter();
     }
 
     @Override
@@ -133,14 +123,15 @@ public class MainActivity extends AuthorityClass
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK){
             daysArrayList = isRTL ? loadDaysArrayMapRTL() : loadDaysArrayMapDefault();
-            onChangeModeInitRelevantAdapter(isOnCalendarMode);
+            Log.d("checkLifecycle", "onActivityResult()");
+            //initRelevantModeAdapter();
         }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        toolbarTitleString = ToolbarView.titleTV.getText().toString();
+        toolbarTitle = ToolbarView.titleTV.getText().toString();
     }
 
     //TODO: castings
@@ -154,69 +145,35 @@ public class MainActivity extends AuthorityClass
         calendar_ll = (LinearLayout) findViewById(R.id.activity_main_calendar_vew_ll);
         recyclerViewDays = (RecyclerView) findViewById(R.id.activity_main_days_recycler_view);
         calAndSeq_IV = (ImageView) findViewById(R.id.activity_main_change_view_iv);
-        lupeACTV_IV = (RelativeLayout) findViewById(R.id.activity_main_actv_lupe);
-        search_ACTV = (AutoCompleteTextView) findViewById(R.id.activity_main_search_actv);
+        search_ET = (EditText) findViewById(R.id.activity_main_search_tv);
         lupeBtn_RL = (RelativeLayout) findViewById(R.id.activity_main_search_btn_rv);
         searchACTV_RL = (RelativeLayout) findViewById(R.id.activity_main_search_actv_rv);
+        setListeners();
+    }
+    private void setListeners() {
         calAndSeqBtn_RL.setOnClickListener(onChangeModeButtonsClickListener);
         lupeBtn_RL.setOnClickListener(onChangeModeButtonsClickListener);
-        lupeACTV_IV.setOnClickListener(onChangeModeButtonsClickListener);
+        search_ET.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                Log.d("checkTextChanged", "charSequence = " + charSequence + "; i == " + i + "; i1 == " + i1 + "; i2 == " + i2);
+                searchInputText_ET = search_ET.getText().toString().toLowerCase().trim();
+                initRelevantModeAdapter();
+            }
+            @Override
+            public void afterTextChanged(Editable editable) { }
+        });
     }
 
-    /*** on change view actions */
-    View.OnClickListener onChangeModeButtonsClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view)
-        {
-            switch (view.getId())
-            {
-                case R.id.activity_main_calendar_vew_rv:
-                    isOnCalendarMode = !isOnCalendarMode;
-                    calendarModeBTNChangeState(isOnCalendarMode);
-                    setCalModeViewsVisibility(isOnCalendarMode);
-                    onChangeModeInitRelevantAdapter(true);
-                    String relevantSearchHint = isOnCalendarMode ? getString(R.string.search_in_selected_date) : getString(R.string.search_in_selected_list);
-                    search_ACTV.setHint(relevantSearchHint);
-                    break;
-                case R.id.activity_main_search_btn_rv:
-                    searchACTV_RL.setSelected(true);
-                    searchModeBtnClicked();
-                    break;
-                case R.id.activity_main_actv_lupe:
-                    lupeACTV_IV.setSelected(true);
-                    addSearchRequestTextToTable();
-                    setACTVArrayAdapterOfSearchQueries();
-                    searchInputText_ACTV = search_ACTV.getText().toString().trim().toLowerCase().trim();
-                    if (!searchInputText_ACTV.equals("")) { runOnTableLookListsOrChildrenToShow(true); }
-                    break;
-            }
-        }
-    };
-
-    private void onChangeModeInitRelevantAdapter(boolean isCalendarClicked) {
-        if (isOnCalendarMode) {
-            setDaysAdapterAndSnap();
-            loadAndShowSelectedDayItems(CalendarConverter.currentCalNoTD);
-        } else {
-            if (isCalendarClicked) {
-                toolbarCustom.setSequenceViewToolbar(getString(R.string.all_reminders));
-                rebindCursorsSetMainRVs();
-            } else {
-                if (ToolbarView.titleTV.getText().toString().equals(getString(R.string.all_reminders))) {
-                    toolbarCustom.setSequenceViewToolbar(getString(R.string.all_reminders));
-                    rebindCursorsSetMainRVs();
-                } else {
-                    runOnTableLookListsOrChildrenToShow(false);
-                }
-            }
-        }
-    }
-
-    private void initDaysRVAndSnap() {
-        linearLayoutDays = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, isRTL);
-        recyclerViewDays.setLayoutManager(linearLayoutDays);
-        snapHelper = new SnapHelper(firstPosition);
-        snapHelper.attachToRecyclerView(recyclerViewDays);
+    //TODO: set Adapters and Layouts
+    private void setRemindersRVLayoutsInitAdapters()
+    {
+        recyclerViewToDo.setLayoutManager(new LinearLayoutManager(activity));
+        recyclerViewChecked.setLayoutManager(new LinearLayoutManager(activity));
+        adapterToDo = new CursorAdapterRV_ToDo(activity, cursors.getCursorToDo());
+        adapterChecked = new CursorAdapterRV_Checked(activity, cursors.getCursorChecked());
     }
 
     private ArrayList<DayModel> loadDaysArrayMapRTL() {
@@ -407,7 +364,6 @@ public class MainActivity extends AuthorityClass
         } else if (itemIdChecked != -1) {
             intent.putExtra(ID_CHECKED, itemIdChecked);
         }
-        intent.putExtra("isActivityForResult", true);
         activity.startActivityForResult(intent, 1);
     }
 
@@ -436,15 +392,16 @@ public class MainActivity extends AuthorityClass
                         @Override
                         public void onClick(View view) {
                             moveToRecyclerBin();
+                            initRelevantModeAdapter();
                             deleteAlarmNotification(idToDoReminderItem);
                             deleteDialog.dismiss();
-                            //initRelevantAdapter(CalendarConverter.calIsSetNoTD);
+                            //initRelevantModeAdapter(CalendarConverter.calIsSetNoTD);
                         }
                     });
                     deleteDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                         @Override
                         public void onDismiss(DialogInterface dialogInterface) {
-                            initRelevantAdapter(CalendarConverter.calIsSetNoTD);
+                            initRelevantModeAdapter();
                         }
                     });
                     deleteDialog.setView(view);
@@ -520,7 +477,6 @@ public class MainActivity extends AuthorityClass
         String child = cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_CHILD));
         cursors.moveToRecyclingBin(group, child, list, reminderText, timeDate);
         cursors.removeFromDB(idToDoReminderItem, idCheckedReminderItem);
-        initRelevantAdapter(CalendarConverter.calIsSetNoTD);
     }
 
     @Override
@@ -586,41 +542,58 @@ public class MainActivity extends AuthorityClass
         return selectedDaysForCustomRepeatArray;
     }
 
-    public void searchModeBtnClicked()
-    {
-        isOnSearchMode = !isOnSearchMode;
-        if (isOnSearchMode) {
-            toolbarTitleString = ToolbarView.titleTV.getText().toString();
-            search_ACTV.setText("");
-            if (isOnCalendarMode){
-                search_ACTV.setHint(getString(R.string.search_in_selected_date));
-            } else {
-                search_ACTV.setHint(R.string.search_in_selected_list);
-            }
-            searchACTV_RL.setVisibility(View.VISIBLE);
-        } else {
-            searchACTV_RL.setVisibility(View.GONE);
-            onChangeModeInitRelevantAdapter(false);
-        }
-    }
 
-    private void addSearchRequestTextToTable()
-    {
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(DBOpenHelper.COLUMN_SEARCH_KEY, search_ACTV.getText().toString());
-        getContentResolver().insert(DBProvider.SEARCH_TABLE_PATH_URI, contentValues);
-    }
-
-    private void setACTVArrayAdapterOfSearchQueries()
-    {
-        ArrayList<String> searchKeys = new ArrayList<>();
-        cursors.getCursorSearchTable();
-        while (CursorsDBMethods.cursorSearchKeys.moveToNext())
+    /*** on change view actions */
+    View.OnClickListener onChangeModeButtonsClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view)
         {
-            String searchKey = CursorsDBMethods.cursorSearchKeys.getString(CursorsDBMethods.cursorSearchKeys.getColumnIndex(DBOpenHelper.COLUMN_SEARCH_KEY));
-            searchKeys.add(searchKey);
+            switch (view.getId())
+            {
+                case R.id.activity_main_calendar_vew_rv:
+                    calendarModeBtnClicked();
+
+                    break;
+                case R.id.activity_main_search_btn_rv:
+                    searchModeBtnClicked();
+                    break;
+            }
         }
-        ArrayAdapter arrayAdapter = new ArrayAdapter(activity, android.R.layout.simple_list_item_1, searchKeys);
-        search_ACTV.setAdapter(arrayAdapter);
+
+        private void calendarModeBtnClicked() {
+            isOnCalendarMode = !isOnCalendarMode;
+            calendarModeBTNChangeState(isOnCalendarMode);
+            if (isOnCalendarMode) {
+                setDaysAdapterAndSnap();
+                setCalNoTD = CalendarConverter.currentCalNoTD;
+            }
+            initRelevantModeAdapter();
+            String relevantSearchHint = isOnCalendarMode ? getString(R.string.search_in_selected_date) : getString(R.string.search_in_selected_list);
+            search_ET.setHint(relevantSearchHint);
+        }
+
+        private void searchModeBtnClicked()
+        {
+            isOnSearchMode = !isOnSearchMode;
+            if (isOnSearchMode) {
+                search_ET.requestFocus();
+                InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputMethodManager.showSoftInput(search_ET, InputMethodManager.SHOW_IMPLICIT);
+                search_ET.setText("");
+                String relevantSearchHint = isOnCalendarMode ? getString(R.string.search_in_selected_date) : getString(R.string.search_in_selected_list);
+                search_ET.setHint(relevantSearchHint);
+                searchACTV_RL.setVisibility(View.VISIBLE);
+            } else {
+                searchACTV_RL.setVisibility(View.GONE);
+                initRelevantModeAdapter();
+            }
+        }
+    };
+
+    private void initDaysRVAndSnap() {
+        linearLayoutDays = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, isRTL);
+        recyclerViewDays.setLayoutManager(linearLayoutDays);
+        snapHelper = new SnapHelper(firstPosition);
+        snapHelper.attachToRecyclerView(recyclerViewDays);
     }
 }

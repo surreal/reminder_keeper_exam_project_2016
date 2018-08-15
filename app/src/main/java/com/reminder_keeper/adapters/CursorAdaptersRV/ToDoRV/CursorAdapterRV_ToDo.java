@@ -163,7 +163,7 @@ public class CursorAdapterRV_ToDo extends CursorAdapterRV_ToDoAbstract<CursorAda
                 {
                     try {
                         cursors.moveToDB(idToDo, -1, true);
-                        mainActivity.initRelevantAdapter(CalendarConverter.calIsSetNoTD);
+                        mainActivity.initRelevantModeAdapter();
                         mainActivity.deleteAlarmNotification(idToDo);
                     } catch (Exception e)
                     {

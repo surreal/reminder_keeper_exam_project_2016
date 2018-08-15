@@ -11,6 +11,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -56,15 +57,13 @@ public class AuthorityClass extends AppCompatActivity implements OnListItemClick
     public static final String REPEAT_ACTION = "repeatAction";
     public static final String REPEAT_CUSTOM_DAYS_ARRAY = "repeatCustomDaysArray";
 
-    private static String groupDB, childDB, listDB, reminderDB;
     public static String expandedGroupNameSLV, selectedChildNameSLV, selectedListSLV;
     public static String expandedGroupNameDL, selectedChildTitleDL, selectedListTitleDL;
 
     public static int firstPosition;
     public static int idToDoReminderItem, idCheckedReminderItem = -1;
-    private static int idDB;
 
-    public static boolean isOnCalendarMode;
+    public static boolean isOnCalendarMode, isOnSearchMode;
 
     public static CursorAdapterRV_ToDo adapterToDo;
     public static CursorAdapterRV_Checked adapterChecked;
@@ -96,7 +95,9 @@ public class AuthorityClass extends AppCompatActivity implements OnListItemClick
 
     public static CalendarConverter calendarConverter;
     public static Calendar setCalNoTD;
-    public String searchInputText_ACTV;
+    public static String searchInputText_ET;
+    public static String toolbarTitle;
+    public static String selectionForDBQuery;
 
 
     @Override
@@ -107,113 +108,7 @@ public class AuthorityClass extends AppCompatActivity implements OnListItemClick
         cursors = new CursorsDBMethods(activity);
     }
 
-    //TODO: Run for ToDo and Checked tables check Lists and Table equals and showSelectedList()
-    /**
-     * called from:
-     * AuthorityClass, Cursor Adapters, DrawerLayoutView, selectListView
-     **/
-    public void runOnTableLookListsOrChildrenToShow(boolean isForSearch)
-    {
-        ArrayList<Integer> tempArrayTodo = null, tempArrayChecked = null;
-        if (isForSearch && isOnCalendarMode)
-        {
-            tempArrayTodo = selectedListIdsToDo;
-            tempArrayChecked = selectedListIdsChecked;
-            cursor = getContentResolver().query(DBProvider.TODO_TABLE_PATH_URI, null, setStringIdsForDB(selectedListIdsToDo), null, null);
-            addRelevantIdsToArraysOnCalView(cursor, true);
-            cursor = getContentResolver().query(DBProvider.CHECKED_TABLE_PATH_URI, null, setStringIdsForDB(selectedListIdsChecked), null, null);
-            addRelevantIdsToArraysOnCalView(cursor, false);
-        } else {
-            addIdsToRelevantArrays(isForSearch);
-        }
-        showSelectedList();
-        if (tempArrayTodo != null || tempArrayChecked!= null){
-            selectedListIdsToDo = tempArrayTodo;
-            selectedListIdsChecked = tempArrayChecked;
-        }
-    }
-
-    private void addRelevantIdsToArraysOnCalView(Cursor cursor, boolean isToDoList) {
-        ArrayList<Integer> tempArray = new ArrayList<>();
-        while (cursor.moveToNext())
-        {
-            String reminderText = cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_REMINDER)).toLowerCase();
-            int id = cursor.getInt(cursor.getColumnIndex(DBOpenHelper.COLUMN_ID));
-            if (reminderText.contains(searchInputText_ACTV)) { tempArray.add(id); }
-        }
-        if (isToDoList) {
-            selectedListIdsToDo = tempArray;
-        } else {
-            selectedListIdsChecked = tempArray;
-        }
-    }
-
-    private void addIdsToRelevantArrays(boolean isForSearch)
-    {
-        selectedListIdsToDo = new ArrayList<>();
-        cursors.getCursorToDo();
-        cursor = CursorsDBMethods.cursor;
-        runOnRelevantTableGetRelevantData(cursor, isForSearch, selectedListIdsToDo);
-
-        selectedListIdsChecked = new ArrayList<>();
-        cursors.getCursorChecked();
-        cursor = CursorsDBMethods.cursor;
-        runOnRelevantTableGetRelevantData(cursor, isForSearch, selectedListIdsChecked);
-    }
-
-    private void runOnRelevantTableGetRelevantData(Cursor cursor, boolean isForSearch, ArrayList<Integer> selectedListIdsArray)
-    {
-        while (cursor.moveToNext())
-        {
-            getDataFromTable();
-            addToRelevantArray(isForSearch, selectedListIdsArray);
-        }
-    }
-
-    private void addToRelevantArray(boolean isForSearch, ArrayList<Integer> selectedListIdsArray)
-    {
-        if (isForSearch)
-        {
-            String toolbarTitle = ToolbarView.titleTV.getText().toString();
-            toolbarTitle = toolbarTitle.equals(getString(R.string.unclassified)) ? UNCLASSIFIED : toolbarTitle;
-            reminderDB = cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_REMINDER)).toLowerCase();
-            if (ToolbarView.titleTV.getText().toString().equals(getString(R.string.all_reminders))) {
-                if (reminderDB.contains(searchInputText_ACTV))
-                { selectedListIdsArray.add(idDB); }
-            } else if ((reminderDB.contains(searchInputText_ACTV))
-                    && ((listDB != null && listDB.equals(toolbarTitle)) || ((childDB != null && childDB.equals(selectedChildTitleDL)) && groupDB.equals(expandedGroupNameDL))))
-            { selectedListIdsArray.add(idDB); }
-        } else {
-            if ((listDB != null && listDB.equals(selectedListTitleDL)) || ((childDB != null && childDB.equals(selectedChildTitleDL)) && groupDB.equals(expandedGroupNameDL)))
-            { selectedListIdsArray.add(idDB); }
-        }
-    }
-
-    private void getDataFromTable()
-    {
-        groupDB = cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_GROUP));
-        childDB = cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_CHILD));
-        listDB = cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_LIST));
-        idDB = cursor.getInt(cursor.getColumnIndex(DBOpenHelper.COLUMN_ID));
-    }
-
-    //TODO: show selected List
-    public void showSelectedList()
-    {
-        initRemindersAdaptersRV();
-        cursor = CursorsDBMethods.cursor;
-        String selection = setStringIdsForDB(selectedListIdsToDo);
-        cursor = activity.getContentResolver().query(DBProvider.TODO_TABLE_PATH_URI ,null, selection, null,null,null);
-        adapterToDo.reBindCursor(cursor);
-        recyclerViewToDo.setAdapter(adapterToDo);
-        selection = setStringIdsForDB(selectedListIdsChecked);
-        cursor = activity.getContentResolver().query(DBProvider.CHECKED_TABLE_PATH_URI ,null, selection, null,null,null);
-        adapterChecked.reBindCursorChecked(cursor);
-        recyclerViewChecked.setAdapter(adapterChecked);
-        setListsTitlesVisible();
-    }
-
-    //TODO: set String ids for parameter 'selection' in method getContentResolver().query()
+    //TODO: set String ids for parameter 'selectionForDBQuery' in method getContentResolver().query()
     public static String setStringIdsForDB(ArrayList<Integer> selectedListIds)
     {
         String rowsId;
@@ -231,7 +126,6 @@ public class AuthorityClass extends AppCompatActivity implements OnListItemClick
     }
 
     //TODO: init/reload Groups, Children and Lists
-    private static int counter = 0;
     public ArrayList<GroupItemModel> loadGroupsChildrenAndListsForERVAdapter()
     {
         cursors.getCursorGroupsLists();
@@ -239,7 +133,6 @@ public class AuthorityClass extends AppCompatActivity implements OnListItemClick
         cursors.getCursorChildren();
         Cursor cursorChildren = CursorsDBMethods.cursorChildren;
         groups = new ArrayList();
-        counter = 0;
         int id;
         while (cursorGroups.moveToNext())
         {
@@ -264,7 +157,6 @@ public class AuthorityClass extends AppCompatActivity implements OnListItemClick
             } else {
                 groups.add(new GroupItemModel(listValueGroupTable, childrenList, id, false));
             }
-            counter++;
         }
         return groups;
     }
@@ -277,14 +169,15 @@ public class AuthorityClass extends AppCompatActivity implements OnListItemClick
             //TODO: show selected listDB action
             if (passedFrom.equals(ACTION_FROM_DRAWER_LAYOUT))
             {
+                Log.d("checkingTheGroupClick", "group clicked");
                 expandedGroupNameDL = expandedGroupTitle;
                 selectedChildTitleDL = selectedChildTitle;
                 selectedListTitleDL = listTitle;
-                runOnTableLookListsOrChildrenToShow(false);
-                String title = listTitle != null ? listTitle : selectedChildTitle;
-                toolbarCustom.setSequenceViewToolbar(title);
+                toolbarTitle = listTitle != null ? listTitle : selectedChildTitle;
+                String columnIndex = listTitle != null ? DBOpenHelper.COLUMN_LIST : DBOpenHelper.COLUMN_CHILD;
+                selectionForDBQuery = columnIndex + " LIKE " + "'%" + selectedChildTitle + "%' ";
+                initRelevantModeAdapter();
                 calendarModeBTNChangeState(false);
-                setCalModeViewsVisibility(false);
                 drawerLayout.closeDrawers();
             //TODO: move to action
             } else if (passedFrom.equals(MAIN_ACTIVITY))
@@ -297,12 +190,17 @@ public class AuthorityClass extends AppCompatActivity implements OnListItemClick
         }
     }
 
-    public void calendarModeBTNChangeState(boolean isOnCalendarViewClicked)
-    {
-        calAndSeqBtn_RL.setSelected(true);
-        int id = isOnCalendarViewClicked ? R.mipmap.main_icon : R.mipmap.calendar;
-        calAndSeq_IV.setImageResource(id);
-        this.isOnCalendarMode = isOnCalendarViewClicked;
+    public void loadArraysWithRelevantIds(String selection) {
+        selectedListIdsToDo = new ArrayList<>();
+        cursor = activity.getContentResolver().query(DBProvider.TODO_TABLE_PATH_URI, null, selection, null, null);
+        while (cursor.moveToNext()){
+            selectedListIdsToDo.add(cursor.getInt(cursor.getColumnIndex(DBOpenHelper.COLUMN_ID)));
+        }
+        selectedListIdsChecked = new ArrayList<>();
+        cursor = activity.getContentResolver().query(DBProvider.CHECKED_TABLE_PATH_URI, null, selection, null, null);
+        while (cursor.moveToNext()){
+            selectedListIdsChecked.add(cursor.getInt(cursor.getColumnIndex(DBOpenHelper.COLUMN_ID)));
+        }
     }
 
     public void setCalModeViewsVisibility(boolean isOnCalendarViewClicked)
@@ -341,74 +239,6 @@ public class AuthorityClass extends AppCompatActivity implements OnListItemClick
         }
     }
 
-    public void loadAndShowSelectedDayItems(Calendar calendar)
-    {
-        setCalNoTD = calendar;
-        Calendar dayModelCalendar;
-        selectedListIdsToDo = new ArrayList<>();
-        selectedListIdsChecked = new ArrayList<>();
-        toolbarCustom.setCalendarViewToolbar(calendarConverter.getSelectedDateString(calendar.get(Calendar.DAY_OF_WEEK), calendar.get(Calendar.MONTH) +1));
-        ArrayList<DayModel> allItemsWithDateInDB = calendarConverter.getItemsDatesContainFromDBConvertedArray(activity);
-
-        for (DayModel dayModel : allItemsWithDateInDB)
-        {
-            dayModelCalendar = new GregorianCalendar(dayModel.getCalendar().get(Calendar.YEAR), dayModel.getCalendar().get(Calendar.MONTH), dayModel.getCalendar().get(Calendar.DAY_OF_MONTH), 0, 0,0);
-            if (dayModelCalendar.compareTo(calendar) == 0)
-            {
-                int idToDo = dayModel.getIdToDo();
-                int idChecked = dayModel.getIdChecked();
-                if (idToDo != -1) {
-                    selectedListIdsToDo.add(idToDo);
-                } else {
-                    selectedListIdsChecked.add(idChecked);
-                }
-            }
-        }
-        showSelectedList();
-    }
-
-    //TODO: set Adapters and Layouts
-    public void setRemindersRVLayouts()
-    {
-        recyclerViewToDo.setLayoutManager(new LinearLayoutManager(activity));
-        recyclerViewChecked.setLayoutManager(new LinearLayoutManager(activity));
-        initRemindersAdaptersRV();
-    }
-
-    private void initRemindersAdaptersRV() {
-        adapterToDo = new CursorAdapterRV_ToDo(activity, cursors.getCursorToDo());
-        adapterChecked = new CursorAdapterRV_Checked(activity, cursors.getCursorChecked());
-    }
-
-    public void initRelevantAdapter(Calendar calendar)
-    {
-        if (toolbarCustom.titleTV.getText().toString().equals(activity.getString(R.string.all_reminders)))
-        {
-            initRemindersAdaptersRV();
-            rebindCursorsSetMainRVs();
-        } else if (isOnCalendarMode) {
-            loadAndShowSelectedDayItems(calendar);
-        } else {
-            runOnTableLookListsOrChildrenToShow(false);
-        }
-    }
-
-    //TODO: set Adapters
-    public void rebindCursorsSetMainRVs()
-    {
-        adapterToDo.reBindCursor(cursors.getCursorToDo());
-        adapterChecked.reBindCursorChecked(cursors.getCursorChecked());
-        setRVs();
-        setListsTitlesVisible();
-    }
-
-    //TODO: refresh main adapters
-    public void setRVs()
-    {
-        recyclerViewToDo.setAdapter(adapterToDo);
-        recyclerViewChecked.setAdapter(adapterChecked);
-    }
-
     public void dispatchSelected()
     {
         recyclerViewDays.dispatchSetSelected(false);
@@ -426,5 +256,123 @@ public class AuthorityClass extends AppCompatActivity implements OnListItemClick
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, idToDo, notificationReceiverIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(ALARM_SERVICE);
         alarmManager.set(AlarmManager.RTC, calendar.getTimeInMillis(), pendingIntent);
+    }
+
+    public void calendarModeBTNChangeState(boolean isOnCalendarViewClicked)
+    {
+        calAndSeqBtn_RL.setSelected(true);
+        int id = isOnCalendarViewClicked ? R.mipmap.main_icon : R.mipmap.calendar;
+        calAndSeq_IV.setImageResource(id);
+        setCalModeViewsVisibility(isOnCalendarViewClicked);
+        this.isOnCalendarMode = isOnCalendarViewClicked;
+    }
+
+    public void loadArraysWithSelectedDayItemsIds(Calendar calendar)
+    {
+        setCalNoTD = calendar;
+        Calendar dayModelCalendar;
+        selectedListIdsToDo = new ArrayList<>();
+        selectedListIdsChecked = new ArrayList<>();
+        ArrayList<DayModel> allItemsWithDateInDB = calendarConverter.getItemsDatesContainFromDBConvertedArray(activity);
+
+        for (DayModel dayModel : allItemsWithDateInDB)
+        {
+            dayModelCalendar = new GregorianCalendar(dayModel.getCalendar().get(Calendar.YEAR), dayModel.getCalendar().get(Calendar.MONTH), dayModel.getCalendar().get(Calendar.DAY_OF_MONTH), 0, 0,0);
+            if (dayModelCalendar.compareTo(calendar) == 0)
+            {
+                int idToDo = dayModel.getIdToDo();
+                int idChecked = dayModel.getIdChecked();
+                if (idToDo != -1) {
+                    selectedListIdsToDo.add(idToDo);
+                } else {
+                    selectedListIdsChecked.add(idChecked);
+                }
+            }
+        }
+    }
+
+    private void loadArraysOnInput() {
+        cursor = activity.getContentResolver().query(DBProvider.TODO_TABLE_PATH_URI, null, setStringIdsForDB(selectedListIdsToDo), null, null);
+        selectedListIdsToDo = new ArrayList<>();
+        while (cursor.moveToNext())
+        {
+            String reminderText = cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_REMINDER)).toLowerCase();
+            int id = cursor.getInt(cursor.getColumnIndex(DBOpenHelper.COLUMN_ID));
+            if (reminderText.contains(searchInputText_ET)) { selectedListIdsToDo.add(id); }
+        }
+
+        cursor = activity.getContentResolver().query(DBProvider.CHECKED_TABLE_PATH_URI, null, setStringIdsForDB(selectedListIdsChecked), null, null);
+        selectedListIdsChecked = new ArrayList<>();
+        while (cursor.moveToNext())
+        {
+            String reminderText = cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_REMINDER)).toLowerCase();
+            int id = cursor.getInt(cursor.getColumnIndex(DBOpenHelper.COLUMN_ID));
+            if (reminderText.contains(searchInputText_ET)) { selectedListIdsChecked.add(id); }
+        }
+    }
+
+    public void dayItemClicked(Calendar gCalendar) {
+        setCalNoTD = gCalendar;
+        initRelevantModeAdapter();
+    }
+
+    //TODO: show selected List
+    public void rebindRemindersCursors(String cursorSelectionToDo, String cursorSelectionChecked)
+    {
+        cursor = activity.getContentResolver().query(DBProvider.TODO_TABLE_PATH_URI ,null, cursorSelectionToDo, null,null,null);
+        adapterToDo.reBindCursor(cursor);
+        cursor = activity.getContentResolver().query(DBProvider.CHECKED_TABLE_PATH_URI ,null, cursorSelectionChecked, null,null,null);
+        adapterChecked.reBindCursorChecked(cursor);
+        recyclerViewToDo.setAdapter(adapterToDo);
+        recyclerViewChecked.setAdapter(adapterChecked);
+        setListsTitlesVisible();
+    }
+
+    /** init relevant mode adapter like: Search Mode, Calendar Mode, Sequence Mode; Setting relevant Toolbar Title*/
+    public void initRelevantModeAdapter(){
+        Log.d("checkingOnInsertAction", "isOnSearchMode == " + isOnSearchMode + "; isOnCalendarMode == " + isOnCalendarMode + "; searchInputText_ET == " + searchInputText_ET);
+        if (isOnSearchMode) {
+            if (isOnCalendarMode)
+            {
+                toolbarCustom.setCalendarViewToolbar(calendarConverter.getSelectedDateString(setCalNoTD.get(Calendar.DAY_OF_WEEK), setCalNoTD.get(Calendar.MONTH)));
+                if (searchInputText_ET.equals("")) {
+                    loadArraysWithSelectedDayItemsIds(setCalNoTD);
+                    rebindRemindersCursors(setStringIdsForDB(selectedListIdsToDo), setStringIdsForDB(selectedListIdsChecked));
+                } else {
+                    loadArraysWithSelectedDayItemsIds(setCalNoTD);
+                    loadArraysOnInput();
+                    rebindRemindersCursors(setStringIdsForDB(selectedListIdsToDo), setStringIdsForDB(selectedListIdsChecked));
+                }
+            } else {
+                toolbarCustom.setSequenceViewToolbar(toolbarTitle);
+                if (searchInputText_ET.equals("") && ToolbarView.titleTV.getText().toString().equals(activity.getString(R.string.all_reminders))) {
+                    rebindRemindersCursors(null, null);
+
+                } else if(!searchInputText_ET.equals("") && ToolbarView.titleTV.getText().toString().equals(activity.getString(R.string.all_reminders)))
+                {
+                    String selection = DBOpenHelper.COLUMN_REMINDER + " LIKE " + "'%" + searchInputText_ET + "%'";
+                    rebindRemindersCursors(selection, selection);
+                } else if (searchInputText_ET.equals("") && !ToolbarView.titleTV.getText().toString().equals(activity.getString(R.string.all_reminders))){
+                    rebindRemindersCursors(selectionForDBQuery, selectionForDBQuery);
+                } else {
+                    Log.d("checkTheSelection", selectionForDBQuery);
+                    loadArraysWithRelevantIds(selectionForDBQuery);
+                    loadArraysOnInput();
+                    rebindRemindersCursors(setStringIdsForDB(selectedListIdsToDo), setStringIdsForDB(selectedListIdsChecked));
+                }
+            }
+        } else if (isOnCalendarMode){
+            toolbarCustom.setCalendarViewToolbar(calendarConverter.getSelectedDateString(setCalNoTD.get(Calendar.DAY_OF_WEEK), setCalNoTD.get(Calendar.MONTH)));
+            loadArraysWithSelectedDayItemsIds(setCalNoTD);
+            rebindRemindersCursors(setStringIdsForDB(selectedListIdsToDo), setStringIdsForDB(selectedListIdsChecked));
+        } else {
+            toolbarCustom.setSequenceViewToolbar(toolbarTitle);
+            if (ToolbarView.titleTV.getText().toString().equals(activity.getString(R.string.all_reminders))){
+                rebindRemindersCursors(null, null);
+            } else {
+                loadArraysWithRelevantIds(selectionForDBQuery);
+                rebindRemindersCursors(selectionForDBQuery, selectionForDBQuery);
+            }
+        }
     }
 }

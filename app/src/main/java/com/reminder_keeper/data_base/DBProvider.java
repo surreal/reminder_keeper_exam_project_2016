@@ -34,17 +34,12 @@ public class DBProvider extends ContentProvider
     private static final String RECYCLING_BIN_TABLE_BASE_PATH = "RecyclingBinTableBasePath";
     public static final Uri RECYCLING_BIN_TABLE_PATH_URI = Uri.parse("content://" + PROVIDER_CLASS_LINK + "/" + RECYCLING_BIN_TABLE_BASE_PATH);
 
-    //TODO: Search Table
-    private static final String SEARCH_TABLE_BASE_PATH = "SearchTableBasePath";
-    public static final Uri SEARCH_TABLE_PATH_URI = Uri.parse("content://" + PROVIDER_CLASS_LINK + "/" + SEARCH_TABLE_BASE_PATH);
-
     //TODO: CONSTANTS numbers to get wright Table
     private static final int TODO_TABLE_MATCHER_ID = 1;
     private static final int CHECKED_TABLE_MATCHER_ID = 2;
     private static final int GROUPS_TABLE_MATCHER_ID = 3;
     private static final int CHILDREN_TABLE_MATCHER_ID = 4;
     private static final int RECYCLING_BIN_TABLE_MATCHER_ID = 5;
-    private static final int SEARCH_TABLE_MATCHER_ID = 6;
 
     private static SQLiteDatabase sqLiteDatabase;
     private static UriMatcher uriMatcher = matchUri();
@@ -57,7 +52,7 @@ public class DBProvider extends ContentProvider
         matcher.addURI(PROVIDER_CLASS_LINK, GROUPS_TABLE_BASE_PATH, GROUPS_TABLE_MATCHER_ID);
         matcher.addURI(PROVIDER_CLASS_LINK, CHILDREN_TABLE_BASE_PATH, CHILDREN_TABLE_MATCHER_ID);
         matcher.addURI(PROVIDER_CLASS_LINK, RECYCLING_BIN_TABLE_BASE_PATH, RECYCLING_BIN_TABLE_MATCHER_ID);
-        matcher.addURI(PROVIDER_CLASS_LINK, SEARCH_TABLE_BASE_PATH, SEARCH_TABLE_MATCHER_ID);        return matcher;
+        return matcher;
     }
 
     @Override
@@ -135,19 +130,7 @@ public class DBProvider extends ContentProvider
                                 DBOpenHelper.COLUMN_ID + " DESC"
                         );
                 break;
-            case SEARCH_TABLE_MATCHER_ID:
-                retCursor = sqLiteDatabase.query
-                        (
-                                DBOpenHelper.SEARCH_TABLE,
-                                projection,
-                                selection,
-                                selectionArgs,
-                                null,
-                                null,
-                                DBOpenHelper.COLUMN_ID + " DESC"
-                        );
-                break;
-                default: throw new UnsupportedOperationException("unknown uri " + uri);
+            default: throw new UnsupportedOperationException("unknown uri " + uri);
         }
 
         assert getContext() != null;
@@ -177,9 +160,6 @@ public class DBProvider extends ContentProvider
             case RECYCLING_BIN_TABLE_MATCHER_ID:
                 long newRecyclingBinId = sqLiteDatabase.insert(DBOpenHelper.RECYCLING_BIN_TABLE, null, contentValues);
                 return Uri.parse(RECYCLING_BIN_TABLE_BASE_PATH + "/" + newRecyclingBinId);
-            case SEARCH_TABLE_MATCHER_ID:
-                long newSearchId = sqLiteDatabase.insert(DBOpenHelper.SEARCH_TABLE, null, contentValues);
-                return Uri.parse(SEARCH_TABLE_BASE_PATH + "/" + newSearchId);
             default:
                 throw new UnsupportedOperationException("Unknown Uri: " + uri);
         }
@@ -200,8 +180,6 @@ public class DBProvider extends ContentProvider
                 return sqLiteDatabase.delete(DBOpenHelper.CHILDREN_TABLE, selection, selectionArgs);
             case RECYCLING_BIN_TABLE_MATCHER_ID:
                 return sqLiteDatabase.delete(DBOpenHelper.RECYCLING_BIN_TABLE, selection, selectionArgs);
-            case SEARCH_TABLE_MATCHER_ID:
-                return sqLiteDatabase.delete(DBOpenHelper.SEARCH_TABLE, selection, selectionArgs);
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -222,8 +200,6 @@ public class DBProvider extends ContentProvider
                 return sqLiteDatabase.update(DBOpenHelper.CHILDREN_TABLE, contentValues, where, args);
             case RECYCLING_BIN_TABLE_MATCHER_ID:
                 return sqLiteDatabase.update(DBOpenHelper.RECYCLING_BIN_TABLE, contentValues, where, args);
-            case SEARCH_TABLE_MATCHER_ID:
-                return sqLiteDatabase.update(DBOpenHelper.SEARCH_TABLE, contentValues, where, args);
             default:
                 throw new UnsupportedOperationException("Unknown URI: " + uri);
         }
