@@ -403,6 +403,8 @@ public class TheArrangeActivity extends AppCompatActivity implements OnListItemC
         TextView deleteConfirmationBTN = (TextView) dialogView.findViewById(R.id.dialog_confirm_delete_remove_button_tv);
         TextView deleteConfirmationTV = (TextView) dialogView.findViewById(R.id.dialog_confirm_delete_msg_tv);
 
+        deleteConfirmationBTN.setText(getResources().getString(R.string.delete));
+
         int listsInGroupCount = 0;
         if (groupTitle != null && childTitle == null) {
             for (int i = 0; i < adapterERV.getGroups().size(); i++) {
