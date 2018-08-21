@@ -30,7 +30,7 @@ public class RecyclingBinActivity extends AppCompatActivity
     private RecyclerView recyclerView;
     private ContentValues contentValues;
     public static boolean isListItemSelected;
-    private String dialogQuastion;
+    private String dialogQuestion;
     private static ArrayList<Integer> selectedListIds;
     private Cursor cursor;
 
@@ -94,29 +94,29 @@ public class RecyclingBinActivity extends AppCompatActivity
         {
             case android.R.id.home:
 
-                setResult(RESULT_CANCELED);
+                setResult(AuthorityClass.RESULT_INIT_ADAPTERS);
                 finish();
                 break;
             case R.id.menuItemRestoreAll:
                 if (cursor.getCount() > 0)
                 {
-                    dialogQuastion = getString(R.string.restore_all_reminders_msg);
+                    dialogQuestion = getString(R.string.restore_all_reminders_msg);
                     moveRemindersToDBToDo();
                 }
                 break;
             case R.id.menuItemRemoveAll:
                 if (cursor.getCount() > 0)
                 {
-                    dialogQuastion = getString(R.string.delete_all_reminders_permanently);
+                    dialogQuestion = getString(R.string.delete_all_reminders_permanently);
                     deleteData();
                 }
                 break;
             case R.id.menuItemRestoreSelected:
-                dialogQuastion = getString(R.string.restore_selected_reminders_msg);
+                dialogQuestion = getString(R.string.restore_selected_reminders_msg);
                 moveRemindersToDBToDo();
                 break;
             case R.id.menuItemRemoveSelected:
-                dialogQuastion = getString(R.string.delete_selected_reminders_msg);
+                dialogQuestion = getString(R.string.delete_selected_reminders_msg);
                 deleteData();
                 break;
             case R.id.menuItemUnSelect:
@@ -131,7 +131,7 @@ public class RecyclingBinActivity extends AppCompatActivity
     {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         final AlertDialog dialog = dialogBuilder.create();
-        dialog.setTitle(dialogQuastion);
+        dialog.setTitle(dialogQuestion);
         dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.restore), new DialogInterface.OnClickListener()
         {   @Override
             public void onClick(DialogInterface dialogInterface, int i)
@@ -169,7 +169,7 @@ public class RecyclingBinActivity extends AppCompatActivity
     {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         final AlertDialog dialog = dialogBuilder.create();
-        dialog.setTitle(dialogQuastion);
+        dialog.setTitle(dialogQuestion);
         dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.delete), new DialogInterface.OnClickListener()
         {   @Override
             public void onClick(DialogInterface dialogInterface, int i)

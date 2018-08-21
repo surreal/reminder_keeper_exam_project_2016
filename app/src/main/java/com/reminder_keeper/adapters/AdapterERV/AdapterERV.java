@@ -97,11 +97,8 @@ public class AdapterERV extends ExpandableRecyclerViewAdapter<AdapterERV.ViewHol
         holder.setId(groupItemModel.getId());
         holder.setType(groupItemModel.isGroup());
         holder.setGroup(group);
-        if (activityPassed.equals(TheArrangeActivity.THE_ARRANGE_ACTIVITY)) {
-            if (isConstructorCalled) { groupsFPosId.put(flatPosition, groupItemModel.getId()); }
-        } else if (activityPassed.equals(ReminderActivity.REMINDER_ACTIVITY)){
-
-        }
+        if (activityPassed.equals(TheArrangeActivity.THE_ARRANGE_ACTIVITY) && isConstructorCalled)
+        { groupsFPosId.put(flatPosition, groupItemModel.getId()); }
     }
 
     public int getGroupId(int flatPosition) {
@@ -114,6 +111,18 @@ public class AdapterERV extends ExpandableRecyclerViewAdapter<AdapterERV.ViewHol
         int id = -1;
         for (int i : childrenFPosId.keySet()) { if (i == flatPosition) { id = childrenFPosId.get(i); } }
         return id;
+    }
+
+    public void selectUnselectItemView(View itemView) {
+        if (selectedItemView != null){
+            selectedItemView.setSelected(false);
+        }
+        if (itemView != null) {
+            itemView.setSelected(true);
+            selectedItemView = itemView;
+        } else {
+            selectedItemView = null;
+        }
     }
 
     //TODO: View Holder Child
@@ -162,15 +171,11 @@ public class AdapterERV extends ExpandableRecyclerViewAdapter<AdapterERV.ViewHol
         private void setChildTitle(String childTitle) {
             this.childTitle = childTitle;
             titleTV.setText(childTitle);
-            if (activityPassed.equals(ReminderActivity.REMINDER_ACTIVITY)){
-                if (ReminderActivity.selectedChildTitle != null && ReminderActivity.selectedChildTitle.equals(childTitle)){
-                    if (selectedItemView != null){
-                        selectedItemView.setSelected(false);
-                    }
-                    selectedItemView = itemView;
-                    itemView.setSelected(true);
-                }
-            }
+                if (activityPassed.equals(
+                        ReminderActivity.REMINDER_ACTIVITY) &&
+                        ReminderActivity.selectedChildTitle != null &&
+                        ReminderActivity.selectedChildTitle.equals(childTitle))
+                { selectUnselectItemView(itemView); }
         }
 
         @Override
@@ -197,18 +202,6 @@ public class AdapterERV extends ExpandableRecyclerViewAdapter<AdapterERV.ViewHol
         public boolean onLongClick(View view) {
             theArrangeActivity.onLongClick(groupTitle, false);
             return false;
-        }
-    }
-
-    public void selectUnselectItemView(View itemView) {
-        if (selectedItemView != null){
-            selectedItemView.setSelected(false);
-        }
-        if (itemView != null) {
-            itemView.setSelected(true);
-            selectedItemView = itemView;
-        } else {
-            selectedItemView = null;
         }
     }
 
@@ -251,12 +244,7 @@ public class AdapterERV extends ExpandableRecyclerViewAdapter<AdapterERV.ViewHol
         private void setGroup(ExpandableGroup group) { this.group = group; }
         private void setType(boolean isGroup) {
             this.isGroup = isGroup;
-            if (!isGroup){
-                if (ReminderActivity.listTitle != null && ReminderActivity.listTitle.equals(title))
-                {
-                    itemView.setSelected(true);
-                }
-            }
+            if (!isGroup && ReminderActivity.listTitle != null && ReminderActivity.listTitle.equals(title)) { selectUnselectItemView(itemView); }
         }
 
         @Override

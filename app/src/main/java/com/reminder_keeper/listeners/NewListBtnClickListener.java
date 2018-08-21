@@ -191,7 +191,8 @@ public class NewListBtnClickListener implements View.OnClickListener
                 new SelectListView(activity, requestFrom).initAdapter();
                 new DrawerLayoutView(activity).setDrawerAdapterERV();
             } else {
-                new SelectListView(activity, requestFrom).initAdapter();
+                SelectListView selectListView = new SelectListView(activity, requestFrom);
+                selectListView.initAdapter();
             }
         }
     };

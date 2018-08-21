@@ -34,6 +34,12 @@ public class AccountActivity extends AppCompatActivity {
         signIn.checkIfAccountLogged(userNameTV, emailTV, profileImage);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        SignIn.clickedOnce = false;
+    }
+
     private void castings()
     {
         emailTV = (TextView) findViewById(R.id.activity_account_user_email);

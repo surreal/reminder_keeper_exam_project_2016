@@ -48,6 +48,7 @@ public class SignIn implements GoogleApiClient.OnConnectionFailedListener {
     public final static String imageFileName = "image_file.png";
     private Bitmap imageBitmap;
     private TextView signInButtonTV;
+    public static boolean clickedOnce;
 
     public SignIn(Activity activity, TextView signInButtonTV)
     {
@@ -164,21 +165,26 @@ public class SignIn implements GoogleApiClient.OnConnectionFailedListener {
             {
                 signInButtonTV.setText(R.string.logout);
                 signInButtonTV.setOnClickListener(new View.OnClickListener()
-                {
-                    @Override
+                {@Override
                     public void onClick(View view)
                     {
-                        logOut();
-                        signInButtonTV.setText(R.string.login);
-                        profileNameTV.setText(R.string.user);
-                        profileEmail.setText("");
-                        profileImage.setImageResource(R.mipmap.profile_unsigned);
-                        signInButtonTV.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                activity.startActivityForResult(new Intent(activity ,LoginActivity.class), 1);
-                            }
-                        });
+                        if (!clickedOnce){
+                            clickedOnce = true;
+                            logOut();
+                            signInButtonTV.setText(R.string.login);
+                            profileNameTV.setText(R.string.user);
+                            profileEmail.setText("");
+                            profileImage.setImageResource(R.mipmap.profile_unsigned);
+                            signInButtonTV.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    if (!clickedOnce){
+                                        clickedOnce = true;
+                                        activity.startActivityForResult(new Intent(activity ,LoginActivity.class), 1);
+                                    }
+                                }
+                            });
+                        }
                     }
                 });
             }
@@ -200,8 +206,11 @@ public class SignIn implements GoogleApiClient.OnConnectionFailedListener {
                 {   @Override
                 public void onClick(View view)
                 {
-                    logOut();
-                    activity.finish();
+                    if (!clickedOnce){
+                        clickedOnce = true;
+                        logOut();
+                        activity.finish();
+                    }
                 }
                 });
             }
@@ -218,8 +227,11 @@ public class SignIn implements GoogleApiClient.OnConnectionFailedListener {
                 {   @Override
                 public void onClick(View view)
                 {
-                    logOut();
-                    activity.startActivityForResult(new Intent(activity, LoginActivity.class),1);
+                    if (!clickedOnce){
+                        clickedOnce = true;
+                        logOut();
+                        activity.startActivityForResult(new Intent(activity, LoginActivity.class),1);
+                    }
                 }
                 });
             }

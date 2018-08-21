@@ -1,6 +1,7 @@
 package com.reminder_keeper.activities;
 
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -35,8 +37,7 @@ import com.thoughtbot.expandablerecyclerview.listeners.GroupExpandCollapseListen
 import com.thoughtbot.expandablerecyclerview.listeners.OnGroupClickListener;
 import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup;
 
-public class TheArrangeActivity extends AppCompatActivity implements OnListItemClickListener, GroupExpandCollapseListener, OnGroupClickListener
-{
+public class TheArrangeActivity extends AppCompatActivity implements OnListItemClickListener, GroupExpandCollapseListener, OnGroupClickListener, DialogInterface.OnDismissListener {
     public static final String THE_ARRANGE_ACTIVITY = "TheArrangeActivity";
     private static RecyclerView recyclerView;
     private static AdapterERV adapterERV;
@@ -58,6 +59,7 @@ public class TheArrangeActivity extends AppCompatActivity implements OnListItemC
     private ArrayList<GroupItemModel> groupsLC;
     private int clickedGroupFlatPos;
     private MainActivity mainActivity;
+    private AlertDialog alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -89,21 +91,22 @@ public class TheArrangeActivity extends AppCompatActivity implements OnListItemC
     public void initAdapter(boolean isForDelete)
     {
         this.isForDelete = isForDelete;
-        groupsLC = new AuthorityClass().loadGroupsChildrenAndListsForERVAdapter();
+        groupsLC = new AuthorityClass().loadGroupsChildrenAndListsForERVAdapter(activity);
         adapterERV = new AdapterERV(groupsLC, activity, THE_ARRANGE_ACTIVITY, isForDelete);
         recyclerView.setAdapter(adapterERV);
-        //recyclerView.stopNestedScroll();
 
-        adapterERV.notifyDataSetChanged();
-
+        if (recyclerView.isComputingLayout()){
+            Log.d("checkComputingLayout", "INSIDE recyclerView.isComputingLayout() == " + recyclerView.isComputingLayout());
+        }
+        Log.d("checkComputingLayout", "OUTSIDE recyclerView.isComputingLayout() == " + recyclerView.isComputingLayout());
+        try{
+            adapterERV.notifyDataSetChanged();
+        } catch (Exception e){
+            e.getMessage();
+        }
         new Handler(getMainLooper()).post(new Runnable() {
             @Override
-            public void run() {
-                try{
-                } catch (Exception e){
-                    e.printStackTrace();
-                }
-            }
+            public void run() { }
         });
     }
 
@@ -126,7 +129,7 @@ public class TheArrangeActivity extends AppCompatActivity implements OnListItemC
         {
             case android.R.id.home:
                 nullTheArrays();
-                setResult(RESULT_OK);
+                setResult(AuthorityClass.RESULT_LOAD_ARRAYS);
                 finish();
                 break;
             case R.id.icon:
@@ -223,10 +226,13 @@ public class TheArrangeActivity extends AppCompatActivity implements OnListItemC
     private void reorganizeDBPositions(int targetItemId, int toPositionId, boolean movingUp, boolean isGroup)
     {
         ContentValues contentValues = new ContentValues();
+        cursorsDBMethods.getCursorGroupsLists();
+        cursorsDBMethods.getCursorChildren();
         cursor = isGroup ? CursorsDBMethods.cursorGroupsLists : CursorsDBMethods.cursorChildren;
         cursor.moveToFirst();
         int tempId = cursor.getInt(cursor.getColumnIndex(DBOpenHelper.COLUMN_ID)) +1;
         contentValues.put(DBOpenHelper.COLUMN_ID, tempId);
+
         Uri uriGroupOrChildrenTable = isGroup ? DBProvider.GROUPS_TABLE_PATH_URI : DBProvider.CHILDREN_TABLE_PATH_URI;
         getContentResolver().update(uriGroupOrChildrenTable, contentValues, DBOpenHelper.COLUMN_ID + "=" + targetItemId, null);
         if (movingUp)
@@ -396,44 +402,46 @@ public class TheArrangeActivity extends AppCompatActivity implements OnListItemC
 
     private void initDeleteConfirmationView(final String groupTitle, final String childTitle, final String listTitle, int id)
     {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity);
-        AlertDialog dialog = dialogBuilder.create();
+        if (alertDialog == null)
+        {
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity);
+            alertDialog = dialogBuilder.create();
+            View dialogView = LayoutInflater.from(activity).inflate(R.layout.dialog_confirm_delete, null, false);
+            TextView deleteConfirmationBTN = (TextView) dialogView.findViewById(R.id.dialog_confirm_delete_remove_button_tv);
+            TextView deleteConfirmationTV = (TextView) dialogView.findViewById(R.id.dialog_confirm_delete_msg_tv);
+            deleteConfirmationBTN.setText(getResources().getString(R.string.delete));
 
-        View dialogView = LayoutInflater.from(activity).inflate(R.layout.dialog_confirm_delete, null, false);
-        TextView deleteConfirmationBTN = (TextView) dialogView.findViewById(R.id.dialog_confirm_delete_remove_button_tv);
-        TextView deleteConfirmationTV = (TextView) dialogView.findViewById(R.id.dialog_confirm_delete_msg_tv);
-
-        deleteConfirmationBTN.setText(getResources().getString(R.string.delete));
-
-        int listsInGroupCount = 0;
-        if (groupTitle != null && childTitle == null) {
-            for (int i = 0; i < adapterERV.getGroups().size(); i++) {
-                if (adapterERV.getGroups().get(i).getTitle().equals(groupTitle)) {
-                    listsInGroupCount = adapterERV.getGroups().get(i).getItemCount();
+            int listsInGroupCount = 0;
+            if (groupTitle != null && childTitle == null) {
+                for (int i = 0; i < adapterERV.getGroups().size(); i++) {
+                    if (adapterERV.getGroups().get(i).getTitle().equals(groupTitle)) {
+                        listsInGroupCount = adapterERV.getGroups().get(i).getItemCount();
+                    }
                 }
+
+                String folderMsg = getString(R.string.the_folder)
+                        + " '" + groupTitle + "'" + "\n"
+                        + getString(R.string.including) + ": \n"
+                        + getString(R.string.lists) + " - " + listsInGroupCount + "," + "\n"
+                        + getString(R.string.reminders) + " - " + countOfReminders(groupTitle, childTitle, listTitle) + "." + "\n"
+                        + getString(R.string.remove_this_folder_and_all_reminders_inside);
+                deleteConfirmationTV.setText(folderMsg);
+
+            } else if (listTitle != null || childTitle != null) {
+                String title = listTitle != null ? listTitle : childTitle;
+                String listMsg = getString(R.string.the_list)
+                        + " '" + title + "'\n"
+                        + getString(R.string.including) + ": \n"
+                        + getString(R.string.reminders) + " - " + countOfReminders(groupTitle, childTitle, listTitle) + "." + "\n"
+                        + getString(R.string.remove_this_list_and_all_reminders_inside);
+                deleteConfirmationTV.setText(listMsg);
             }
 
-            String folderMsg = getString(R.string.the_folder)
-                    + " '" + groupTitle + "'" + "\n"
-                    + getString(R.string.including) + ": \n"
-                    + getString(R.string.lists) + " - " + listsInGroupCount + "," + "\n"
-                    + getString(R.string.reminders) + " - " + countOfReminders(groupTitle, childTitle, listTitle) + "." + "\n"
-                    + getString(R.string.remove_this_folder_and_all_reminders_inside);
-            deleteConfirmationTV.setText(folderMsg);
-
-        } else if (listTitle != null || childTitle != null) {
-            String title = listTitle != null ? listTitle : childTitle;
-            String listMsg = getString(R.string.the_list)
-                    + " '" + title + "'\n"
-                    + getString(R.string.including) + ": \n"
-                    + getString(R.string.reminders) + " - " + countOfReminders(groupTitle, childTitle, listTitle) + "." + "\n"
-                    + getString(R.string.remove_this_list_and_all_reminders_inside);
-            deleteConfirmationTV.setText(listMsg);
+            alertDialog.setView(dialogView);
+            alertDialog.show();
+            alertDialog.setOnDismissListener(this);
+            deleteConfirmationBTN.setOnClickListener(initOnElementsClickListener(groupTitle, childTitle, listTitle, null, id));
         }
-
-        dialog.setView(dialogView);
-        dialog.show();
-        deleteConfirmationBTN.setOnClickListener(initOnElementsClickListener(groupTitle, childTitle, listTitle, null, id, dialog));
     }
 
     private int countOfReminders(final String groupTitle, final String childTitle, final String listTitle)
@@ -457,16 +465,19 @@ public class TheArrangeActivity extends AppCompatActivity implements OnListItemC
 
     private void initChangeTitleView(final String groupTitle, final String childTitle, final String listTitle, final int id)
     {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-        final AlertDialog dialog = dialogBuilder.create();
-        View changeTitleView = LayoutInflater.from(this).inflate(R.layout.dialog_new_folder, null, true);
-        final EditText changeTitleET = (EditText) changeTitleView.findViewById(R.id.input_title_view_title_et);
-        Button updateTitleBtn = (Button) changeTitleView.findViewById(R.id.input_title_view_button);
-        updateTitleBtn.setText(R.string.update_title);
-        changeTitleET.setText(getRelevantTitle(groupTitle, childTitle, listTitle));
-        dialog.setView(changeTitleView);
-        updateTitleBtn.setOnClickListener(initOnElementsClickListener(groupTitle, childTitle, listTitle, changeTitleET, id, dialog));
-        dialog.show();
+        if (alertDialog == null){
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+            alertDialog = dialogBuilder.create();
+            View changeTitleView = LayoutInflater.from(this).inflate(R.layout.dialog_new_folder, null, true);
+            final EditText changeTitleET = (EditText) changeTitleView.findViewById(R.id.input_title_view_title_et);
+            Button updateTitleBtn = (Button) changeTitleView.findViewById(R.id.input_title_view_button);
+            updateTitleBtn.setText(R.string.update_title);
+            changeTitleET.setText(getRelevantTitle(groupTitle, childTitle, listTitle));
+            alertDialog.setView(changeTitleView);
+            updateTitleBtn.setOnClickListener(initOnElementsClickListener(groupTitle, childTitle, listTitle, changeTitleET, id));
+            alertDialog.setOnDismissListener(this);
+            alertDialog.show();
+        }
     }
 
     private String getRelevantTitle(final String groupTitle, final String childTitle, final String listTitle)
@@ -481,7 +492,7 @@ public class TheArrangeActivity extends AppCompatActivity implements OnListItemC
         return title;
     }
 
-    private View.OnClickListener initOnElementsClickListener(final String groupTitle, final String childTitle, final String listTitle, final EditText changeTitleET, final int id, final AlertDialog dialog)
+    private View.OnClickListener initOnElementsClickListener(final String groupTitle, final String childTitle, final String listTitle, final EditText changeTitleET, final int id)
     {
         View.OnClickListener onElementsClickListener = new View.OnClickListener()
         { @Override
@@ -542,9 +553,9 @@ public class TheArrangeActivity extends AppCompatActivity implements OnListItemC
                         updateTableValues(listTitle, newTitle, uri, columnProjection);
                     }
                     addExpandedToArray();
-                    if (groupTitle != null && childTitle == null){ groupsToExpandTitles.set(groupsToExpandTitles.indexOf(groupTitle), changeTitleET.getText().toString()); }
+                    if (groupsToExpandTitles.size() > 0 && groupTitle != null && childTitle == null){ groupsToExpandTitles.set(groupsToExpandTitles.indexOf(groupTitle), changeTitleET.getText().toString()); }
                     initAdapter(isForDelete);
-                    dialog.dismiss();
+                    alertDialog.dismiss();
                 } else if (clickedElementString.equals(xElement))
                 {
                     if (listTitle != null) {
@@ -562,7 +573,7 @@ public class TheArrangeActivity extends AppCompatActivity implements OnListItemC
                     activity.getContentResolver().delete(uri, DBOpenHelper.COLUMN_ID + "=" + id, null);
                     addExpandedToArray();
                     initAdapter(isForDelete);
-                    dialog.dismiss();
+                    alertDialog.dismiss();
                 }
                 expandRelevantGroup();
             }
@@ -649,7 +660,7 @@ public class TheArrangeActivity extends AppCompatActivity implements OnListItemC
     @Override
     public void onBackPressed()
     {   super.onBackPressed();
-        setResult(RESULT_OK);
+        setResult(AuthorityClass.RESULT_LOAD_ARRAYS);
         finish();
         nullTheArrays();
     }
@@ -706,4 +717,6 @@ public class TheArrangeActivity extends AppCompatActivity implements OnListItemC
         return true;
     }
 
+    @Override
+    public void onDismiss(DialogInterface dialogInterface) { alertDialog = null; }
 }

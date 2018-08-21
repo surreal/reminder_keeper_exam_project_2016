@@ -30,6 +30,8 @@ public class DrawerLayoutView extends MainActivity
     public static int countOfReminders;
     private Activity activity;
     public Button newListButton;
+    private LinearLayout linearLayoutUnclassifiedList;
+
 
     public DrawerLayoutView(Activity activity)
     {
@@ -71,7 +73,7 @@ public class DrawerLayoutView extends MainActivity
     //TODO: set adapters
     public void setDrawerAdapterERV()
     {
-        loadGroupsChildrenAndListsForERVAdapter();
+        loadGroupsChildrenAndListsForERVAdapter(activity);
         adapterERV = new AdapterERV(groups, activity, ACTION_FROM_DRAWER_LAYOUT,false);
         recyclerViewGAndL.setLayoutManager(new LinearLayoutManager(activity));
         recyclerViewGAndL.setAdapter(adapterERV);
@@ -94,8 +96,8 @@ public class DrawerLayoutView extends MainActivity
                 calendarModeBTNChangeState(false);
                 selectionForDBQuery = DBOpenHelper.COLUMN_LIST + " LIKE " + "'%" + selectedListTitleDL + "%'";
                 toolbarTitle = activity.getString(R.string.unclassified);
-                initRelevantModeAdapter();
                 adapterERV.selectUnselectItemView(linearLayoutUnclassifiedList);
+                initRelevantModeAdapter();
                 drawerLayout.closeDrawers();
             } else if (view == rLayoutAllReminders) {
                 selectedListTitleDL = activity.getString(R.string.all_reminders);
@@ -103,15 +105,20 @@ public class DrawerLayoutView extends MainActivity
                 selectedChildTitleDL = null;
                 selectionForDBQuery = null;
                 toolbarTitle = selectedListTitleDL;
-                initRelevantModeAdapter();
                 calendarModeBTNChangeState(false);
                 adapterERV.selectUnselectItemView(null);
+                initRelevantModeAdapter();
                 drawerLayout.closeDrawers();
             } else if (view == profileImageIV) {
-                activity.startActivityForResult(new Intent(activity, AccountActivity.class), 1);
+                counter++;
+                if (counter == 1){
+                    activity.startActivityForResult(new Intent(activity, AccountActivity.class), 1);
+                }
             } else if (view == settingsIV) {
-                activity.startActivityForResult(new Intent(activity, SettingsActivity.class), 1);
-                finish();
+                counter++;
+                if (counter == 1){
+                    activity.startActivityForResult(new Intent(activity, SettingsActivity.class), 1);
+                }
             }
         }
     };

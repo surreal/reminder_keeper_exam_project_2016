@@ -1,5 +1,6 @@
 package com.reminder_keeper;
 
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -11,7 +12,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -57,6 +57,8 @@ public class AuthorityClass extends AppCompatActivity implements OnListItemClick
     public static final String REPEAT_ACTION = "repeatAction";
     public static final String REPEAT_CUSTOM_DAYS_ARRAY = "repeatCustomDaysArray";
 
+    public static final int RESULT_INIT_ADAPTERS = 1, RESULT_LOAD_ARRAYS = 2;
+
     public static String expandedGroupNameSLV, selectedChildNameSLV, selectedListSLV;
     public static String expandedGroupNameDL, selectedChildTitleDL, selectedListTitleDL;
 
@@ -75,7 +77,6 @@ public class AuthorityClass extends AppCompatActivity implements OnListItemClick
 
     public static RecyclerView recyclerViewToDo, recyclerViewChecked, recyclerViewGAndL, recyclerViewDays;
 
-    public LinearLayout linearLayoutUnclassifiedList;
     public RelativeLayout rLayoutAllReminders;
 
     public static LinearLayout calendar_ll;
@@ -125,19 +126,19 @@ public class AuthorityClass extends AppCompatActivity implements OnListItemClick
     }
 
     //TODO: init/reload Groups, Children and Lists
-    public ArrayList<GroupItemModel> loadGroupsChildrenAndListsForERVAdapter()
+    public ArrayList<GroupItemModel> loadGroupsChildrenAndListsForERVAdapter(Activity activity)
     {
-        cursors.getCursorGroupsLists();
-        Cursor cursorGroups = CursorsDBMethods.cursorGroupsLists;
-        cursors.getCursorChildren();
-        Cursor cursorChildren = CursorsDBMethods.cursorChildren;
+        //cursors.getCursorGroupsLists();
+        Cursor cursorGroups = activity.getContentResolver().query(DBProvider.GROUPS_TABLE_PATH_URI, null, null, null, null);
+        //cursors.getCursorChildren();
+        Cursor cursorChildren = activity.getContentResolver().query(DBProvider.CHILDREN_TABLE_PATH_URI, null, null, null, null);;
         groups = new ArrayList();
         int id;
         while (cursorGroups.moveToNext())
         {
             String groupValueGroupTable = cursorGroups.getString(cursorGroups.getColumnIndex(DBOpenHelper.COLUMN_GROUP));
             String listValueGroupTable = cursorGroups.getString(cursorGroups.getColumnIndex(DBOpenHelper.COLUMN_LIST));
-            ArrayList<ChildItemModel> childrenList = new ArrayList(cursors.getCursorChildren().getCount());
+            ArrayList<ChildItemModel> childrenList = new ArrayList();
             while (cursorChildren.moveToNext())
             {
                 String groupValueChildrenTable = cursorChildren.getString(cursorChildren.getColumnIndex(DBOpenHelper.COLUMN_GROUP));
@@ -174,8 +175,8 @@ public class AuthorityClass extends AppCompatActivity implements OnListItemClick
                 toolbarTitle = listTitle != null ? listTitle : selectedChildTitle;
                 String columnIndex = listTitle != null ? DBOpenHelper.COLUMN_LIST : DBOpenHelper.COLUMN_CHILD;
                 selectionForDBQuery = columnIndex + " LIKE " + "'%" + toolbarTitle + "%'";
-                initRelevantModeAdapter();
                 calendarModeBTNChangeState(false);
+                initRelevantModeAdapter();
                 drawerLayout.closeDrawers();
             //TODO: move to action
             } else if (passedFrom.equals(MAIN_ACTIVITY))
@@ -361,7 +362,6 @@ public class AuthorityClass extends AppCompatActivity implements OnListItemClick
             loadArraysWithSelectedDayItemsIds(setCalNoTD);
             rebindRemindersCursors(setStringIdsForDB(selectedListIdsToDo), setStringIdsForDB(selectedListIdsChecked));
         } else {
-
             toolbarCustom.setSequenceViewToolbar(toolbarTitle);
             if (ToolbarView.titleTV.getText().toString().equals(activity.getString(R.string.all_reminders))){
                 rebindRemindersCursors(null, null);

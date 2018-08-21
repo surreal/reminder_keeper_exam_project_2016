@@ -40,6 +40,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.reminder_keeper.adapters.AdapterERV.AdapterERV;
 import com.reminder_keeper.adapters.CursorAdaptersRV.CheckedRV.CursorAdapterRV_Checked;
 import com.reminder_keeper.adapters.CursorAdaptersRV.ToDoRV.CursorAdapterRV_ToDo;
 import com.reminder_keeper.broadcasts.NotifierNotificationReceiver;
@@ -73,6 +74,7 @@ public class MainActivity extends AuthorityClass
     private static EditText search_ET;
     private RelativeLayout searchACTV_RL, lupeBtn_RL;
     private SnapHelper snapHelper;
+    public static int counter = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState)
@@ -111,12 +113,23 @@ public class MainActivity extends AuthorityClass
         drawerLayoutView.setDrawerAdapterERV();
         setLoginButtonMainViewVisibility();
         initRelevantModeAdapter();
+        counter = 0;
+        Log.d("checkCounter", "onStart(); counter == " + counter);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK){ daysArrayList = isRTL ? loadDaysArrayMapRTL() : loadDaysArrayMapDefault(); }
+        switch (resultCode)
+        {
+            case AuthorityClass.RESULT_LOAD_ARRAYS:
+                daysArrayList = isRTL ? loadDaysArrayMapRTL() : loadDaysArrayMapDefault();
+                break;
+            case RESULT_INIT_ADAPTERS:
+                adapterToDo = new CursorAdapterRV_ToDo(this, cursors.getCursorToDo());
+                adapterToDo = new CursorAdapterRV_ToDo(this, cursors.getCursorChecked());
+                break;
+        }
     }
 
     //TODO: castings
@@ -143,7 +156,6 @@ public class MainActivity extends AuthorityClass
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                Log.d("checkTextChanged", "charSequence = " + charSequence + "; i == " + i + "; i1 == " + i1 + "; i2 == " + i2);
                 searchInputText_ET = search_ET.getText().toString().toLowerCase().trim();
                 initRelevantModeAdapter();
             }
@@ -315,7 +327,10 @@ public class MainActivity extends AuthorityClass
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.icon:
-                startActivityForResult(new Intent(activity, ReminderActivity.class),1);
+                counter++;
+                if (counter == 1){
+                    startActivityForResult(new Intent(activity, ReminderActivity.class),1);
+                }
                 break;
         }
 
@@ -343,13 +358,16 @@ public class MainActivity extends AuthorityClass
 
     //TODO: called from Cursor_Adapters_RV item from ToDo or Checked clicked
     public void itemClicked(int itemIdToDo, int itemIdChecked) {
-        Intent intent = new Intent(activity, ReminderActivity.class);
-        if (itemIdToDo != -1) {
-            intent.putExtra(ID_TO_DO, itemIdToDo);
-        } else if (itemIdChecked != -1) {
-            intent.putExtra(ID_CHECKED, itemIdChecked);
+        counter++;
+        if (counter == 1){
+            Intent intent = new Intent(activity, ReminderActivity.class);
+            if (itemIdToDo != -1) {
+                intent.putExtra(ID_TO_DO, itemIdToDo);
+            } else if (itemIdChecked != -1) {
+                intent.putExtra(ID_CHECKED, itemIdChecked);
+            }
+            activity.startActivityForResult(intent, 1);
         }
-        activity.startActivityForResult(intent, 1);
     }
 
     //TODO: called from CursorAdaptersRV(REMINDERS) on item action down
@@ -551,10 +569,13 @@ public class MainActivity extends AuthorityClass
             if (isOnCalendarMode) {
                 setDaysAdapterAndSnap();
                 setCalNoTD = CalendarConverter.currentCalNoTD;
+                if (AdapterERV.selectedItemView != null){ AdapterERV.selectedItemView.setSelected(false); }
+            } else {
+                DrawerLayoutView.adapterERV.selectUnselectItemView(AdapterERV.selectedItemView);
             }
-            initRelevantModeAdapter();
             String relevantSearchHint = isOnCalendarMode ? getString(R.string.search_in_selected_date) : getString(R.string.search_in_selected_list);
             search_ET.setHint(relevantSearchHint);
+            initRelevantModeAdapter();
         }
 
         private void searchModeBtnClicked()

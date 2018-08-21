@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -43,9 +44,10 @@ public class SelectListView implements DialogInterface.OnDismissListener
     public void initAdapter()
     {
         recyclerViewSelectListView.setLayoutManager(new LinearLayoutManager(activity));
-        groupItemModels = mainActivity.loadGroupsChildrenAndListsForERVAdapter();
+        groupItemModels = mainActivity.loadGroupsChildrenAndListsForERVAdapter(activity);
         adapterERV = new AdapterERV(groupItemModels, activity, requestFrom, false);
         recyclerViewSelectListView.setAdapter(adapterERV);
+        //expandRelevantGroup();
     }
 
     //TODO: init selectList View
@@ -59,11 +61,15 @@ public class SelectListView implements DialogInterface.OnDismissListener
         Button newListButton = (Button) selectListView.findViewById(R.id.select_list_view_create_new_list_button);
         newListButton.setOnClickListener(new NewListBtnClickListener(activity, requestFrom));
 
+        initAdapter();
         final LinearLayout unclassifiedLLayout = (LinearLayout) selectListView.findViewById(R.id.select_list_view_layout_unclassified);
+        if (requestFrom.equals(ReminderActivity.REMINDER_ACTIVITY))
+        {
+            adapterERV.selectUnselectItemView(unclassifiedLLayout);
+        }
         unclassifiedLLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                unclassifiedLLayout.setSelected(true);
                 if (requestFrom.equals(MainActivity.MAIN_ACTIVITY))
                 {
                     MainActivity.expandedGroupNameSLV = null;
@@ -75,24 +81,29 @@ public class SelectListView implements DialogInterface.OnDismissListener
                     ToolbarView.titleTV.setText(R.string.unclassified);
                     ReminderActivity.groupTitle = null;
                     ReminderActivity.selectedChildTitle = null;
-                    ReminderActivity.listTitle = null;
+                    ReminderActivity.listTitle = activity.getString(R.string.unclassified);
+                    adapterERV.selectUnselectItemView(unclassifiedLLayout);
                     selectListViewDialog.dismiss();
                 }
             }
-
         });
         selectListViewDialog.setOnDismissListener(this);
-        initAdapter();
 
+        expandRelevantGroup();
+
+        selectListViewDialog.show();
+    }
+
+    public void expandRelevantGroup() {
         if(requestFrom.equals(ReminderActivity.REMINDER_ACTIVITY)){
             for (ExpandableGroup expandableGroup : adapterERV.getGroups()){
-                if(ReminderActivity.groupTitle != null && ReminderActivity.groupTitle.equals(expandableGroup.getTitle())){
+                if(ReminderActivity.groupTitle != null && ReminderActivity.groupTitle.equals(expandableGroup.getTitle()))
+                {
                     if (ReminderActivity.childTitle != null){ ReminderActivity.selectedChildTitle = ReminderActivity.childTitle; }
                     adapterERV.toggleGroup(expandableGroup);
                 }
             }
         }
-        selectListViewDialog.show();
     }
 
     public void itemClickedInSLV()

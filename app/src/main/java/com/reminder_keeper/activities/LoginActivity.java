@@ -36,6 +36,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         casting();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        SignIn.clickedOnce = false;
+    }
+
     private void casting()
     {
         userNameInput = (EditText) findViewById(R.id.activity_login_input_user_name);

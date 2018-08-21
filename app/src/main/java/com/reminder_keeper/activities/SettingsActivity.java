@@ -24,6 +24,7 @@ public class SettingsActivity extends AppCompatActivity {
     private ImageView profileImageIV, editFoldersIcon, recyclingBinIcon, aboutIcon;
     private TextView countOfReminders;
     private int resultCodePassed = 0;
+    private static int counter = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -39,6 +40,13 @@ public class SettingsActivity extends AppCompatActivity {
         signIn = new SignIn(this, signInButtonTV);
         signIn.checkIfAccountLogged(userNameTV, emailTV, profileImageIV);
         setRecyclingBinRelevantIcon();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        counter = 0;
+        SignIn.clickedOnce = false;
     }
 
     private void castings()
@@ -71,13 +79,15 @@ public class SettingsActivity extends AppCompatActivity {
     View.OnClickListener onViewsClickListener = new View.OnClickListener()
     { @Override
         public void onClick(View view) {
-
-            if (view == editFoldersIcon) {
-                startActivityForResult(new Intent(SettingsActivity.this, TheArrangeActivity.class), REQUEST_CODE_SETTINGS_ACTIVITY);
-            } else if (view == recyclingBinIcon) {
-                startActivityForResult(new Intent(SettingsActivity.this, RecyclingBinActivity.class), REQUEST_CODE_SETTINGS_ACTIVITY);
-            } else if (view == aboutIcon) {
-                startActivityForResult(new Intent(SettingsActivity.this, AboutActivity.class), REQUEST_CODE_SETTINGS_ACTIVITY);
+            counter++;
+            if (counter == 1){
+                if (view == editFoldersIcon) {
+                    startActivityForResult(new Intent(SettingsActivity.this, TheArrangeActivity.class), REQUEST_CODE_SETTINGS_ACTIVITY);
+                } else if (view == recyclingBinIcon) {
+                    startActivityForResult(new Intent(SettingsActivity.this, RecyclingBinActivity.class), REQUEST_CODE_SETTINGS_ACTIVITY);
+                } else if (view == aboutIcon) {
+                    startActivityForResult(new Intent(SettingsActivity.this, AboutActivity.class), REQUEST_CODE_SETTINGS_ACTIVITY);
+                }
             }
         }
     };

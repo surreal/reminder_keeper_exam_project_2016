@@ -74,7 +74,10 @@ public class ReminderActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
-    { super.onCreate(savedInstanceState); setContentView(R.layout.activity_reminder);
+    { super.onCreate(savedInstanceState);
+
+    Log.d("checkOnCreate", "savedInstanceState == " + savedInstanceState);
+        setContentView(R.layout.activity_reminder);
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar_custom));
         new ToolbarView(this, getSupportActionBar(), REMINDER_ACTIVITY);
         mainActivity = new MainActivity();
@@ -571,7 +574,7 @@ public class ReminderActivity extends AppCompatActivity
                 timeDateString = null;
                 Toast.makeText(this, R.string.time_not_set_msg, Toast.LENGTH_SHORT).show();
             }
-            setResult(RESULT_OK);
+            setResult(AuthorityClass.RESULT_LOAD_ARRAYS);
             finishAndNullTheStatics();
         } else {
             Toast.makeText(this, R.string.input_empty_msg, Toast.LENGTH_LONG).show();
