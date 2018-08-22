@@ -74,10 +74,7 @@ public class ReminderActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
-    { super.onCreate(savedInstanceState);
-
-    Log.d("checkOnCreate", "savedInstanceState == " + savedInstanceState);
-        setContentView(R.layout.activity_reminder);
+    { super.onCreate(savedInstanceState); setContentView(R.layout.activity_reminder);
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar_custom));
         new ToolbarView(this, getSupportActionBar(), REMINDER_ACTIVITY);
         mainActivity = new MainActivity();

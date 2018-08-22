@@ -126,7 +126,7 @@ public class MainActivity extends AuthorityClass
                 break;
             case RESULT_INIT_ADAPTERS:
                 adapterToDo = new CursorAdapterRV_ToDo(this, cursors.getCursorToDo());
-                adapterToDo = new CursorAdapterRV_ToDo(this, cursors.getCursorChecked());
+                adapterChecked = new CursorAdapterRV_Checked(this, cursors.getCursorChecked());
                 break;
         }
     }

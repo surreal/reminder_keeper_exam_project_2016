@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -23,7 +24,7 @@ public class SettingsActivity extends AppCompatActivity {
     private TextView userNameTV, emailTV, signInButtonTV;
     private ImageView profileImageIV, editFoldersIcon, recyclingBinIcon, aboutIcon;
     private TextView countOfReminders;
-    private int resultCodePassed = 0;
+    private static int resultCodePassed = 0;
     private static int counter = 0;
 
     @Override
