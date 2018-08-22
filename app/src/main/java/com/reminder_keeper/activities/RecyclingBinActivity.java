@@ -88,6 +88,13 @@ public class RecyclingBinActivity extends AppCompatActivity
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        setResult(AuthorityClass.RESULT_INIT_ADAPTERS);
+        finish();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
         switch (item.getItemId())

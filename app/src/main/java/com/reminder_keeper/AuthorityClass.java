@@ -128,9 +128,7 @@ public class AuthorityClass extends AppCompatActivity implements OnListItemClick
     //TODO: init/reload Groups, Children and Lists
     public ArrayList<GroupItemModel> loadGroupsChildrenAndListsForERVAdapter(Activity activity)
     {
-        //cursors.getCursorGroupsLists();
         Cursor cursorGroups = activity.getContentResolver().query(DBProvider.GROUPS_TABLE_PATH_URI, null, null, null, null);
-        //cursors.getCursorChildren();
         Cursor cursorChildren = activity.getContentResolver().query(DBProvider.CHILDREN_TABLE_PATH_URI, null, null, null, null);;
         groups = new ArrayList();
         int id;

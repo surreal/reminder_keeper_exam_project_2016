@@ -114,7 +114,6 @@ public class MainActivity extends AuthorityClass
         setLoginButtonMainViewVisibility();
         initRelevantModeAdapter();
         counter = 0;
-        Log.d("checkCounter", "onStart(); counter == " + counter);
     }
 
     @Override

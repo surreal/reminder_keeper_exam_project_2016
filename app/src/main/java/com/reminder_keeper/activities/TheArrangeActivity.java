@@ -95,13 +95,13 @@ public class TheArrangeActivity extends AppCompatActivity implements OnListItemC
         adapterERV = new AdapterERV(groupsLC, activity, THE_ARRANGE_ACTIVITY, isForDelete);
         recyclerView.setAdapter(adapterERV);
 
-        if (recyclerView.isComputingLayout()){
-            Log.d("checkComputingLayout", "INSIDE recyclerView.isComputingLayout() == " + recyclerView.isComputingLayout());
-        }
-        Log.d("checkComputingLayout", "OUTSIDE recyclerView.isComputingLayout() == " + recyclerView.isComputingLayout());
+        //if (recyclerView.isComputingLayout()){ }
         try{
             adapterERV.notifyDataSetChanged();
         } catch (Exception e){
+            //TODO: potential error put an eye on it
+            Log.d("tryCatchException", "e.getMessage() == " + e.getMessage() + "\n\n");
+            Log.d("tryCatchException", "e.getCause() == " + e.getCause() + "\n\n");
             e.getMessage();
         }
         new Handler(getMainLooper()).post(new Runnable() {
@@ -553,7 +553,7 @@ public class TheArrangeActivity extends AppCompatActivity implements OnListItemC
                         updateTableValues(listTitle, newTitle, uri, columnProjection);
                     }
                     addExpandedToArray();
-                    if (groupsToExpandTitles.size() > 0 && groupTitle != null && childTitle == null){ groupsToExpandTitles.set(groupsToExpandTitles.indexOf(groupTitle), changeTitleET.getText().toString()); }
+                    if (groupsToExpandTitles.size() > 0 && groupsToExpandTitles.indexOf(groupTitle) != -1 && groupTitle != null && childTitle == null){ groupsToExpandTitles.set(groupsToExpandTitles.indexOf(groupTitle), changeTitleET.getText().toString()); }
                     initAdapter(isForDelete);
                     alertDialog.dismiss();
                 } else if (clickedElementString.equals(xElement))
