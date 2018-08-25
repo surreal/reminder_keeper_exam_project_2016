@@ -1,4 +1,4 @@
-# Reminders Keeper
+# Reminder Keeper
 <div>
 <img src="https://github.com/surreal/reminder_keeper/blob/master/images/screenshot_1.png" width="100" title="screenshot 1">
 <img src="https://github.com/surreal/reminder_keeper/blob/master/images/screenshot_2.png" width="100" title="screenshot 2">
