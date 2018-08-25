@@ -58,9 +58,7 @@ public class ToolbarView
                             public void run() {
                                 try {titleTV.setTextColor(activity.getResources().getColor(R.color.colorYellow));}
                                 catch (Exception e){e.printStackTrace();}}}, 200);
-                        SelectListView selectListView = new SelectListView(activity, requestFrom);
-                        //selectListView.initAdapter();
-                        selectListView.initListViewDialog();
+                        new SelectListView(activity, requestFrom).initListViewDialog();
                     }
                 });
                 break;

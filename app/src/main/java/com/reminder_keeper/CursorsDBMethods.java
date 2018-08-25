@@ -5,17 +5,13 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.util.Log;
 
 import com.reminder_keeper.data_base.DBOpenHelper;
 import com.reminder_keeper.data_base.DBProvider;
 
-import static com.reminder_keeper.AuthorityClass.expandedGroupNameDL;
-import static com.reminder_keeper.AuthorityClass.expandedGroupNameSLV;
-import static com.reminder_keeper.AuthorityClass.selectedChildTitleDL;
-import static com.reminder_keeper.AuthorityClass.selectedChildNameSLV;
-import static com.reminder_keeper.AuthorityClass.selectedListTitleDL;
-import static com.reminder_keeper.AuthorityClass.selectedListSLV;
+import static com.reminder_keeper.AuthorityClass.selectedGroupTitleSLV;
+import static com.reminder_keeper.AuthorityClass.selectedChildTitleSLV;
+import static com.reminder_keeper.AuthorityClass.selectedListTitleSLV;
 
 public class CursorsDBMethods
 {
@@ -105,10 +101,10 @@ public class CursorsDBMethods
             activity.getContentResolver().insert(uri, contentValues);
             removeFromDB(idToDo, idChecked);
         } else {
-            selectedListSLV = selectedListSLV != null && selectedListSLV.equals(activity.getString(R.string.unclassified)) ? AuthorityClass.UNCLASSIFIED : selectedListSLV;
-            contentValues.put(DBOpenHelper.COLUMN_GROUP, expandedGroupNameSLV);
-            contentValues.put(DBOpenHelper.COLUMN_CHILD, selectedChildNameSLV);
-            contentValues.put(DBOpenHelper.COLUMN_LIST, selectedListSLV);
+            selectedListTitleSLV = selectedListTitleSLV != null && selectedListTitleSLV.equals(activity.getString(R.string.unclassified)) ? AuthorityClass.UNCLASSIFIED : selectedListTitleSLV;
+            contentValues.put(DBOpenHelper.COLUMN_GROUP, selectedGroupTitleSLV);
+            contentValues.put(DBOpenHelper.COLUMN_CHILD, selectedChildTitleSLV);
+            contentValues.put(DBOpenHelper.COLUMN_LIST, selectedListTitleSLV);
             contentValues.put(DBOpenHelper.COLUMN_DATE_TIME, cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_DATE_TIME)));
             activity.getContentResolver().update(uri, contentValues, where, null);
         }

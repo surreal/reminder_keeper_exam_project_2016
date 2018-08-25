@@ -10,7 +10,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -50,7 +49,7 @@ public class ReminderActivity extends AppCompatActivity
 {
     public static final String REMINDER_ACTIVITY = "ReminderActivity";
     private static Cursor cursor;
-    public static String childTitle, listTitle, groupTitle, reminderTextFromDB, selectedChildTitle;
+    public static String selectedListTitle, selectedGroupTitle, reminderTextFromDB, selectedChildTitle;
 
     private Uri uri;
     private String where;
@@ -114,7 +113,7 @@ public class ReminderActivity extends AppCompatActivity
     //TODO: get data from DB if item from mainActivity is selected
     private void setDBDataOnRelevantViews()
     {
-        String title = listTitle != null ? listTitle : childTitle;
+        String title = selectedListTitle != null ? selectedListTitle : selectedChildTitle;
         if (title == null) { title = AuthorityClass.UNCLASSIFIED; }
         if (title.equals(AuthorityClass.UNCLASSIFIED)) {
             ToolbarView.titleTV.setText(R.string.unclassified);
@@ -148,9 +147,9 @@ public class ReminderActivity extends AppCompatActivity
         {
             cursor.moveToFirst();
             reminderTextFromDB = cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_REMINDER));
-            groupTitle = cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_GROUP));
-            childTitle = cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_CHILD));
-            listTitle = cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_LIST));
+            selectedGroupTitle = cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_GROUP));
+            selectedChildTitle = cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_CHILD));
+            selectedListTitle = cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_LIST));
             timeDateString = cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_DATE_TIME));
             if (passedItemIdToDo != -1) {
                 String repeatActionDB = cursor.getString(cursor.getColumnIndex(DBOpenHelper.COLUMN_REPEAT_OPTION));
@@ -472,12 +471,12 @@ public class ReminderActivity extends AppCompatActivity
         {
             contentValues.put(DBOpenHelper.COLUMN_LIST, AuthorityClass.UNCLASSIFIED);
         } else {
-            if (groupTitle != null && childTitle != null) {
-                contentValues.put(DBOpenHelper.COLUMN_GROUP, groupTitle);
-                contentValues.put(DBOpenHelper.COLUMN_CHILD, childTitle);
+            if (selectedGroupTitle != null && selectedChildTitle != null) {
+                contentValues.put(DBOpenHelper.COLUMN_GROUP, selectedGroupTitle);
+                contentValues.put(DBOpenHelper.COLUMN_CHILD, selectedChildTitle);
                 contentValues.putNull(DBOpenHelper.COLUMN_LIST);
-            } else if (listTitle != null) {
-                contentValues.put(DBOpenHelper.COLUMN_LIST, listTitle);
+            } else if (selectedListTitle != null) {
+                contentValues.put(DBOpenHelper.COLUMN_LIST, selectedListTitle);
                 contentValues.putNull(DBOpenHelper.COLUMN_GROUP);
                 contentValues.putNull(DBOpenHelper.COLUMN_CHILD);
             }
@@ -579,10 +578,10 @@ public class ReminderActivity extends AppCompatActivity
     }
 
     private void finishAndNullTheStatics(){
-        groupTitle = null;
-        childTitle = null;
+        selectedGroupTitle = null;
         selectedChildTitle = null;
-        listTitle = null;
+        selectedChildTitle = null;
+        selectedListTitle = null;
         finish();
         if (MainActivity.activity == null){
             startActivity(new Intent(this, MainActivity.class));
@@ -591,18 +590,18 @@ public class ReminderActivity extends AppCompatActivity
 
     //TODO: on list item clicked
     @Override
-    public void itemClicked(String expandedGroupTitle, String selectedChildTitle, String listTitle, String passedFrom, boolean isForAction, int id)
+    public void itemClicked(String groupTitle, String childTitle, String listTitle, String passedFrom, boolean isForAction, int id)
     {
-        groupTitle = expandedGroupTitle;
-        childTitle = selectedChildTitle;
-        this.listTitle = listTitle;
         //TODO: child selected
-        if (expandedGroupTitle != null && selectedChildTitle != null) {
-            ToolbarView.titleTV.setText(selectedChildTitle);
+        if (groupTitle != null && childTitle != null) {
+            selectedGroupTitle = groupTitle;
+            selectedChildTitle = childTitle;
+            ToolbarView.titleTV.setText(childTitle);
             SelectListView.selectListViewDialog.dismiss();
             //TODO: list selected
         } else if (listTitle != null) {
-            this.selectedChildTitle = null;
+            selectedListTitle = listTitle;
+            selectedChildTitle = null;
             ToolbarView.titleTV.setText(listTitle);
             SelectListView.selectListViewDialog.dismiss();
         }

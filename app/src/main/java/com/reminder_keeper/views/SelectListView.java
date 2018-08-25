@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -72,16 +71,16 @@ public class SelectListView implements DialogInterface.OnDismissListener
             public void onClick(View view) {
                 if (requestFrom.equals(MainActivity.MAIN_ACTIVITY))
                 {
-                    MainActivity.expandedGroupNameSLV = null;
-                    MainActivity.selectedChildNameSLV = null;
-                    MainActivity.selectedListSLV = activity.getString(R.string.unclassified);
+                    MainActivity.selectedGroupTitleSLV = null;
+                    MainActivity.selectedChildTitleSLV = null;
+                    MainActivity.selectedListTitleSLV = activity.getString(R.string.unclassified);
                     itemClickedInSLV();
                 } else if (requestFrom.equals(ReminderActivity.REMINDER_ACTIVITY))
                 {
                     ToolbarView.titleTV.setText(R.string.unclassified);
-                    ReminderActivity.groupTitle = null;
+                    ReminderActivity.selectedGroupTitle = null;
                     ReminderActivity.selectedChildTitle = null;
-                    ReminderActivity.listTitle = activity.getString(R.string.unclassified);
+                    ReminderActivity.selectedListTitle = activity.getString(R.string.unclassified);
                     adapterERV.selectUnselectItemView(unclassifiedLLayout);
                     selectListViewDialog.dismiss();
                 }
@@ -97,9 +96,9 @@ public class SelectListView implements DialogInterface.OnDismissListener
     public void expandRelevantGroup() {
         if(requestFrom.equals(ReminderActivity.REMINDER_ACTIVITY)){
             for (ExpandableGroup expandableGroup : adapterERV.getGroups()){
-                if(ReminderActivity.groupTitle != null && ReminderActivity.groupTitle.equals(expandableGroup.getTitle()))
+                if(ReminderActivity.selectedGroupTitle != null && ReminderActivity.selectedGroupTitle.equals(expandableGroup.getTitle()))
                 {
-                    if (ReminderActivity.childTitle != null){ ReminderActivity.selectedChildTitle = ReminderActivity.childTitle; }
+                    //if (ReminderActivity.childTitleDB != null){ ReminderActivity.selectedChildTitle = ReminderActivity.childTitleDB; }
                     adapterERV.toggleGroup(expandableGroup);
                 }
             }

@@ -59,7 +59,7 @@ public class AuthorityClass extends AppCompatActivity implements OnListItemClick
 
     public static final int RESULT_INIT_ADAPTERS = 1, RESULT_LOAD_ARRAYS = 2;
 
-    public static String expandedGroupNameSLV, selectedChildNameSLV, selectedListSLV;
+    public static String selectedGroupTitleSLV, selectedChildTitleSLV, selectedListTitleSLV;
     public static String expandedGroupNameDL, selectedChildTitleDL, selectedListTitleDL;
 
     public static int firstPosition;
@@ -179,9 +179,9 @@ public class AuthorityClass extends AppCompatActivity implements OnListItemClick
             //TODO: move to action
             } else if (passedFrom.equals(MAIN_ACTIVITY))
             {
-                expandedGroupNameSLV = expandedGroupTitle;
-                selectedChildNameSLV = selectedChildTitle;
-                selectedListSLV = listTitle;
+                selectedGroupTitleSLV = expandedGroupTitle;
+                selectedChildTitleSLV = selectedChildTitle;
+                selectedListTitleSLV = listTitle;
                 selectListView.itemClickedInSLV();
             }
         }

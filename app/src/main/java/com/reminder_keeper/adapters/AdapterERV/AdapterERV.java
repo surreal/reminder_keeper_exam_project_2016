@@ -2,7 +2,6 @@
 package com.reminder_keeper.adapters.AdapterERV;
 
 import android.app.Activity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -244,7 +243,7 @@ public class AdapterERV extends ExpandableRecyclerViewAdapter<AdapterERV.ViewHol
         private void setGroup(ExpandableGroup group) { this.group = group; }
         private void setType(boolean isGroup) {
             this.isGroup = isGroup;
-            if (!isGroup && ReminderActivity.listTitle != null && ReminderActivity.listTitle.equals(title)) { selectUnselectItemView(itemView); }
+            if (!isGroup && ReminderActivity.selectedListTitle != null && ReminderActivity.selectedListTitle.equals(title)) { selectUnselectItemView(itemView); }
         }
 
         @Override
